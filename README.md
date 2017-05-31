@@ -513,6 +513,18 @@ In this step, we'll update our `List` component to be able to create a new custo
 ### Instructions
 
 * Open `src/ducks/workspaceReducer.js`.
+* Create two action types:
+  * `SHOW_CREATE_CUSTOMER` that equals `"SHOW_CREATE_CUSTOMER"`.
+    * This action will update the `Workspace` component to display the `CreateCustomer` component.
+  * `CREATE_CUSTOMER` that equals `"CREATE_CUSTOMER"`.
+    * This action will add a customer to our database in our API.
+* Create two action creators:
+  * `showCreateCustomer` - This should return an object:
+    * This object should have a type property that equals `SHOW_CREATE_CUSTOMER`.
+    * This object should have a payload property that equals `null`.
+  * `createCustomer` - This should have a `promise` parameter and return an object:
+    * This object should have a type property tha equals `CREATE_CUSTOMER`.
+    * This object should have a payload property that equals `promise`.
 
 ### Solution
 
