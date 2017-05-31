@@ -377,6 +377,32 @@ axios.get( 'http://localhost:3000/somePath' ).then( response => response.data );
 axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } ).then( response => response.data );
 ```
 
+We'll want to make an axios that uses the `get` method. In the callback we'll want to return the data property from the response. Remember that axios returns a promise. Let's capture the promise in a variable called promise.
+
+```js
+import axios from 'axios';
+import { getList } from '../ducks/listReducer';
+import store from '../store';
+import apiURL from '../api';
+
+export function dispatchGetList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
+}
+```
+
+Now that we have our promise we can dispatch our `getList` action creator with the promise as an argument. We can do this by using the `dispatch` method on `store`.
+
+```js
+import axios from 'axios';
+import { getList } from '../ducks/listReducer';
+import store from '../store';
+import apiURL from '../api';
+
+export function dispatchGetList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
+  store.dispatch( getList(promise) );
+}
+```
 
 </details>
 
