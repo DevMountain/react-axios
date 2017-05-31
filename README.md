@@ -717,7 +717,7 @@ In this step, we'll update the workspace service file to handle showing the `Cre
 * Open `src/services/workspaceService.js`.
 * Import `axios` from `axios`.
 * Import `store` from `src/store.js`.
-* Import apiURL from `src/api.js`.
+* Import `apiURL` from `src/api.js`.
 * Import `showCreateCustomer` and `createCustomer` from `src/ducks/workspaceReducer.js`.
 * Export a function called `dispatchShowCreateCustomer`:
   * This function should dispatch `showCreateCustomer` invoked.
@@ -735,7 +735,23 @@ In this step, we'll update the workspace service file to handle showing the `Cre
 <summary> <code> src/services/workspaceService.js </code> </summary>
 
 ```js
+import axios from 'axios';
+import store from '../store';
+import apiURL from '../api';
 
+import { showCreateCustomer, createCustomer } from '../ducks/workspaceReducer';
+
+export function dispatchShowCreateCustomer() {
+  store.dispatch( showCreateCustomer() );
+}
+
+export function dispatchCreateCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => {
+    dispatchGetList();
+  });
+
+  store.dispatch( createCustomer(promise) );
+}
 ```
 
 </details>
