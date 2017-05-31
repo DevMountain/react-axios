@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './List.css';
 
+import { dispatchGetList } from '../../services/listService';
+
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
 class List extends Component {
+  componentDidMount() {
+    dispatchGetList();
+  }
+
   render() {
     const {
-      loadingList,
+      loading,
       customerList,
-      error
     } = this.props;
     
     const CustomerComponents = customerList.map( customer => (
@@ -25,18 +30,14 @@ class List extends Component {
     return (
       <div id="List__container">
         {
-          loadingList
+          loading
           ?
             <p> Fetching Customers.. </p>
           :
-            error
-            ?
-              <p> { error } </p>
-            :
-              <div id="List__namesContainer">
-                { CustomerComponents }
-                <CreateCustomer />
-              </div>
+            <div id="List__namesContainer">
+              { CustomerComponents }
+              <CreateCustomer />
+            </div>
         }
       </div>
     )
@@ -45,6 +46,7 @@ class List extends Component {
 
 function mapStateToProps( state ) {
   state = state.listReducer;
+  console.log( 'mapStateToProps in List.js:', state );
   return state;
 }
 

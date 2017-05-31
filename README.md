@@ -425,3 +425,79 @@ export function dispatchGetList() {
 ```
 
 </details>
+
+## Step 5
+
+### Summary
+
+In this step, we'll go into our `List` component and have it fetch the customer list from the API.
+
+### Instructions
+
+* Open `src/components/List/List.js`.
+* Import the `dispatchGetList` function from `src/services/listService.js`.
+* Create a `componentDidMount` life-cycle method:
+  * This method should call the `dispatchGetList` function.
+
+### Solution
+
+<details>
+
+<summary> <code> src/components/List/List.js </code> </summary>
+
+```jsx
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import './List.css';
+
+import { dispatchGetList } from '../../services/listService';
+
+import Customer from './Customer/Customer';
+import CreateCustomer from './CreateCustomer/CreateCustomer';
+
+class List extends Component {
+  componentDidMount() {
+    dispatchGetList();
+  }
+
+  render() {
+    const {
+      loading,
+      customerList,
+    } = this.props;
+    
+    const CustomerComponents = customerList.map( customer => (
+      <Customer
+        key={ customer.id } 
+        id={ customer.id }
+        first={ customer.first }
+        last={ customer.last }
+      />
+    ));
+
+    return (
+      <div id="List__container">
+        {
+          loading
+          ?
+            <p> Fetching Customers.. </p>
+          :
+            <div id="List__namesContainer">
+              { CustomerComponents }
+              <CreateCustomer />
+            </div>
+        }
+      </div>
+    )
+  }
+}
+
+function mapStateToProps( state ) {
+  state = state.listReducer;
+  return state;
+}
+
+export default connect( mapStateToProps )( List );
+```
+
+</details>
