@@ -765,6 +765,35 @@ In this step, we'll configure our `List` component to show the form to create a 
 
 ### Instructions
 
-* Open `src/List/CreateCustomer/CreateCustomer.js`.
-* Import `dispatchShowCreateCustomer` from `src/services/workspaceService.js`.
-* Add an `onClick` prop on the `button` element that calls `dispatchShowCreateCustomer`.
+* Open `src/components/List/CreateCustomer/CreateCustomer.js`.
+  * Import `dispatchShowCreateCustomer` from `src/services/workspaceService.js`.
+  * Add an `onClick` prop on the `button` element that calls `dispatchShowCreateCustomer`.
+* Open `src/components/Workspace/CreateCustomer/CreateCustomer.js`.
+  * Import `dispatchCreateCustomer` from `src/services/workspaceService.js`.
+  * In the `create` method invoke `dispatchCreateCustomer` with `customer` as the first parameter.
+
+### Solution
+
+<details>
+
+<summary> <code> src/components/Workspace/CreateCustomer/CreateCustomer.js ( not entire file ) </code> </summary>
+
+```jsx
+import { dispatchCreateCustomer } from '../../../services/workspaceService';
+
+create() {
+  const { first, last, email, phone } = this.state;
+  var customer = {
+    first,
+    last,
+    email,
+    phone,
+    status: 'New Customer',
+    log: ''
+  }
+
+  dispatchCreateCustomer( customer );
+}
+```
+
+</details>
