@@ -1132,6 +1132,16 @@ In this step, we'll complete the reset of the workspace service file to handle u
 
 * Open `src/services/workspaceService.js`.
 
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
 ### Solution
 
 ## Step 12
