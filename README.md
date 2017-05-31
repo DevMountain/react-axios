@@ -776,6 +776,27 @@ In this step, we'll configure our `List` component to show the form to create a 
 
 <details>
 
+<summary> <code> src/components/List/CreateCustomer/CreateCustomer.js </code> </summary>
+
+```jsx
+import React from 'react';
+import './CreateCustomer.css';
+
+import { dispatchShowCreateCustomer } from '../../../services/workspaceService';
+
+export default function CreateCustomer() {
+  return (
+    <div id="CreateCustomerBtn__container">
+      <button id="CreateCustomer__btn" onClick={ dispatchShowCreateCustomer }> New Customer </button>
+    </div>
+  )
+}
+```
+
+</details>
+
+<details>
+
 <summary> <code> src/components/Workspace/CreateCustomer/CreateCustomer.js ( not entire file ) </code> </summary>
 
 ```jsx
