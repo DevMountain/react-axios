@@ -15,7 +15,6 @@ const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
   if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -40,9 +39,7 @@ export default function workspaceReducer( state = initialState, action ) {
       return Object.assign({}, state, { loading: false, customer: action.payload });
 
     case UPDATE_CUSTOMER + "_FULFILLED":
-      newState = Object.assign({}, state, { customer: Object.assign({}, state.customer) });
-      newState.customer = action.payload;
-      return newState;
+      return Object.assign({}, state, { customer: Object.assign({}, action.payload) });
 
     case DELETE_CUSTOMER + "_FULFILLED":
       return Object.assign({}, state, { initialLoad: true, customer: {} });
