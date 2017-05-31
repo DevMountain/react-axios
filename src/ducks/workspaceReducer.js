@@ -9,7 +9,6 @@ const initialState = {
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
   switch( action.type ) {
     // Show Create Customer
 
