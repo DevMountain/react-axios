@@ -836,3 +836,13 @@ In this step, we'll update the the customer list to become a navigation list tha
   * Create a `getCustomer` action creator.
     * This action creator should have a `promise` parameter.
     * This action creator should return an object with a type equal to `GET_CUSTOMER` and a payload equal to `promise`.
+  * Create a `GET_CUSTOMER + _'PENDING'` case:
+    * This case should return a new object with the following state:
+      * `loading` should equal `true`.
+      * `initalLoad` should equal `false`.
+      * `creating` should equal `false`.
+      * `customer` should equal `{}`.
+  * Create a `GET_CUSTOMER + _'FULFILLED'` case:
+    * This case should return a new object with all the previous values from state.
+    * The new object should set `loading` to `false`.
+    * The new object should set `customer` to `action.payload`.
