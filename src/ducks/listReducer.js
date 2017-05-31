@@ -13,13 +13,13 @@ export default function listReducer( state = initialState, action ) {
   switch( action.type ) {
     case GET_LIST + "_PENDING": 
       return {
-        loadingList: true,
+        loading: true,
         customerList: []
       }
 
     case GET_LIST + "_FULFILLED":
       return {
-        loadingList: false,
+        loading: false,
         customerList: action.payload
       }
 
