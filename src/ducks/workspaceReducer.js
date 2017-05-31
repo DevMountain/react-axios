@@ -19,9 +19,13 @@ export default function workspaceReducer( state = initialState, action ) {
   if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
   let newState;
   switch( action.type ) {
-
     case CREATE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, initialLoad: true, creating: false });
+      return {
+        loading: false,
+        initialLoad: true,
+        creating: false,
+        customer: {}
+      }
 
     case GET_CUSTOMER + "_PENDING":
       return Object.assign({}, state, { loading: true, initialLoad: false, creating: false });
