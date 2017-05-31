@@ -190,7 +190,7 @@ Before we actually dive into the code for the component we'll need to create our
 * Open `src/ducks/listReducer.js`.
 * Get familiar with the current structure of the reducer.
 * Create an action type called `GET_LIST` that equals `"GET_LIST"`.
-* Create an action created called `getList` that equals a function:
+* Create an action creator called `getList` that equals a function:
   * This function have one parameter called `promise`.
   * This function should return an object:
     * This object should have a key called `type` that equals `GET_LIST`.
@@ -200,5 +200,4 @@ Before we actually dive into the code for the component we'll need to create our
     * 
   * Create a case for `GET_LIST + '_FULFILLED'`:
     * 
-  * Create a case for `GET_LIST + '_REJECTED'`:
-    * 
+  
