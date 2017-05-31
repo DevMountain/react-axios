@@ -16,7 +16,9 @@ In this project, we are going to create a customer management tool for a compute
 * In a new terminal:
   * `cd` into the project directory.
   * Run `npm run api`.
-    * We will teach you about creating APIs later on in the course. For now just leave this running in the background.
+    * We will teach you about creating APIs later on in the course.
+
+You should now have two processes running in two separate terminals. If you want to commit changes as you develop, use a third terminal.
 
 ## Step 1
 
