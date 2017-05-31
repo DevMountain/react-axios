@@ -20,7 +20,6 @@ function Customer( { id, first, last, email, phone, status, log } ) {
 
 function mapStateToProps( state ) {
   state = state.workspaceReducer;
-  console.log( 'mapStateToProps in Workspace/Customer.js:', state );
   return state.customer;
 }
 

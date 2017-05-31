@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { dispatchUpdateLog } from '../../../../services/workspaceService';
 import './RepairLog.css';
 
 export default class RepairLog extends Component {
@@ -24,7 +23,6 @@ export default class RepairLog extends Component {
   }
 
   save() {
-    dispatchUpdateLog( this.props.id, this.state.log );
     this.setState({ editting: !this.state.editting });
   }
 
@@ -49,6 +47,3 @@ export default class RepairLog extends Component {
   }
 
 }
-
-//        <button onClick={ () => dispatchUpdateLog( id, this.state.log ) }> Update Log </button>
-//        <button onClick={ () => { this.setState({ log }) } }> Reset Changes </button>
