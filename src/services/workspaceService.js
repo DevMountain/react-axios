@@ -3,6 +3,7 @@ import store from '../store';
 import apiURL from '../api';
 
 import { showCreateCustomer, createCustomer } from '../ducks/workspaceReducer';
+import { dispatchGetList } from '../services/listService';
 
 export function dispatchShowCreateCustomer() {
   store.dispatch( showCreateCustomer() );

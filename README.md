@@ -719,13 +719,14 @@ In this step, we'll update the workspace service file to handle showing the `Cre
 * Import `store` from `src/store.js`.
 * Import `apiURL` from `src/api.js`.
 * Import `showCreateCustomer` and `createCustomer` from `src/ducks/workspaceReducer.js`.
+* Import `dispatchGetList` from `src/services/listService.js`.
 * Export a function called `dispatchShowCreateCustomer`:
   * This function should dispatch `showCreateCustomer` invoked.
 * Export a function called `dispatchCreateCustomer` that takes an object as a parameter: 
   * This function should create a promise using `axios.post`.
   * The axios URL should be `apiURL`.
   * The axios request body should equal the object passed in as an argument.
-  * The axios callback should return the `data` property from the response.
+  * The axios callback should call `dispatchGetList`.
 
 
 ### Solution
@@ -755,3 +756,15 @@ export function dispatchCreateCustomer( obj ) {
 ```
 
 </details>
+
+## Step 8
+
+### Summary
+
+In this step, we'll configure our `List` component to show the form to create a new customer. We'll also update the `CreateCustomer` component to successfully create a customer.
+
+### Instructions
+
+* Open `src/List/CreateCustomer/CreateCustomer.js`.
+* Import `dispatchShowCreateCustomer` from `src/services/workspaceService.js`.
+* Add an `onClick` prop on the `button` element that calls `dispatchShowCreateCustomer`.
