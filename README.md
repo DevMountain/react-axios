@@ -29,4 +29,4 @@ In this step we will create our `store`. Since this tool will be hitting an API 
 ### Instructions
 
 * `npm install --save redux-promise-middleware`.
-* 
+* Open `src/store.js`.
