@@ -847,7 +847,7 @@ In this step, we'll update the the customer list to become a navigation list tha
   * Export a function called `dispatchGetCustomer`:
     * This function should have an `id` parameter.
     * This function should create a promise using `axios.get`.
-    * The axios URL should be `apiURL`.
+    * The axios URL should be `apiURL` + the value of `id`.
     * The axios callback should return the `data` property of the response.
 
 <details>
