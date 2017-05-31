@@ -205,3 +205,59 @@ Before we actually dive into the code for the component we'll need to create our
       * This object shouldset `loading` to `false`.
       * This object should set `customerList` to the payload property on `action`.
   
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/ducks/listReducer.js </code> </summary>
+
+```js
+const initialState = {
+  loading: false,
+  customerList: []
+}
+
+// Action Types
+const GET_LIST = "GET_LIST";
+
+// Reducer
+export default function listReducer( state = initialState, action ) {
+  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
+
+  switch( action.type ) {
+    case GET_LIST + "_PENDING": 
+      return {
+        loading: true,
+        customerList: []
+      }
+
+    case GET_LIST + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: action.payload
+      }
+
+    default: return state;
+  }
+}
+
+// Action Creators
+export function getList( promise ) {
+  return {
+    type: GET_LIST,
+    payload: promise
+  }
+}
+```
+
+</details>
