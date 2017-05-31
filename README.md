@@ -822,3 +822,17 @@ create() {
 <br />
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/2g.gif" />
+
+## Step 9
+
+### Summary
+
+In this step, we'll update the the customer list to become a navigation list that will update the workspace on the right.
+
+### Instructions
+
+* Open `src/ducks/workspaceReducer.js`.
+  * Create a `GET_CUSTOMER` action type.
+  * Create a `getCustomer` action creator.
+    * This action creator should have a `promise` parameter.
+    * This action creator should return an object with a type equal to `GET_CUSTOMER` and a payload equal to `promise`.
