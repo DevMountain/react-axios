@@ -1,8 +1,5 @@
 const initialState = {
-  apiStatus: {
-    loading: false,
-    error: false
-  },
+  loading: false,
   customer: {},
   initialLoad: true,
   creating: false
@@ -22,17 +19,15 @@ export default function workspaceReducer( state = initialState, action ) {
   if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
   let newState;
   switch( action.type ) {
+
     case CREATE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { apiStatus: { loading: false, error: false }, initialLoad: true, creating: false });
+      return Object.assign({}, state, { loading: false, initialLoad: true, creating: false });
 
     case GET_CUSTOMER + "_PENDING":
-      return Object.assign({}, state, { apiStatus: { loading: true, error: false }, initialLoad: false, creating: false });
+      return Object.assign({}, state, { loading: true, initialLoad: false, creating: false });
 
     case GET_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { apiStatus: { loading: false, error: false }, customer: action.payload });
-
-    case GET_CUSTOMER + "_REJECTED":
-      return Object.assign({}, state, { apiStatus: { loading: false, error: action.payload.response.data }, customer: {} });
+      return Object.assign({}, state, { loading: false, customer: action.payload });
 
     case UPDATE_STATUS + "_FULFILLED":
       newState = Object.assign({}, state, { customer: Object.assign({}, state.customer) });
