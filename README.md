@@ -503,3 +503,7 @@ export default connect( mapStateToProps )( List );
 </details>
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3.png" />
+
+## Step 6 
+
+In this step, we'll update our `List` component to be able to create a new customer.
