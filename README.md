@@ -1098,4 +1098,6 @@ export default function Customer( { id, first, last } ) {
 
 <br />
 
+
+
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3g.gif" />
