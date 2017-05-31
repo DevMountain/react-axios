@@ -16,8 +16,6 @@ export default function listReducer( state = initialState, action ) {
 
     // Fulfilled
 
-    // Rejected
-
     default: return state;
   }
 }
