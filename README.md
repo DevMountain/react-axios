@@ -859,7 +859,69 @@ In this step, we'll update the the customer list to become a navigation list tha
 
 <br />
 
+Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER` we will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has a `promise` parameter. This funciton should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
 
+```js
+const GET_CUSTOMER = "GET_CUSTOMER";
+
+export function getCustomer( promise ) {
+  return {
+    type: GET_CUSTOMER,
+    payload: promise
+  }
+}
+```
+
+Now let's update our reducer to handle the action of `GET_CUSTOMER`. We'll need a case for `GET_CUSTOMER + '_PENDING'` and `GET_CUSTOMER + '_FULFILLED'`. When a customer is pending we'll update the Workspace component to display that to the user. When a customer is fulfilled we'll update the Workspace component to show the editor for a customer. 
+
+```js
+const GET_CUSTOMER = "GET_CUSTOMER";
+
+// Reducer
+export default function workspaceReducer( state = initialState, action ) {
+  let newState;
+  switch( action.type ) {
+    case SHOW_CREATE_CUSTOMER:
+      return Object.assign({}, state, { creating: true });
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        initialLoad: true,
+        creating: false,
+        customer: {}
+      }
+
+    case GET_CUSTOMER + "_PENDING":
+      return {
+        loading: true,
+        initialLoad: false,
+        creating: false,
+        customer: {}
+      }
+
+    case GET_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { loading: false, customer: action.payload });
+
+    // Update Status - Fulfilled
+
+    // Update Log - Fulfilled
+
+    // Update Customer - Fulfilled
+
+    // Delete Customer - Fulfilled
+
+    default: return state;
+  }
+}
+
+export function getCustomer( promise ) {
+  return {
+    type: GET_CUSTOMER,
+    payload: promise
+  }
+}
+```
 
 </details>
 
