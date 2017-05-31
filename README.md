@@ -32,3 +32,35 @@ In this step we will create our `store`. Since this tool will be hitting an API 
 
 * `npm install --save redux-promise-middleware`.
 * Open `src/store.js`.
+* Import `createStore`, `applyMiddleware`, and `combineReducers` from `redux`.
+  * We'll be using two reducers in this project. One for the customer list and one for customer editting.
+  * Follow along in the detailed instructions if you are unfamiliar with `combineReducers`.
+* Import `promiseMiddleware` from `redux-promise-middleware`.
+* Import `listReducer` from `src/ducks/listReducer.js`.
+* Import `workspaceReducer` from `src/ducks/workspaceReducer.js`.
+* Export `createStore` by default:
+  * Use `combineReducers` to hook up both reducers.
+  * Use `undefined` for the initial state. ( Our reducers handle this )
+  * Use `applyMiddleware` with `promiseMiddleWare` invoked.
+
+### Detailed Instructions
+
+If we take a look at our development server we'll see that our app is currently not compiling correctly. This is because some components are trying to connect to a store that doesn't exist. Let's create this store. Open `src/store.js`. We'll need three things from `redux`: `createStore`, `applyMiddleware`, and `combineReducers`. `createStore` will allows us to export the creation of our store. `applyMiddleware` will allow us to use middleware on actions that go to our reducers. `combineReducers` will allow us to use two different reducers to separate concerns of data.
+
+### Solution
+
+<details>
+
+<summary> <code> src/store.js </code> </summary>
+
+```js
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import promiseMiddleware from "redux-promise-middleware";
+
+import listReducer from './ducks/listReducer';
+import workspaceReducer from './ducks/workspaceReducer';
+
+export default createStore( combineReducers( { listReducer, workspaceReducer } ), undefined, applyMiddleware( promiseMiddleware() ) );
+```
+
+</details>
