@@ -525,7 +525,16 @@ In this step, we'll update our `List` component to be able to create a new custo
   * `createCustomer` - This should have a `promise` parameter and return an object:
     * This object should have a type property tha equals `CREATE_CUSTOMER`.
     * This object should have a payload property that equals `promise`.
-
+* Create two cases in the reducer:
+  * `SHOW_CREATE_CUSTOMER`:
+    * This case should return a new object with all the previous state values.
+    * The new object should update the value of `creating` to true.
+  * `CREATE_CUSTOMER + '_FULFILLED'`:
+    * This case should return a new object with all the previous state values.
+    * The new object should update the value of `loading` to `false`.
+    * The new object should update the value of `initialLoad` to `true`.
+    * The new object should update the value of `creating` to `false`.
+    
 ### Solution
 
 <details>
