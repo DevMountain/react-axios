@@ -37,9 +37,11 @@ export default function workspaceReducer( state = initialState, action ) {
     case GET_CUSTOMER + "_FULFILLED":
       return Object.assign({}, state, { loading: false, customer: action.payload });
 
-    // Update Customer - Fulfilled
+    case UPDATE_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { customer: Object.assign({}, action.payload) });
 
-    // Delete Customer - Fulfilled
+    case DELETE_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { initialLoad: true, customer: {} });
 
     default: return state;
   }

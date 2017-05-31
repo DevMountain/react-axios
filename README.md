@@ -584,7 +584,6 @@ const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -649,7 +648,6 @@ const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -871,7 +869,6 @@ const GET_CUSTOMER = "GET_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -970,7 +967,6 @@ const GET_CUSTOMER = "GET_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -1128,7 +1124,63 @@ export function deleteCustomer( promise ) {
 }
 ```
 
-Now that we have our action types and creators, let's update our switch statement in our reducer to handle the `_FULFILLED` cases. We wo
+Now that we have our action types and creators, let's update our switch statement in our reducer to handle the `_FULFILLED` cases. Add a case called `UPDATE_CUSTOMER + '_FULFILLED'`. This case should return a new object that has all of previous state and sets customer to a new object that equals the `payload` property of `action`. We'll also want to add a case called `DELETE_CUSTOMER + '_FULFILLED'`. This case should return a new object that has all of previous state and sets `initialLoad` to `true` and `customer` to `{}`.
+
+```js
+const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+
+// Reducer
+export default function workspaceReducer( state = initialState, action ) {
+  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
+  let newState;
+  switch( action.type ) {
+    case SHOW_CREATE_CUSTOMER:
+      return Object.assign({}, state, { creating: true });
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        initialLoad: true,
+        creating: false,
+        customer: {}
+      }
+
+    case GET_CUSTOMER + "_PENDING":
+      return {
+        loading: true,
+        initialLoad: false,
+        creating: false,
+        customer: {}
+      }
+
+    case GET_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { loading: false, customer: action.payload });
+
+    case UPDATE_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { customer: Object.assign({}, action.payload) });
+
+    case DELETE_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { initialLoad: true, customer: {} });
+
+    default: return state;
+  }
+}
+
+export function updateCustomer( promise ) {
+  return {
+    type: UPDATE_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function deleteCustomer( promise ) {
+  return {
+    type: DELETE_CUSTOMER,
+    payload: promise
+  }
+}
+```
 
 </details>
 
