@@ -859,7 +859,7 @@ In this step, we'll update the the customer list to become a navigation list tha
 
 <br />
 
-Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER` we will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has a `promise` parameter. This funciton should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
+Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER`. We will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has a `promise` parameter. This funciton should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
 
 ```js
 const GET_CUSTOMER = "GET_CUSTOMER";
@@ -922,6 +922,24 @@ export function getCustomer( promise ) {
   }
 }
 ```
+
+Now that our reducer is setup to handle getting a customer, let's open `src/services/workspaceService.js`. Let's import our new action creator.
+
+```js
+import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
+```
+
+Now let's create a function that we'll use in our component. Let's call it `dispatchGetCustomer`. This function should have an `id` parameter. This function should create a promise by using `axios.get`. Since we want to get a specific customer we'll also want to add the `id` in the api URL. We can do this with string concatenation. We'll want the callback of the axios call to return the `data` property of the response. We'll also want to dispatch `getCustomer` and pass in our `promise` as a parameter.
+
+```js
+import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
+
+export function dispatchGetCustomer( id ) {
+  const promise = axios.get( apiURL + id ).then( response => response.data );
+  store.dispatch( getCustomer(promise) );
+}
+```
+
 
 </details>
 
