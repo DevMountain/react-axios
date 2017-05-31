@@ -14,9 +14,8 @@ class List extends Component {
 
   render() {
     const {
-      loadingList,
+      loading,
       customerList,
-      error
     } = this.props;
     
     const CustomerComponents = customerList.map( customer => (
@@ -31,18 +30,14 @@ class List extends Component {
     return (
       <div id="List__container">
         {
-          loadingList
+          loading
           ?
             <p> Fetching Customers.. </p>
           :
-            error
-            ?
-              <p> { error } </p>
-            :
-              <div id="List__namesContainer">
-                { CustomerComponents }
-                <CreateCustomer />
-              </div>
+            <div id="List__namesContainer">
+              { CustomerComponents }
+              <CreateCustomer />
+            </div>
         }
       </div>
     )

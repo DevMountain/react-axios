@@ -1,6 +1,5 @@
 const initialState = {
-  loadingList: false,
-  error: null,
+  loading: false,
   customerList: []
 }
 
@@ -12,18 +11,15 @@ export default function listReducer( state = initialState, action ) {
   if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
 
   switch( action.type ) {
-    
     case GET_LIST + "_PENDING": 
       return {
         loadingList: true,
-        error: null,
         customerList: []
       }
 
     case GET_LIST + "_FULFILLED":
       return {
         loadingList: false,
-        error: null,
         customerList: action.payload
       }
 
