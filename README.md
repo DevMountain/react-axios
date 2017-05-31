@@ -4,7 +4,7 @@
 
 In this project, we are going to create a customer management tool for a computer repair shop. We'll keep track of basic customer information, such as name/email/phone, current repair statuses, and also a log for notes. This tool will use `axios` to hit an API and will also use `redux-promise-middleware` to asynchronously handle data from the API. Majority of the project has been built out already for you. The parts we'll need to finish include: the store, two reducers, two service files, and hooking up the service files into the components that use them. 
 
-<img src="" />
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/1.png" />
 
 ## Setup
 
@@ -19,6 +19,8 @@ In this project, we are going to create a customer management tool for a compute
     * We will teach you about creating APIs later on in the course.
 
 You should now have two processes running in two separate terminals. If you want to commit changes as you develop, use a third terminal.
+
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/1g.gif" />
 
 ## Step 1
 
