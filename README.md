@@ -1103,7 +1103,7 @@ const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 ```
 
-We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has a `promise` parmater. This function should return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`. We'll also need to make an action creator called `deleteCustomer`. This action creator will be the same except the object it returns should have a `type` property that equals `DELETE_CUSTOMER`.
+We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has a `promise` parameter. This function should return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`. We'll also need to make an action creator called `deleteCustomer`. This action creator will be the same except the object it returns should have a `type` property that equals `DELETE_CUSTOMER`.
 
 ```js
 const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
