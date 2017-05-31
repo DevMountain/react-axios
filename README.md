@@ -174,3 +174,5 @@ registerServiceWorker();
 ```
 
 </details>
+
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/2.png" />
