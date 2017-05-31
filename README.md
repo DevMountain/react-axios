@@ -72,7 +72,7 @@ import listReducer from './ducks/listReducer';
 import workspaceReducer from './ducks/workspaceReducer';
 ```
 
-Now that we have all our imports, let's export by default the creation of our store. This will be done a little differently than how it was done in the mini project. We'll be using `combineReducers` to use two reducers. This will allow us to separate our concerns of data. In order to use `combineReducers` you have to invoke it and pass in an object of reducers. For example: `combineReducers( { listReducer, workspaceReducer } )`. We'll also be using `undefined` for the intial state parameter since our reducers are handling initial statate on their own. And then for the last parameter of `createStore` we will be using `applyMiddleware` in combination with `promiseMiddleware`. It will look like the following code:
+Now that we have all our imports, let's export by default the creation of our store. This will be done a little differently than how it was done in the mini project. We'll be using `combineReducers` to use two reducers. In order to use `combineReducers` you have to invoke it and pass in an object of reducers. For example: `combineReducers( { listReducer, workspaceReducer } )`. We'll also be using `undefined` for the intial state parameter since our reducers are handling initial statate on their own. And then for the last parameter of `createStore` we will be using `applyMiddleware` in combination with `promiseMiddleware`. It will look like the following code:
 
 ```js
 import { createStore, applyMiddleware, combineReducers } from "redux";
@@ -101,6 +101,76 @@ import listReducer from './ducks/listReducer';
 import workspaceReducer from './ducks/workspaceReducer';
 
 export default createStore( combineReducers( { listReducer, workspaceReducer } ), undefined, applyMiddleware( promiseMiddleware() ) );
+```
+
+</details>
+
+## Step 2
+
+### Summary
+
+In this step, we will take our store created from the previous step and hook it up in `src/index.js`. This will allow our App to compile correctly.
+
+### Instructions
+
+* Open `src/index.js`.
+* Import `Provider` from `react-redux`.
+* Import store from `src/store.js`.
+* Wrap the `App` component in a `Provider` component:
+  * The `Provider` component should have a `store` prop that equals `store`. 
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+Now that our store is created we can hook it up to our App in `src/index.js`. This will allow our App to have access to the store and the reducers and will also allow our App to compile correctly. Let's open `src/index.js`. We'll need to import `Provider` from `react-redux` and `store` from `src/store.js`. 
+
+```js
+import { Provider } from "react-redux";
+import store from './store';
+```
+
+The `Provider` component will "provide" the store to our App. All we need to do is wrap the `App` component in a `Provider` component and give the `Proivder` component a `store` prop that equals `store`. 
+
+```js
+import { Provider } from "react-redux";
+import store from './store';
+
+ReactDOM.render(
+  <Provider store={ store }>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/index.js </code> </summary>
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import registerServiceWorker from './registerServiceWorker';
+
+import { Provider } from "react-redux";
+import store from './store';
+
+ReactDOM.render(
+  <Provider store={ store }>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+
+registerServiceWorker();
 ```
 
 </details>
