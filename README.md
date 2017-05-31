@@ -823,7 +823,7 @@ create() {
 
 ### Summary
 
-In this step, we'll update the the customer list to become a navigation list that will update the workspace on the right. This step will be larger than usual. The goal of this step will be to take you through the entire process of creating an action in one step. We'll start in the reducer and then go to the service file and then finish in the component file. 
+In this step, we'll update the customer list to become a navigation list that will update the workspace on the right. This step will be larger than usual. The goal of this step will be to take you through the entire process of creating an action in one step. We'll start in the reducer and then go to the service file and then finish in the component file. 
 
 ### Instructions
 
