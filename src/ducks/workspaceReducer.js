@@ -20,10 +20,6 @@ export default function workspaceReducer( state = initialState, action ) {
 
     // Get Customer - Fulfilled
 
-    // Update Status - Fulfilled
-
-    // Update Log - Fulfilled
-
     // Update Customer - Fulfilled
 
     // Delete Customer - Fulfilled
