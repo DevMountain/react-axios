@@ -923,7 +923,7 @@ export function getCustomer( promise ) {
 }
 ```
 
-Now that our reducer is setup to handle getting a customer, let's open `src/services/workspaceService.js`. Let's import our new action creator.
+Now that our reducer is setup to handle getting a customer, let's open `src/services/workspaceService.js` and import our new action creator.
 
 ```js
 import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
@@ -940,6 +940,24 @@ export function dispatchGetCustomer( id ) {
 }
 ```
 
+Now that our reducer and service file are ready to go we can edit the component to call our function in our service. Let's open `src/components/List/Customer/Customer.js` and import `dispatchGetCustomer` from `src/services/workspaceService.js`. Then add an `onClick` prop on the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.
+
+```js
+import React from 'react';
+import './Customer.css';
+
+import { dispatchGetCustomer } from '../../../services/workspaceService';
+
+export default function Customer( { id, first, last } ) {
+  return (
+    <div className="Customer__listName">
+      <span onClick={ () => dispatchGetCustomer( id ) }>{ first } { last }</span>
+    </div>
+  )
+}
+```
+
+We should now be able to click on a customer in the list and see the editor appear on the right.
 
 </details>
 
