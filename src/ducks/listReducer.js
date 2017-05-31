@@ -1,6 +1,5 @@
 const initialState = {
-  loadingList: false,
-  error: null,
+  loading: false,
   customerList: []
 }
 
@@ -15,8 +14,6 @@ export default function listReducer( state = initialState, action ) {
     // Pending
 
     // Fulfilled
-
-    // Rejected
 
     default: return state;
   }

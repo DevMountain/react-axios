@@ -1,8 +1,5 @@
 const initialState = {
-  apiStatus: {
-    loading: false,
-    error: false
-  },
+  loading: false,
   customer: {},
   initialLoad: true,
   creating: false
@@ -20,8 +17,6 @@ export default function workspaceReducer( state = initialState, action ) {
     // Get Customer - Pending
 
     // Get Customer - Fulfilled
-
-    // Get Customer - Rejected
 
     // Update Status - Fulfilled
 
