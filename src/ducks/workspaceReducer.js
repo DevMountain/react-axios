@@ -26,9 +26,14 @@ export default function workspaceReducer( state = initialState, action ) {
         creating: false,
         customer: {}
       }
-
+      
     case GET_CUSTOMER + "_PENDING":
-      return Object.assign({}, state, { loading: true, initialLoad: false, creating: false });
+      return {
+        loading: true,
+        initialLoad: false,
+        creating: false,
+        customer: {}
+      }
 
     case GET_CUSTOMER + "_FULFILLED":
       return Object.assign({}, state, { loading: false, customer: action.payload });
