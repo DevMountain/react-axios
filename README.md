@@ -506,4 +506,22 @@ export default connect( mapStateToProps )( List );
 
 ## Step 6 
 
-In this step, we'll update our `List` component to be able to create a new customer.
+### Summary
+
+In this step, we'll update our `List` component to be able to create a new customer. We'll start this process by updating the workspace reducer.
+
+### Instructions
+
+* Open `src/ducks/workspaceReducer.js`.
+
+### Solution
+
+<details>
+
+<summary> <code>  </code> </summary>
+
+```
+
+```
+
+</details>
