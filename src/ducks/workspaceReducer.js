@@ -9,11 +9,12 @@ const initialState = {
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
 const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 const GET_CUSTOMER = "GET_CUSTOMER";
+const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
   if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -25,7 +26,7 @@ export default function workspaceReducer( state = initialState, action ) {
         creating: false,
         customer: {}
       }
-
+      
     case GET_CUSTOMER + "_PENDING":
       return {
         loading: true,
@@ -65,6 +66,20 @@ export function createCustomer( promise ) {
 export function getCustomer( promise ) {
   return {
     type: GET_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function updateCustomer( promise ) {
+  return {
+    type: UPDATE_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function deleteCustomer( promise ) {
+  return {
+    type: DELETE_CUSTOMER,
     payload: promise
   }
 }
