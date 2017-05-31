@@ -574,7 +574,58 @@ export function createCustomer( promise ) {
 }
 ```
 
-We'll then need to update our reducer to handle the cases for these actions.
+We'll then need to update our reducer to handle the cases for these actions. We'll make a case for `SHOW_CREATE_CUSTOMER` and a case for `CREATE_CUSTOMER + '_FULFILLED'`. `SHOW_CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `true`. This will effectively show the `CreateCustomer` component.  `CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `false`, `loading` to `false`, and `initialLoad` to `true`.
+
+```js
+// Action Types
+const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
+const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+
+// Reducer
+export default function workspaceReducer( state = initialState, action ) {
+  let newState;
+  switch( action.type ) {
+    case SHOW_CREATE_CUSTOMER:
+      return Object.assign({}, state, { creating: true });
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { loading: false, initialLoad: true, creating: false });
+
+    // Get Customer - Pending
+
+    // Get Customer - Fulfilled
+
+    // Get Customer - Rejected
+
+    // Update Status - Fulfilled
+
+    // Update Log - Fulfilled
+
+    // Update Customer - Fulfilled
+
+    // Delete Customer - Fulfilled
+
+    // Show Create Customer
+
+    default: return state;
+  }
+}
+
+// Action Creators
+export function showCreateCustomer() {
+  return {
+    type: SHOW_CREATE_CUSTOMER,
+    payload: null
+  }
+}
+
+export function createCustomer( promise ) {
+  return {
+    type: CREATE_CUSTOMER,
+    payload: promise
+  }
+}
+```
 
 
 
@@ -601,7 +652,6 @@ const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
   let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
