@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '../store';
 import apiURL from '../api';
 
-import { showCreateCustomer ,createCustomer, getCustomer, updateCustomer, deleteCustomer, updateStatus, updateLog } from '../ducks/workspaceReducer';
+import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
 import { dispatchGetList } from './listService';
 
 export function dispatchShowCreateCustomer() {
@@ -36,14 +36,4 @@ export function dispatchDeleteCustomer( id ) {
   });
 
   store.dispatch( deleteCustomer( promise ) );
-}
-
-export function dispatchUpdateStatus( id, status ) {
-  const promise = axios.patch( apiURL + id, { status } ).then( response => response.data );
-  store.dispatch( updateStatus(promise) );
-}
-
-export function dispatchUpdateLog( id, log ) {
-  const promise = axios.patch( apiURL + id, { log } ).then( response => response.data );
-  store.dispatch( updateLog(promise) );
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { dispatchUpdateLog } from '../../../../services/workspaceService';
+import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
 import './RepairLog.css';
 
 export default class RepairLog extends Component {
@@ -24,7 +24,7 @@ export default class RepairLog extends Component {
   }
 
   save() {
-    dispatchUpdateLog( this.props.id, this.state.log );
+    dispatchUpdateCustomer( this.props.id, { log: this.state.log } );
     this.setState({ editting: !this.state.editting });
   }
 

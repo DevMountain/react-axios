@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dispatchUpdateStatus } from '../../../../services/workspaceService';
+import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
 import './Status.css';
 
 export default class Status extends Component {
@@ -24,7 +24,7 @@ export default class Status extends Component {
   }
 
   save( id ) {
-    dispatchUpdateStatus( id, this.state.status )
+    dispatchUpdateCustomer( id, { status: this.state.status } )
     this.setState({ editting: !this.state.editting });
   }
 
