@@ -534,7 +534,53 @@ In this step, we'll update our `List` component to be able to create a new custo
     * The new object should update the value of `loading` to `false`.
     * The new object should update the value of `initialLoad` to `true`.
     * The new object should update the value of `creating` to `false`.
-    
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+Now that our customer list is populating correctly let's get our `New Customer` button functional. Open `src/ducks/workspaceReducer.js`. This reducer keeps track of what component to display in the `Workspace` component. In order to show the `CreateCustomer` component, we'll have to set the `creating` property on state to true. We'll also update our reducer to handle creating a customer as well. When a customer is created we set `initialLoad` to `true` to display the initial workspace view.
+
+Let's begin by creating the action types. We'll need one called `SHOW_CREATE_CUSTOMER` and one called `CREATE_CUSTOMER`.
+
+```js
+// Action Types
+const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
+const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+```
+
+Now let's create an action creator for each type. The action creator should return an object with a type property and also a payload property. The type should equal the action type. The payload for `SHOW_CREATE_CUSTOMER` should be `null` and the payload for `CREATE_CUSTOMER` should be `promise`.
+
+```js
+// Action Types
+const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
+const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+
+// Action Creators
+export function showCreateCustomer() {
+  return {
+    type: SHOW_CREATE_CUSTOMER,
+    payload: null
+  }
+}
+
+export function createCustomer( promise ) {
+  return {
+    type: CREATE_CUSTOMER,
+    payload: promise
+  }
+}
+```
+
+We'll then need to update our reducer to handle the cases for these actions.
+
+
+
+
+</details>
+
 ### Solution
 
 <details>
