@@ -12,7 +12,7 @@ In this project, we are going to create a customer management tool for a compute
 * `cd` into the project directory.
 * Run `npm i`.
 * Run `npm start`.
-  * The app in its current state should intentially not compile correctly.
+  * The app in its current state should intentionally not compile correctly.
 
 ## Step 1
 
