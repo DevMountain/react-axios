@@ -45,8 +45,6 @@ export default function workspaceReducer( state = initialState, action ) {
 
     // Delete Customer - Fulfilled
 
-    // Show Create Customer
-
     default: return state;
   }
 }

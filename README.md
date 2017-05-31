@@ -849,7 +849,7 @@ In this step, we'll update the the customer list to become a navigation list tha
 
 <details>
 
-<summary> src/ducks/workspaceReducer.js </summary>
+<summary> Detailed Instructions </summary>
 
 <br />
 
@@ -909,8 +909,6 @@ export default function workspaceReducer( state = initialState, action ) {
     // Update Customer - Fulfilled
 
     // Delete Customer - Fulfilled
-
-    // Show Create Customer
 
     default: return state;
   }
