@@ -849,6 +849,9 @@ In this step, we'll update the the customer list to become a navigation list tha
     * This function should create a promise using `axios.get`.
     * The axios URL should be `apiURL` + the value of `id`.
     * The axios callback should return the `data` property of the response.
+* Open `src/components/List/Customer/Customer.js`.
+  * Import `dispatchGetCustomer` from `src/services/workspaceService.js`.
+  * Add an `onClick` prop to the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.
 
 <details>
 
@@ -969,6 +972,27 @@ export function dispatchCreateCustomer( obj ) {
 export function dispatchGetCustomer( id ) {
   const promise = axios.get( apiURL + id ).then( response => response.data );
   store.dispatch( getCustomer(promise) );
+}
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/components/List/Customer/Customer.js </code> </summary>
+
+```jsx
+import React from 'react';
+import './Customer.css';
+
+import { dispatchGetCustomer } from '../../../services/workspaceService';
+
+export default function Customer( { id, first, last } ) {
+  return (
+    <div className="Customer__listName">
+      <span onClick={ () => dispatchGetCustomer( id ) }>{ first } { last }</span>
+    </div>
+  )
 }
 ```
 
