@@ -176,3 +176,29 @@ registerServiceWorker();
 </details>
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/2.png" />
+
+## Step 3
+
+### Summary
+
+Now that our App can compile correctly, let's focus on getting data from the API. We'll begin with the `List` component. This component is responsible for retrieving the list of customers and also acting as a navigation component to update the `Workspace` component on the right with the selected customer's information.
+
+Before we actually dive into the code for the component we'll need to create our action and action creators in our `listReducer`.
+
+### Instructions
+
+* Open `src/ducks/listReducer.js`.
+* Get familiar with the current structure of the reducer.
+* Create an action type called `GET_LIST` that equals `"GET_LIST"`.
+* Create an action created called `getList` that equals a function:
+  * This function have one parameter called `promise`.
+  * This function should return an object:
+    * This object should have a key called `type` that equals `GET_LIST`.
+    * This object should have a key called `payload` that equals `promise`.
+* Locate the switch statement in the reducer:
+  * Create a case for `GET_LIST + '_PENDING'`:
+    * 
+  * Create a case for `GET_LIST + '_FULFILLED'`:
+    * 
+  * Create a case for `GET_LIST + '_REJECTED'`:
+    * 
