@@ -501,3 +501,5 @@ export default connect( mapStateToProps )( List );
 ```
 
 </details>
+
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3.png" />
