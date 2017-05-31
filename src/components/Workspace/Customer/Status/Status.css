@@ -1,0 +1,44 @@
+#CustomerStatus__container {
+  margin-top: 40px;
+}
+
+#CustomerStatus__input {
+  border: none;
+  border-bottom: 1px solid black;
+  margin-right: 10px;
+  user-select: none;
+  outline: none;
+  cursor: text;
+  font-size: 20px;
+  padding-bottom: 5px;
+  width: 300px;
+  cursor: text;
+}
+
+#CustomerStatus__input:disabled {
+  cursor: no-drop;
+}
+
+#CustomerStatus__editBtn {
+  padding: 0px 16px;
+  border-radius: 2px;
+  background-color: #e4e4e4;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-right: 10px;
+  width: 60px;
+  cursor: pointer;
+}
+
+#CustomerStatus__saveBtn {
+  padding: 0px 16px;
+  border-radius: 2px;
+  background-color: #4fc3f7;
+  color: white;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}

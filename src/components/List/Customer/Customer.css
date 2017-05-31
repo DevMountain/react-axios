@@ -1,0 +1,6 @@
+.Customer__listName {
+  margin-bottom: 10px;
+  text-decoration: underline;
+  cursor: pointer;  
+  user-select: none;
+}

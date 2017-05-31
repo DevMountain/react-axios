@@ -1,0 +1,36 @@
+#RemoveCustomer__container {
+  margin-top: 35px;
+}
+
+.RemoveCustomer__removeBtn {
+  padding: 0px 16px;
+  border-radius: 2px;
+  background-color: #E57373;
+  color: white;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.RemoveCustomer__removeBtn:disabled {
+  cursor: no-drop;
+  opacity: .5;
+}
+
+#RemoveCustomer__confirmationContainer {
+  margin-top: 10px;
+}
+
+#RemoveCustomer__cancelBtn {
+  padding: 0px 16px;
+  border-radius: 2px;
+  background-color: #e4e4e4;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+  width: 88.98px;
+}
