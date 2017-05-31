@@ -1,0 +1,23 @@
+<img src="https://devmounta.in/img/logowhiteblue.png" width="250" align="right">
+
+# Project Summary
+
+In this project, we are going to create a customer management tool for a computer repair shop. We'll keep track of basic customer information, such as name/email/phone, current repair statuses, and also a log for notes. This tool will use `axios` to hit an API and will also use `redux-promise-middleware` to asynchronously handle data from the API. Majority of the project has been built out already for you. The parts we'll need to finish include: the store, two reducers, two service files, and hooking up the service files into the components that use them. 
+
+<img src="" />
+
+## Setup
+
+* `fork` and `clone` this repository.
+* `cd` into the project directory.
+* Run `npm i`.
+* Run `npm start`.
+  * The app in its current state should intentially not compile correctly.
+
+## Step 1
+
+### Summary
+
+In this step we will create our `store`. Since this tool will be hitting an API we'll need to `npm install redux-promise-middleware` to handle async actions. 
+
+### Instructions
