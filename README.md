@@ -183,7 +183,7 @@ registerServiceWorker();
 
 Now that our App can compile correctly, let's focus on getting data from the API. We'll begin with the `List` component. This component is responsible for retrieving the list of customers and also acting as a navigation component to update the `Workspace` component on the right with the selected customer's information.
 
-Before we actually dive into the code for the component we'll need to create our action and action creators in our `listReducer`.
+Before we actually dive into the code for the component we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file.
 
 ### Instructions
 
