@@ -340,6 +340,42 @@ We'll be using a package called `axios` to make API calls.
 
 <br />
 
+Now that our reducer is setup we will create a service file that will use its action creator and dispatch an event to the store. This service file will also create the promise that our action creator is looking for. Let's open `src/services/listService.js`. To create our promises we'll be using a package called `axios`. If you haven't already run `npm install --save axios`. We can then import it into our service file.
+
+```js
+import axios from 'axios';
+```
+
+We'll also need our action creator from our list reducer and our store.
+
+```js
+import axios from 'axios';
+import { getList } from '../ducks/listReducer';
+import store from '../store';
+```
+
+The last import we'll need is the API url for our axios calls. I've created an `api.js` file in `src/`. This is a good method to follow as it allows you to fix the API url for our service files that use it instead of having to update the URL one by one in each function in each service file.
+
+```js
+import axios from 'axios';
+import { getList } from '../ducks/listReducer';
+import store from '../store';
+import apiURL from '../api';
+```
+
+Now that we have all our imports let's create a function that will dispatch our `getList` action creator to our store. Inside this function we'll use `axios` to create a promise. When using axios, you chain on a method of the API method you want. This can either be `GET`, `PUT`, `DELETE`, `POST`, `PATCH`, and a couple others. You then invoke this method and pass in the URL as the first parameter. The second parameter can be an object that will equal the request's body. Here are a couple examples:
+
+```js
+axios.get( 'http://localhost:3000/somePath' );
+axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } );
+```
+
+This will return a promise which you can then chain a `.then()` that accepts a callback function as the first parameter. The most common first parameter you'll see in the callback function is `response`. This is the response from the API. Here are some examples:
+
+```js
+axios.get( 'http://localhost:3000/somePath' ).then( response => response.data );
+axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } ).then( response => response.data );
+```
 
 
 </details>
