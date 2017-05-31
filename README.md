@@ -530,10 +530,11 @@ In this step, we'll update our `List` component to be able to create a new custo
     * This case should return a new object with all the previous state values.
     * The new object should update the value of `creating` to true.
   * `CREATE_CUSTOMER + '_FULFILLED'`:
-    * This case should return a new object with all the previous state values.
-    * The new object should update the value of `loading` to `false`.
-    * The new object should update the value of `initialLoad` to `true`.
-    * The new object should update the value of `creating` to `false`.
+    * This case should return a new object:
+      * `loading` should equal `false`.
+      * `initialLoad` should equal `true`.
+      * `customer` should equal `{}`.
+      * `creating` should equal `false`.
 
 <details>
 
@@ -574,7 +575,7 @@ export function createCustomer( promise ) {
 }
 ```
 
-We'll then need to update our reducer to handle the cases for these actions. We'll make a case for `SHOW_CREATE_CUSTOMER` and a case for `CREATE_CUSTOMER + '_FULFILLED'`. `SHOW_CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `true`. This will effectively show the `CreateCustomer` component.  `CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `false`, `loading` to `false`, and `initialLoad` to `true`.
+We'll then need to update our reducer to handle the cases for these actions. We'll make a case for `SHOW_CREATE_CUSTOMER` and a case for `CREATE_CUSTOMER + '_FULFILLED'`. `SHOW_CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `true`. This will effectively show the `CreateCustomer` component.  `CREATE_CUSTOMER` should return a new object where `loading` is `false`, `initialLoad` is `true`, `customer` is `{}`, and `creating` is `false`.
 
 ```js
 // Action Types
@@ -589,7 +590,12 @@ export default function workspaceReducer( state = initialState, action ) {
       return Object.assign({}, state, { creating: true });
 
     case CREATE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, initialLoad: true, creating: false });
+      return {
+        loading: false,
+        initialLoad: true,
+        creating: false,
+        customer: {}
+      }
 
     // Get Customer - Pending
 
@@ -627,9 +633,6 @@ export function createCustomer( promise ) {
 }
 ```
 
-
-
-
 </details>
 
 ### Solution
@@ -658,7 +661,12 @@ export default function workspaceReducer( state = initialState, action ) {
       return Object.assign({}, state, { creating: true });
 
     case CREATE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, initialLoad: true, creating: false });
+      return {
+        loading: false,
+        initialLoad: true,
+        creating: false,
+        customer: {}
+      }
 
     // Get Customer - Pending
 
