@@ -197,7 +197,11 @@ Before we actually dive into the code for the component we'll need to create our
     * This object should have a key called `payload` that equals `promise`.
 * Locate the switch statement in the reducer:
   * Create a case for `GET_LIST + '_PENDING'`:
-    * 
+    * This case should return a new object:
+      * This object should set `loading` to true.
+      * This object should set `customerList` to an empty array.
   * Create a case for `GET_LIST + '_FULFILLED'`:
-    * 
+    * This case should return a new object:
+      * This object shouldset `loading` to `false`.
+      * This object should set `customerList` to the payload property on `action`.
   
