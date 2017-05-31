@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '../store';
 import apiURL from '../api';
 
-import { showCreateCustomer, createCustomer } from '../ducks/workspaceReducer';
+import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
 import { dispatchGetList } from '../services/listService';
 
 export function dispatchShowCreateCustomer() {
@@ -15,4 +15,9 @@ export function dispatchCreateCustomer( obj ) {
   });
 
   store.dispatch( createCustomer(promise) );
+}
+
+export function dispatchGetCustomer( id ) {
+  const promise = axios.get( apiURL + id ).then( response => response.data );
+  store.dispatch( getCustomer(promise) );
 }

@@ -842,6 +842,13 @@ In this step, we'll update the the customer list to become a navigation list tha
     * This case should return a new object with all the previous values from state.
     * The new object should set `loading` to `false`.
     * The new object should set `customer` to `action.payload`.
+* Open `src/services/workspaceService.js`.
+  * Import `getCustomer` from `src/ducks/workspaceReducer.js`.
+  * Export a function called `dispatchGetCustomer`:
+    * This function should have an `id` parameter.
+    * This function should create a promise using `axios.get`.
+    * The axios URL should be `apiURL`.
+    * The axios callback should return the `data` property of the response.
 
 <details>
 
