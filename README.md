@@ -710,7 +710,7 @@ export function createCustomer( promise ) {
 
 ### Summary
 
-In this step, we'll update the workspace service file to handle creating a customer.
+In this step, we'll update the workspace service file to handle showing the `CreateCustomer` component and handle creating a customer.
 
 ### Instructions
 
