@@ -184,7 +184,7 @@ registerServiceWorker();
 
 Now that our App can compile correctly, let's focus on getting data from the API. We'll begin with the `List` component. This component is responsible for retrieving the list of customers and also acting as a navigation component to update the `Workspace` component on the right with the selected customer's information.
 
-Before we actually dive into the code for the component we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file.
+Before we actually dive into the code for the component we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file. We'll also need to setup a service file, which we'll do in the next step.
 
 ### Instructions
 
@@ -306,6 +306,59 @@ export function getList( promise ) {
     type: GET_LIST,
     payload: promise
   }
+}
+```
+
+</details>
+
+## Step 4
+
+### Summary
+
+In this step, we will create a service file that will handle all the API calls for our `List` component. This service file will also dispatch actions to our store.
+
+We'll be using a package called `axios` to make API calls. 
+
+### Instructions
+
+* Open `src/services/listService.js`.
+* Run `npm install --save axios`.
+* Import `axios` from `axios`.
+* Import the `getList` action creator from `src/ducks/listReducer.js`.
+* Import the `store` from `src/store.js`.
+* Import `apiURL` from `src/api.js`.
+* Export a function called `dispatchGetList`:
+  * This function shouldn't use any parameters.
+  * This function should create a promise using `axios`: 
+    * The `axios` call should be a `GET`.
+    * The url should be `apiURL`.
+    * The callback should return the `data` property of the `response`.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/services/listService.js </code> </summary>
+
+```js
+import axios from 'axios';
+import { getList } from '../ducks/listReducer';
+import store from '../store';
+import apiURL from '../api';
+
+export function dispatchGetList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
+  store.dispatch( getList(promise) );
 }
 ```
 
