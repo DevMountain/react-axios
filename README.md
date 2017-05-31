@@ -726,7 +726,7 @@ In this step, we'll update the workspace service file to handle showing the `Cre
   * This function should create a promise using `axios.post`.
   * The axios URL should be `apiURL`.
   * The axios request body should equal the object passed in as an argument.
-  * The axios callback should call `dispatchGetList`.
+  * The axios callback should invoke `dispatchGetList`.
 
 
 ### Solution
