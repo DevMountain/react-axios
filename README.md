@@ -603,10 +603,6 @@ export default function workspaceReducer( state = initialState, action ) {
 
     // Get Customer - Rejected
 
-    // Update Status - Fulfilled
-
-    // Update Log - Fulfilled
-
     // Update Customer - Fulfilled
 
     // Delete Customer - Fulfilled
@@ -671,10 +667,6 @@ export default function workspaceReducer( state = initialState, action ) {
     // Get Customer - Fulfilled
 
     // Get Customer - Rejected
-
-    // Update Status - Fulfilled
-
-    // Update Log - Fulfilled
 
     // Update Customer - Fulfilled
 
@@ -903,10 +895,6 @@ export default function workspaceReducer( state = initialState, action ) {
     case GET_CUSTOMER + "_FULFILLED":
       return Object.assign({}, state, { loading: false, customer: action.payload });
 
-    // Update Status - Fulfilled
-
-    // Update Log - Fulfilled
-
     // Update Customer - Fulfilled
 
     // Delete Customer - Fulfilled
@@ -1005,10 +993,6 @@ export default function workspaceReducer( state = initialState, action ) {
 
     case GET_CUSTOMER + "_FULFILLED":
       return Object.assign({}, state, { loading: false, customer: action.payload });
-
-    // Update Status - Fulfilled
-
-    // Update Log - Fulfilled
 
     // Update Customer - Fulfilled
 
@@ -1116,7 +1100,35 @@ In this step, we'll complete the rest of the workspace reducer to handle updatin
 
 <br />
 
+Now all our reducer needs is a way to update a customer and a way to remove a customer. Let's begin by opening `src/ducks/workspaceReducer.js`. We'll need two action types. One called `UPDATE_CUSTOMER` and one called `DELETE_CUSTOMER`.
 
+```js
+const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+```
+
+We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has a `promise` parmater. This function should return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`. We'll also need to make an action creator called `deleteCustomer`. This action creator will be the same except the object it returns should have a `type` property that equals `DELETE_CUSTOMER`.
+
+```js
+const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+
+export function updateCustomer( promise ) {
+  return {
+    type: UPDATE_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function deleteCustomer( promise ) {
+  return {
+    type: DELETE_CUSTOMER,
+    payload: promise
+  }
+}
+```
+
+Now that we have our action types and creators, let's update our switch statement in our reducer to handle the `_FULFILLED` cases. We wo
 
 </details>
 
