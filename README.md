@@ -17,6 +17,7 @@ In this project, we are going to create a customer management tool for a compute
   * `cd` into the project directory.
   * Run `npm run api`.
     * We will teach you about creating APIs later on in the course.
+    * The API has been setup to be delayed by 1 second. 
 
 You should now have two processes running in two separate terminals. If you want to commit changes as you develop, use a third terminal.
 
@@ -211,7 +212,57 @@ Before we actually dive into the code for the component we'll need to create our
 
 <br />
 
+Before we can update the `List` component to fetch data from the API we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js`. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
 
+This reducer will be responsible for fetching customer information and updating the list of customers. Let's create an action type called `GET_LIST` that equals `"GET_LIST"`.
+
+```js
+const GET_LIST = "GET_LIST";
+```
+
+Then we can create an action creator that uses `GET_LIST` as its type. This action creator will accept a promise. For now just create a parameter called `promise` and we'll create the promise in a later step.
+
+```js
+const GET_LIST = "GET_LIST";
+
+export function getList( promise ) {
+  return {
+    type: GET_LIST,
+    payload: promise
+  }
+}
+```
+
+Now that we have our action type and action creator let's update our reducer to handle the case of `GET_LIST`. We'll need one case for its `_PENDING` state and one for its `_FULFILLED` state. If our case is `_PENDING` we'll want to set `loading` to `true` and reset the value of `customerList` to an empty array. This will allow our App to display a message to the user that the customer information is being fetched. If our case is `_FULFILLED` we'll want to set `loading` to `false` and set the value of `customerList` to the payload property on `action`. Our app will then display a list of customer names that can update the `Workspace` component on the right.
+
+```js
+const GET_LIST = "GET_LIST";
+
+export default function listReducer( state = initialState, action ) {
+  switch( action.type ) {
+    case GET_LIST + "_PENDING": 
+      return {
+        loading: true,
+        customerList: []
+      }
+
+    case GET_LIST + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: action.payload
+      }
+
+    default: return state;
+  }
+}
+
+export function getList( promise ) {
+  return {
+    type: GET_LIST,
+    payload: promise
+  }
+}
+```
 
 </details>
 
@@ -232,8 +283,6 @@ const GET_LIST = "GET_LIST";
 
 // Reducer
 export default function listReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-
   switch( action.type ) {
     case GET_LIST + "_PENDING": 
       return {
