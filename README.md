@@ -354,7 +354,7 @@ import { getList } from '../ducks/listReducer';
 import store from '../store';
 ```
 
-The last import we'll need is the API url for our axios calls. I've created an `api.js` file in `src/`. This is a good method to follow as it allows you to fix the API url for our service files that use it instead of having to update the URL one by one in each function in each service file.
+The last import we'll need is the API url for our axios calls. I've created an `api.js` file in `src/`. This is a good method to follow as it allows you to fix the API url for the service files that use it. This beats having to update the URL one by one in each function in each service file.
 
 ```js
 import axios from 'axios';
