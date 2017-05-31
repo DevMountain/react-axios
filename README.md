@@ -1089,6 +1089,22 @@ In this step, we'll complete the rest of the workspace reducer to handle updatin
 ### Instructions
 
 * Open `src/ducks/workspaceReducer.js`.
+* Create an `UPDATE_CUSTOMER` action type that equals `"UPDATE_CUSTOMER"`.
+* Create a `DELETE_CUSTOMER` action type that equals `"DELETE_CUSTOMER"`.
+* Create an `updateCustomer` action creator that has a `promise` parameter:
+  * This function return a new object.
+  * The object should have a `type` property that equals `UPDATE_CUSTOMER`.
+  * The object should have a `payload` property that equals `promise`.
+* Create an `deleteCustomer` action creator that has a `promise` parameter:
+  * This function return a new object.
+  * The object should have a `type` property that equals `DELETE_CUSTOMER`.
+  * The object should have a `payload` property that equals `promise`.
+* Create an `UPDATE_CUSTOMER + '_FULFILLED'` case in the reducer:
+  * This case should return a new object will all of previous state's values.
+  * The new object should update the `customer` property with a new object that equals `action.payload`.
+* Create a `DELETE_CUSTOMER + '_FULFILLED'` case in the reducer:
+  * This case should return a new object will all of previous state's values.
+  * The new object should update `initialLoad` to `true` and `customer` to `{}`.ß
 
 <details>
 
