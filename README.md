@@ -43,9 +43,15 @@ In this step we will create our `store`. Since this tool will be hitting an API 
   * Use `undefined` for the initial state. ( Our reducers handle this )
   * Use `applyMiddleware` with `promiseMiddleWare` invoked.
 
-### Detailed Instructions
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
 
 If we take a look at our development server we'll see that our app is currently not compiling correctly. This is because some components are trying to connect to a store that doesn't exist. Let's create this store. Open `src/store.js`. We'll need three things from `redux`: `createStore`, `applyMiddleware`, and `combineReducers`. `createStore` will allows us to export the creation of our store. `applyMiddleware` will allow us to use middleware on actions that go to our reducers. `combineReducers` will allow us to use two different reducers to separate concerns of data.
+
+</details>
 
 ### Solution
 
