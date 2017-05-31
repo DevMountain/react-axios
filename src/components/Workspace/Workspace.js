@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace( { apiStatus, initialLoad, creating } ) {
+function Workspace( { loading, initialLoad, creating } ) {
   return (
     <div id="Workspace__container">
       {
@@ -19,17 +19,13 @@ function Workspace( { apiStatus, initialLoad, creating } ) {
               <p> Please select a customer from the left. </p>
             </div>
           :
-            apiStatus.loading
+            loading
             ?
               <div>
                 <p> Fetching customer information.. </p>
               </div>
             :
-              apiStatus.error
-              ?
-                <p> { apiStatus.error } </p>
-              :
-                <Customer />
+              <Customer />
       }
     </div>
   )
@@ -38,7 +34,7 @@ function Workspace( { apiStatus, initialLoad, creating } ) {
 function mapStateToProps( state ) {
   state = state.workspaceReducer;
   return {
-    apiStatus: state.apiStatus,
+    loading: state.loading,
     initialLoad: state.initialLoad,
     creating: state.creating
   };
