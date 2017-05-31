@@ -508,7 +508,7 @@ export default connect( mapStateToProps )( List );
 
 ### Summary
 
-In this step, we'll update our `List` component to be able to create a new customer. We'll start this process by updating the workspace reducer.
+In this step, we'll update the workspace reducer to handle showing the `CreateCustomer` component and handle creating a customer.
 
 ### Instructions
 
@@ -702,6 +702,40 @@ export function createCustomer( promise ) {
     payload: promise
   }
 }
+```
+
+</details>
+
+## Step 7 
+
+### Summary
+
+In this step, we'll update the workspace service file to handle creating a customer.
+
+### Instructions
+
+* Open `src/services/workspaceService.js`.
+* Import `axios` from `axios`.
+* Import `store` from `src/store.js`.
+* Import apiURL from `src/api.js`.
+* Import `showCreateCustomer` and `createCustomer` from `src/ducks/workspaceReducer.js`.
+* Export a function called `dispatchShowCreateCustomer`:
+  * This function should dispatch `showCreateCustomer` invoked.
+* Export a function called `dispatchCreateCustomer` that takes an object as a parameter: 
+  * This function should create a promise using `axios.post`.
+  * The axios URL should be `apiURL`.
+  * The axios request body should equal the object passed in as an argument.
+  * The axios callback should return the `data` property from the response.
+
+
+### Solution
+
+<details>
+
+<summary> <code> src/services/workspaceService.js </code> </summary>
+
+```js
+
 ```
 
 </details>
