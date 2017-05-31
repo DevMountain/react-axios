@@ -2,8 +2,12 @@ import axios from 'axios';
 import store from '../store';
 import apiURL from '../api';
 
-import { createCustomer, getCustomer, updateCustomer, deleteCustomer, updateStatus, updateLog } from '../ducks/workspaceReducer';
+import { showCreateCustomer ,createCustomer, getCustomer, updateCustomer, deleteCustomer, updateStatus, updateLog } from '../ducks/workspaceReducer';
 import { dispatchGetList } from './listService';
+
+export function dispatchShowCreateCustomer() {
+  store.dispatch( showCreateCustomer() );
+}
 
 export function dispatchCreateCustomer( obj ) {
   const promise = axios.post( apiURL, obj ).then( response => {
