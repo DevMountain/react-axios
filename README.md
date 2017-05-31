@@ -13,6 +13,10 @@ In this project, we are going to create a customer management tool for a compute
 * Run `npm i`.
 * Run `npm start`.
   * The app in its current state should intentionally not compile correctly.
+* In a new terminal:
+  * `cd` into the project directory.
+  * Run `npm run api`.
+    * We will teach you about creating APIs later on in the course. For now just leave this running in the background.
 
 ## Step 1
 
@@ -21,3 +25,6 @@ In this project, we are going to create a customer management tool for a compute
 In this step we will create our `store`. Since this tool will be hitting an API we'll need to `npm install redux-promise-middleware` to handle async actions. 
 
 ### Instructions
+
+* `npm install --save redux-promise-middleware`.
+* 
