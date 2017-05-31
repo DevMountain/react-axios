@@ -115,7 +115,7 @@ In this step, we will take our store created from the previous step and hook it 
 
 * Open `src/index.js`.
 * Import `Provider` from `react-redux`.
-* Import store from `src/store.js`.
+* Import `store` from `src/store.js`.
 * Wrap the `App` component in a `Provider` component:
   * The `Provider` component should have a `store` prop that equals `store`. 
 
