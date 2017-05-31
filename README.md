@@ -846,3 +846,97 @@ In this step, we'll update the the customer list to become a navigation list tha
     * This case should return a new object with all the previous values from state.
     * The new object should set `loading` to `false`.
     * The new object should set `customer` to `action.payload`.
+
+<details>
+
+<summary> src/ducks/workspaceReducer.js </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+<details>
+
+<summary> <code> src/ducks/workspaceReducer.js </code> </summary>
+
+```js
+const initialState = {
+  loading: false,
+  customer: {},
+  initialLoad: true,
+  creating: false
+};
+
+// Action Types
+const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
+const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+const GET_CUSTOMER = "GET_CUSTOMER";
+
+// Reducer
+export default function workspaceReducer( state = initialState, action ) {
+  let newState;
+  switch( action.type ) {
+    case SHOW_CREATE_CUSTOMER:
+      return Object.assign({}, state, { creating: true });
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        initialLoad: true,
+        creating: false,
+        customer: {}
+      }
+
+    case GET_CUSTOMER + "_PENDING":
+      return {
+        loading: true,
+        initialLoad: false,
+        creating: false,
+        customer: {}
+      }
+
+    case GET_CUSTOMER + "_FULFILLED":
+      return Object.assign({}, state, { loading: false, customer: action.payload });
+
+    // Update Status - Fulfilled
+
+    // Update Log - Fulfilled
+
+    // Update Customer - Fulfilled
+
+    // Delete Customer - Fulfilled
+
+    // Show Create Customer
+
+    default: return state;
+  }
+}
+
+// Action Creators
+export function showCreateCustomer() {
+  return {
+    type: SHOW_CREATE_CUSTOMER,
+    payload: null
+  }
+}
+
+export function createCustomer( promise ) {
+  return {
+    type: CREATE_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function getCustomer( promise ) {
+  return {
+    type: GET_CUSTOMER,
+    payload: promise
+  }
+}
+```
+
+</details>
