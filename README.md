@@ -1098,6 +1098,72 @@ export default function Customer( { id, first, last } ) {
 
 <br />
 
-
-
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3g.gif" />
+
+## Step 10
+
+### Summary
+
+In this step, we'll complete the rest of the workspace reducer to handle updating or removing a customer.
+
+### Instructions
+
+* Open `src/ducks/workspaceReducer.js`.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+## Step 11
+
+### Summary
+
+In this step, we'll complete the reset of the workspace service file to handle updating or removing a customer.
+
+### Instructions
+
+* Open `src/services/workspaceService.js`.
+
+### Solution
+
+## Step 12
+
+### Summary
+
+In this step, we'll hook up the Customer editor component to the workspace service file to dispatch actions to our store.
+
+### Instructions
+
+* Open `x`.
+
+<details>
+
+<summary> Detailed Instructions </summary>
+
+<br />
+
+
+
+</details>
+
+### Solution
+
+## Contributions
+
+If you see a problem or a typo, please fork, make the necessary changes, and create a pull request so we can review your changes and merge them into the master repo and branch.
+
+## Copyright
+
+© DevMountain LLC, 2017. Unauthorized use and/or duplication of this material without express and written permission from DevMountain, LLC is strictly prohibited. Excerpts and links may be used, provided that full and clear credit is given to DevMountain with appropriate and specific direction to the original content.
+
+<p align="center">
+<img src="https://devmounta.in/img/logowhiteblue.png" width="250">
+</p>
