@@ -1273,6 +1273,20 @@ In this step, we'll complete the reset of the workspace service file to handle u
 ### Instructions
 
 * Open `src/services/workspaceService.js`.
+* Import `updateCustomer` and `deleteCustomer` from `src/ducks/workspaceReducer.js`.
+* Create and export a function called `dispatchUpdateCustomer`:
+  * This function should have an `id` parameter to specify which customer to update in the api URL.
+  * This function should have an `obj` parameter to use as the object for the request body.
+  * This function should create a promise using `axios.patch`.
+  * The callback of the promise should invoke `dispatchGetList` and return the `data` property of the response.
+  * This function should use `store.dispatch` to dispatch the `updateCustomer` action creator.
+    * Remember this function needs a promise as its first parameter.
+* Create and export a function called `dispatchDeleteCustomer`:
+  * This function should have an `id` parameter to specify which customer to delete in the api URL.
+  * This function should create a promise using `axios.delete`.
+  * The callback of the promise should invoke `dispatchGetList`.
+  * This function should use `store.dispatch` to dispatch the `deleteCustomer` action creator.
+    * Remember this function needs a promise as its first parameter.
 
 <details>
 
