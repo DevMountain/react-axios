@@ -1,0 +1,53 @@
+.CustomerToggleEdit__container {
+  margin-bottom: 20px;
+}
+
+.CustomerToggleEdit__input {
+  border: none;
+  border-bottom: 1px solid black;
+  margin-right: 10px;
+  user-select: none;
+  outline: none;
+  cursor: text;
+  font-size: 20px;
+  padding-bottom: 5px;
+  width: 300px;
+}
+
+.CustomerToggleEdit__textarea {
+  border: none;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  height: 50px;
+  width: 300px;
+  resize: none;
+  margin-right: 10px;
+}
+
+.CustomerToggleEdit__input:disabled {
+  cursor: no-drop;
+}
+
+.CustomerToggleEdit__editBtn {
+  padding: 0px 16px;
+  border-radius: 2px;
+  background-color: #e4e4e4;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-right: 10px;
+  width: 60px;
+  cursor: pointer;
+}
+
+.CustomerToggleEdit__saveBtn {
+  padding: 0px 16px;
+  border-radius: 2px;
+  background-color: #4fc3f7;
+  color: white;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
