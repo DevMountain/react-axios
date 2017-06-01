@@ -1,5 +1,5 @@
 import React from 'react';
-import ToggleEdit from './ToggleEdit/ToggleEdit';
+import ToggleEdit from '../ToggleEdit/ToggleEdit';
 import './Information.css';
 
 export default function Information( { id, first, last, email, phone }) {
