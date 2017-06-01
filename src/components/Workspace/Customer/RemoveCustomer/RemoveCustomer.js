@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import './RemoveCustomer.css';
 
+import { dispatchDeleteCustomer } from '../../../../services/workspaceService';
+
 export default class RemoveCustomer extends Component {
   constructor() {
     super();
@@ -17,7 +19,7 @@ export default class RemoveCustomer extends Component {
   }
 
   remove() {
-    
+    dispatchDeleteCustomer( this.props.id );
   }
 
   render() {

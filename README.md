@@ -1404,7 +1404,41 @@ In this step, we'll hook up the Customer editor component to the workspace servi
 
 <br />
 
-Now for the fun part. Since we have our service and reducer file completed we can go into the remaining components and make our App functional. 
+Now for the fun part. Since we have our service and reducer files completed we can go into the remaining components and make our App functional. We'll need to edit two components. The `ToggleEdit` component and `RemoveCustomer` component. Let's begin by opening `src/components/Workspace/Customer/ToggleEdit/ToggleEdit.js`. This component is responsible for all the `Edit` buttons on the customer editor. We'll need to import our `dispatchUpdateCustomer` from `src/services/workspaceService.js`.
+
+```js
+import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
+```
+
+Then we'll need to udpate the `save` method to call the `dispatchUpdateCustomer`. Remember we need to pass in an `id` and an `object`. 
+
+```js
+save() {
+  dispatchUpdateCustomer( this.props.id, { [this.props.property]: this.state.val } );
+  this.setState({ editting: !this.state.editting });
+}
+```
+
+Using bracket notation we can create object all on one line. It's the same thing as doing:
+
+```js
+var obj = {};
+obj[ this.props.property ] = this.state.val;
+dispatchUpdateCustomer( this.props.id, obj );
+```
+
+The `property` prop is assigned when the component is loaded on the page. This way we can use one component that can dynamically update all properties of a customer! Freakin' sweet!
+
+Now all that's left is to remove a customer. Let's go into `src/components/Workspace/Customer/RemoveCustomer/RemoveCustomer.js`. We'll need to import the `dispatchDeleteCustomer` from `src/services/workspaceService.js`. And then update the `remove` method to call `dispatchDeleteCustomer` with the value of `id` on props as the first argument.
+
+```js
+import { dispatchDeleteCustomer } from '../../../../services/workspaceService';
+
+remove() {
+  dispatchDeleteCustomer( this.props.id );
+}
+```
+
 
 </details>
 
