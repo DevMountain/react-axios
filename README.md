@@ -2,7 +2,7 @@
 
 # Project Summary
 
-In this project, we are going to create a customer management tool for a computer repair shop. We'll keep track of basic customer information, such as name/email/phone, current repair statuses, and also a log for notes. This tool will use `axios` to hit an API and will also use `redux-promise-middleware` to asynchronously handle data from the API. Majority of the project has been built out already for you. The parts we'll need to finish include: the store, two reducers, two service files, and hooking up the service files into the components that use them. 
+In this project, we are going to create a customer management tool for a computer repair shop. We'll keep track of basic customer information, such as name/email/phone, current repair statuses, and also a log for notes. This tool will use `axios` to hit an API and will also use `redux-promise-middleware` to asynchronously handle data from the API. The majority of the project has been built out already for you. The parts we'll need to finish include: the store, two reducers, two service files, and hooking up the service files into the components that use them. 
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/1.png" />
 
@@ -27,7 +27,7 @@ You should now have two processes running in two separate terminals. If you want
 
 ### Summary
 
-In this step we will create our `store`. Since this tool will be hitting an API we'll need to `npm install redux-promise-middleware` to handle async actions. 
+In this step, we will create our `store`. Since this tool will be hitting an API we'll need to `npm install redux-promise-middleware` to handle async actions. 
 
 ### Instructions
 
@@ -50,7 +50,7 @@ In this step we will create our `store`. Since this tool will be hitting an API 
 
 <br />
 
-If we take a look at our development server we'll see that our app is currently not compiling correctly. This is because some components are trying to connect to a store that doesn't exist. Let's create this store. Open `src/store.js`. We'll need three things from `redux`: `createStore`, `applyMiddleware`, and `combineReducers`. `createStore` will allows us to export the creation of our store. `applyMiddleware` will allow us to use middleware on actions that go to our reducers. `combineReducers` will allow us to use two different reducers to separate concerns of data.
+If we take a look at our development server, we'll see that our app is currently not compiling correctly. This is because some components are trying to connect to a store that doesn't exist. Let's create this store. Open `src/store.js`. We'll need three things from `redux`: `createStore`, `applyMiddleware`, and `combineReducers`. `createStore` will allows us to export the creation of our store. `applyMiddleware` will allow us to use middleware on actions that go to our reducers. `combineReducers` will allow us to use two different reducers to separate concerns of data.
 
 ```js
 import { createStore, applyMiddleware, combineReducers } from "redux";
@@ -126,7 +126,7 @@ In this step, we will take our store created from the previous step and hook it 
 
 <br />
 
-Now that our store is created we can hook it up to our App in `src/index.js`. This will allow our App to have access to the store and the reducers and will also allow our App to compile correctly. Let's open `src/index.js`. We'll need to import `Provider` from `react-redux` and `store` from `src/store.js`. 
+Now that our store is created, we can hook it up to our App in `src/index.js`. This will allow our App to have access to the store and the reducers and will also allow our App to compile correctly. Let's open `src/index.js`. We'll need to import `Provider` from `react-redux` and `store` from `src/store.js`. 
 
 ```js
 import { Provider } from "react-redux";
@@ -184,7 +184,7 @@ registerServiceWorker();
 
 Now that our App can compile correctly, let's focus on getting data from the API. We'll begin with the `List` component. This component is responsible for retrieving the list of customers and also acting as a navigation component to update the `Workspace` component on the right with the selected customer's information.
 
-Before we actually dive into the code for the component we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file. We'll also need to setup a service file, which we'll do in the next step.
+Before we actually dive into the code for the component, we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file. We'll also need to setup a service file, which we'll do in the next step.
 
 ### Instructions
 
@@ -212,7 +212,7 @@ Before we actually dive into the code for the component we'll need to create our
 
 <br />
 
-Before we can update the `List` component to fetch data from the API we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js`. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
+Before we can update the `List` component to fetch data from the API, we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js`. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail, we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
 
 This reducer will be responsible for fetching customer information and updating the list of customers. Let's create an action type called `GET_LIST` that equals `"GET_LIST"`.
 
@@ -340,7 +340,7 @@ We'll be using a package called `axios` to make API calls.
 
 <br />
 
-Now that our reducer is setup we will create a service file that will use its action creator and dispatch an event to the store. This service file will also create the promise that our action creator is looking for. Let's open `src/services/listService.js`. To create our promises we'll be using a package called `axios`. If you haven't already run `npm install --save axios`. We can then import it into our service file.
+Now that our reducer is setup, we will create a service file that will use its action creator and dispatch an event to the store. This service file will also create the promise that our action creator is looking for. Let's open `src/services/listService.js`. To create our promises we'll be using a package called `axios`. If you haven't already run `npm install --save axios`. We can then import it into our service file.
 
 ```js
 import axios from 'axios';
@@ -363,7 +363,7 @@ import store from '../store';
 import apiURL from '../api';
 ```
 
-Now that we have all our imports let's create a function that will dispatch our `getList` action creator to our store. Inside this function we'll use `axios` to create a promise. When using axios, you chain on a method of the API method you want. This can either be `GET`, `PUT`, `DELETE`, `POST`, `PATCH`, and a couple others. You then invoke this method and pass in the URL as the first parameter. The second parameter can be an object that will equal the request's body. Here are a couple examples:
+Now that we have all our imports, let's create a function that will dispatch our `getList` action creator to our store. Inside this function we'll use `axios` to create a promise. When using axios, you chain on a method of the API method you want. This can either be `GET`, `PUT`, `DELETE`, `POST`, `PATCH`, and a couple others. You then invoke this method and pass in the URL as the first parameter. The second parameter can be an object that will equal the request's body. Here are a couple examples:
 
 ```js
 axios.get( 'http://localhost:3000/somePath' );
@@ -542,7 +542,7 @@ In this step, we'll update the workspace reducer to handle showing the `CreateCu
 
 <br />
 
-Now that our customer list is populating correctly let's get our `New Customer` button functional. Open `src/ducks/workspaceReducer.js`. This reducer keeps track of what component to display in the `Workspace` component. In order to show the `CreateCustomer` component, we'll have to set the `creating` property on state to true. We'll also update our reducer to handle creating a customer as well. When a customer is created we set `initialLoad` to `true` to display the initial workspace view.
+Now that our customer list is populating correctly, let's get our `New Customer` button functional. Open `src/ducks/workspaceReducer.js`. This reducer keeps track of what component to display in the `Workspace` component. In order to show the `CreateCustomer` component, we'll have to set the `creating` property on state to true. We'll also update our reducer to handle creating a customer as well. When a customer is created we set `initialLoad` to `true` to display the initial workspace view.
 
 Let's begin by creating the action types. We'll need one called `SHOW_CREATE_CUSTOMER` and one called `CREATE_CUSTOMER`.
 
@@ -813,7 +813,7 @@ create() {
 
 ### Summary
 
-In this step, we'll update the customer list to become a navigation list that will update the workspace on the right. This step will be larger than usual. The goal of this step will be to take you through the entire process of creating an action in one step. We'll start in the reducer and then go to the service file and then finish in the component file. 
+In this step, we'll update the customer list to become a navigation list that will update the workspace on the right. This step will be larger than usual. The goal of this step will be to take you through the entire process of creating an action in one step.
 
 ### Instructions
 
@@ -925,7 +925,7 @@ export function dispatchGetCustomer( id ) {
 }
 ```
 
-Now that our reducer and service file are ready to go we can edit the component to call our function in our service. Let's open `src/components/List/Customer/Customer.js` and import `dispatchGetCustomer` from `src/services/workspaceService.js`. Then add an `onClick` prop on the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.
+Now that our reducer and service file are ready to go, we can edit the component to call our function in our service. Let's open `src/components/List/Customer/Customer.js` and import `dispatchGetCustomer` from `src/services/workspaceService.js`. Then add an `onClick` prop on the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.
 
 ```js
 import React from 'react';
@@ -1294,7 +1294,7 @@ In this step, we'll complete the reset of the workspace service file to handle u
 
 <br />
 
-To complete our service file we'll need to import our last two action creators from `src/ducks/workspaceReducer.js`. Let's open `src/services/workspaceService.js` and import them.
+To complete our service file, we'll need to import our last two action creators from `src/ducks/workspaceReducer.js`. Let's open `src/services/workspaceService.js` and import them.
 
 ```js
 import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
@@ -1426,7 +1426,7 @@ save() {
 }
 ```
 
-Using bracket notation we can create object all on one line. It's the same thing as doing:
+Using bracket notation, we can create the object all on one line. It's the same thing as doing:
 
 ```js
 var obj = {};
