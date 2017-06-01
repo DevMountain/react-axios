@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
 import ToggleEdit from '../ToggleEdit/ToggleEdit';
 import './RepairLog.css';
 
