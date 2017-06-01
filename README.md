@@ -1404,7 +1404,7 @@ In this step, we'll hook up the Customer editor component to the workspace servi
 
 <br />
 
-
+Now for the fun part. Since we have our service and reducer file completed we can go into the remaining components and make our App functional. 
 
 </details>
 
