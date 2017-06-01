@@ -1396,7 +1396,14 @@ In this step, we'll hook up the Customer editor component to the workspace servi
 
 ### Instructions
 
-* Open `x`.
+* Open `src/components/Workspace/Customer/ToggleEdit/ToggleEdit.js`.
+  * Import `dispatchUpdateCustomer` from `src/services/workspaceService.js`.
+  * Locate the `save` method and call `dispatchUpdateCustomer` before `this.setState`.
+    * Remember this function needs an `id` argument and `object` argument.
+* Open `src/components/Workspace/Customer/RemoveCustomer/RemoveCustomer.js`.
+  * Import `dispatchDeleteCustomer` from `src/services/workspaceService.js`.
+  * Locate the `remove` method and call `dispatchDeleteCustomer`.
+    * Rememver this function needs an `id` argument.
 
 <details>
 
