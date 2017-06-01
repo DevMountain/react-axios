@@ -1585,6 +1585,10 @@ export default class RemoveCustomer extends Component {
 
 </details>
 
+<br />
+
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/4g.gif" />
+
 ## Contributions
 
 If you see a problem or a typo, please fork, make the necessary changes, and create a pull request so we can review your changes and merge them into the master repo and branch.

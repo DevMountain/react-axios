@@ -14,6 +14,16 @@
   width: 300px;
 }
 
+.CustomerToggleEdit__textarea {
+  border: none;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  height: 50px;
+  width: 300px;
+  resize: none;
+  margin-right: 10px;
+}
+
 .CustomerToggleEdit__input:disabled {
   cursor: no-drop;
 }
