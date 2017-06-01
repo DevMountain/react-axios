@@ -17,7 +17,7 @@ In this project, we are going to create a customer management tool for a compute
   * `cd` into the project directory.
   * Run `npm run api`.
     * We will teach you about creating APIs later on in the course.
-    * The API has been setup to be delayed by 1 second. 
+    * <b>The API has been setup to be delayed by 1 second.</b>
 
 You should now have two processes running in two separate terminals. If you want to commit changes as you develop, use a third terminal.
 
