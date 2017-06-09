@@ -784,7 +784,7 @@ export default connect( state => state, { createCustomer } )( CreateCustomer );
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/2-1g.gif" />
 
-## Step 9
+## Step 7
 
 ### Summary
 
@@ -795,7 +795,9 @@ In this step, we'll update the customer list to become a navigation list that wi
 * Open `src/ducks/workspaceReducer.js`.
   * Create a `GET_CUSTOMER` action type.
   * Create a `getCustomer` action creator.
-    * This action creator should have a `promise` parameter.
+    * This action creator should have an `id` parameter.
+    * This action creator should create a variable called `promise` that creates a promise using `axios.get` and the `apiURL`.
+      * This promise should capture the response and return the data of the response.
     * This action creator should return an object with a type equal to `GET_CUSTOMER` and a payload equal to `promise`.
   * Create a `GET_CUSTOMER + _'PENDING'` case:
     * This case should return a new object with the following state:
@@ -807,13 +809,6 @@ In this step, we'll update the customer list to become a navigation list that wi
     * This case should return a new object with all the previous values from state.
     * The new object should set `loading` to `false`.
     * The new object should set `customer` to `action.payload`.
-* Open `src/services/workspaceService.js`.
-  * Import `getCustomer` from `src/ducks/workspaceReducer.js`.
-  * Export a function called `dispatchGetCustomer`:
-    * This function should have an `id` parameter.
-    * This function should create a promise using `axios.get`.
-    * The axios URL should be `apiURL` + the value of `id`.
-    * The axios callback should return the `data` property of the response.
 * Open `src/components/List/Customer/Customer.js`.
   * Import `dispatchGetCustomer` from `src/services/workspaceService.js`.
   * Add an `onClick` prop to the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.

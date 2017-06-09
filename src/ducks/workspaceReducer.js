@@ -67,7 +67,8 @@ export function createCustomer( obj ) {
   }
 }
 
-export function getCustomer( promise ) {
+export function getCustomer( id ) {
+  const promise = axios.get( apiURL + id ).then( response => response.data );
   return {
     type: GET_CUSTOMER,
     payload: promise
