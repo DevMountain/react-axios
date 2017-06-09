@@ -26,33 +26,6 @@
       "status": "New Customer",
       "log": "test\ntest\nest",
       "id": 3
-    },
-    {
-      "first": "t",
-      "last": "t",
-      "email": "t",
-      "phone": "t",
-      "status": "New Customer",
-      "log": "",
-      "id": 4
-    },
-    {
-      "first": "t",
-      "last": "t",
-      "email": "t",
-      "phone": "t",
-      "status": "New Customer",
-      "log": "",
-      "id": 5
-    },
-    {
-      "first": "g",
-      "last": "g",
-      "email": "g",
-      "phone": "g",
-      "status": "New Customer",
-      "log": "",
-      "id": 6
     }
   ]
 }

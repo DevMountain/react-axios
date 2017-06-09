@@ -672,58 +672,7 @@ export function createCustomer( obj ) {
 
 </details>
 
-## Step 7 
-
-### Summary
-
-In this step, we'll update the workspace service file to handle showing the `CreateCustomer` component and handle creating a customer.
-
-### Instructions
-
-* Open `src/services/workspaceService.js`.
-* Import `axios` from `axios`.
-* Import `store` from `src/store.js`.
-* Import `apiURL` from `src/api.js`.
-* Import `showCreateCustomer` and `createCustomer` from `src/ducks/workspaceReducer.js`.
-* Import `dispatchGetList` from `src/services/listService.js`.
-* Export a function called `dispatchShowCreateCustomer`:
-  * This function should dispatch `showCreateCustomer` invoked.
-* Export a function called `dispatchCreateCustomer` that takes an object as a parameter: 
-  * This function should create a promise using `axios.post`.
-  * The axios URL should be `apiURL`.
-  * The axios request body should equal the object passed in as an argument.
-  * The axios callback should invoke `dispatchGetList`.
-
-
-### Solution
-
-<details>
-
-<summary> <code> src/services/workspaceService.js </code> </summary>
-
-```js
-import axios from 'axios';
-import store from '../store';
-import apiURL from '../api';
-
-import { showCreateCustomer, createCustomer } from '../ducks/workspaceReducer';
-
-export function dispatchShowCreateCustomer() {
-  store.dispatch( showCreateCustomer() );
-}
-
-export function dispatchCreateCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => {
-    dispatchGetList();
-  });
-
-  store.dispatch( createCustomer(promise) );
-}
-```
-
-</details>
-
-## Step 8
+## Step 6
 
 ### Summary
 
@@ -732,11 +681,15 @@ In this step, we'll configure our `List` component to show the form to create a 
 ### Instructions
 
 * Open `src/components/List/CreateCustomer/CreateCustomer.js`.
-  * Import `dispatchShowCreateCustomer` from `src/services/workspaceService.js`.
-  * Add an `onClick` prop on the `button` element that calls `dispatchShowCreateCustomer`.
+  * Import `connect` from `"react-redux"`.
+  * Import `showCreateCustomer` from `src/ducks/workspaceReducer.js`.
+  * Modify the `CreateCustomer` component to use `connect` and be sure to pass in `showCreateCustomer` so that it will be available as a `prop`.
+  * Add an `onClick` prop on the `button` element that calls `showCreateCustomer` from `props`.
 * Open `src/components/Workspace/CreateCustomer/CreateCustomer.js`.
-  * Import `dispatchCreateCustomer` from `src/services/workspaceService.js`.
-  * In the `create` method invoke `dispatchCreateCustomer` with `customer` as the first parameter.
+  * Import `connect` from `"react-redux"`.
+  * Import `createCustomer` from `src/ducks/workspaceReducer.js`.
+  * Modify the `CreateCustomer` component to use `connect` and be sure to pass in `createCustomer` so that it will be available as a `prop`.
+  * In the `create` method invoke `createCustomer` with `customer` as the first parameter.
 
 ### Solution
 
