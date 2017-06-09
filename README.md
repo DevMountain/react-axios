@@ -821,12 +821,13 @@ In this step, we'll update the customer list to become a navigation list that wi
 
 <br />
 
-Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER`. We will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has a `promise` parameter. This funciton should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
+Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER`. We will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has an `id` parameter. This function should create a variable called `promise` the creates a promise using `axios.get` with the `apiURL` and the `id` added on to the end of the url. The promise should capture the response and return the data of the response. This funciton should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
 
 ```js
 const GET_CUSTOMER = "GET_CUSTOMER";
 
-export function getCustomer( promise ) {
+export function getCustomer( id ) {
+  const promise = axios.get( apiURL + id ).then( response => response.data );
   return {
     type: GET_CUSTOMER,
     payload: promise
@@ -871,47 +872,32 @@ export default function workspaceReducer( state = initialState, action ) {
     default: return state;
   }
 }
-
-export function getCustomer( promise ) {
-  return {
-    type: GET_CUSTOMER,
-    payload: promise
-  }
-}
 ```
 
-Now that our reducer is setup to handle getting a customer, let's open `src/services/workspaceService.js` and import our new action creator.
+Now that our reducer is setup to handle getting a customer, we can edit the component to call our function in our service. Let's open `src/components/List/Customer/Customer.js` and import `connect` from `"react-redux"` and `getCustomer` from `src/ducks/workspaceReducer.js`. We'll then want to modify the component to use connect and pass in `getCustomer` so we can use it as a `prop` in the component. 
 
-```js
-import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
-```
-
-Now let's create a function that we'll use in our component. Let's call it `dispatchGetCustomer`. This function should have an `id` parameter. This function should create a promise by using `axios.get`. Since we want to get a specific customer we'll also want to add the `id` in the api URL. We can do this with string concatenation. We'll want the callback of the axios call to return the `data` property of the response. We'll also want to dispatch `getCustomer` and pass in our `promise` as a parameter.
-
-```js
-import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
-
-export function dispatchGetCustomer( id ) {
-  const promise = axios.get( apiURL + id ).then( response => response.data );
-  store.dispatch( getCustomer(promise) );
-}
-```
-
-Now that our reducer and service file are ready to go, we can edit the component to call our function in our service. Let's open `src/components/List/Customer/Customer.js` and import `dispatchGetCustomer` from `src/services/workspaceService.js`. Then add an `onClick` prop on the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.
-
-```js
+```jsx
 import React from 'react';
 import './Customer.css';
 
-import { dispatchGetCustomer } from '../../../services/workspaceService';
+import { connect } from "react-redux";
+import { getCustomer } from '../../../ducks/workspaceReducer';
 
-export default function Customer( { id, first, last } ) {
+function Customer( { id, first, last, getCustomer } ) {
   return (
     <div className="Customer__listName">
-      <span onClick={ () => dispatchGetCustomer( id ) }>{ first } { last }</span>
+      <span>{ first } { last }</span>
     </div>
   )
 }
+
+export default connect( state => state, { getCustomer } )( Customer );
+```
+
+We can then add an `onClick` prop on the `span` element that calls `getCustomer` and passes in `id` as an argument.
+
+```js
+<span onClick={ () => getCustomer( id ) }>{ first } { last }</span>
 ```
 
 We should now be able to click on a customer in the list and see the editor appear on the right.
