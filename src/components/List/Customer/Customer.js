@@ -1,12 +1,15 @@
 import React from 'react';
 import './Customer.css';
 
-import { dispatchGetCustomer } from '../../../services/workspaceService';
+import { connect } from "react-redux";
+import { getCustomer } from '../../../ducks/workspaceReducer';
 
-export default function Customer( { id, first, last } ) {
+function Customer( { id, first, last, getCustomer } ) {
   return (
     <div className="Customer__listName">
-      <span onClick={ () => dispatchGetCustomer( id ) }>{ first } { last }</span>
+      <span onClick={ () => getCustomer( id ) }>{ first } { last }</span>
     </div>
   )
 }
+
+export default connect( state => state, { getCustomer } )( Customer );

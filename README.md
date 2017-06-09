@@ -810,8 +810,10 @@ In this step, we'll update the customer list to become a navigation list that wi
     * The new object should set `loading` to `false`.
     * The new object should set `customer` to `action.payload`.
 * Open `src/components/List/Customer/Customer.js`.
-  * Import `dispatchGetCustomer` from `src/services/workspaceService.js`.
-  * Add an `onClick` prop to the `span` element that calls `dispatchGetCustomer` and passes in `id` as an argument.
+  * Import `connect` from `"react-redux"`.
+  * Import `getCustomer` from `src/ducks/workspaceReducer.js`.
+  * Modify the `Customer` component to use `connect` and be sure to pass in `getCustomer` so that it will be available as a `prop`.
+  * Add an `onClick` prop to the `span` element that calls `getCustomer` and passes in `id` as an argument.
 
 <details>
 
@@ -923,6 +925,9 @@ We should now be able to click on a customer in the list and see the editor appe
 <summary> <code> src/ducks/workspaceReducer.js </code> </summary>
 
 ```js
+import apiURL from '../api';
+import axios from 'axios';
+
 const initialState = {
   loading: false,
   customer: {},
@@ -932,7 +937,7 @@ const initialState = {
 
 // Action Types
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 const GET_CUSTOMER = "GET_CUSTOMER";
 
 // Reducer
@@ -976,50 +981,20 @@ export function showCreateCustomer() {
   }
 }
 
-export function createCustomer( promise ) {
+export function createCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => response.data );
   return {
     type: CREATE_CUSTOMER,
     payload: promise
   }
 }
 
-export function getCustomer( promise ) {
+export function getCustomer( id ) {
+  const promise = axios.get( apiURL + id ).then( response => response.data );
   return {
     type: GET_CUSTOMER,
     payload: promise
   }
-}
-```
-
-</details>
-
-<details>
-
-<summary> <code> src/services/workspaceService.js </code> </summary>
-
-```js
-import axios from 'axios';
-import store from '../store';
-import apiURL from '../api';
-
-import { showCreateCustomer, createCustomer, getCustomer } from '../ducks/workspaceReducer';
-import { dispatchGetList } from '../services/listService';
-
-export function dispatchShowCreateCustomer() {
-  store.dispatch( showCreateCustomer() );
-}
-
-export function dispatchCreateCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => {
-    dispatchGetList();
-  });
-
-  store.dispatch( createCustomer(promise) );
-}
-
-export function dispatchGetCustomer( id ) {
-  const promise = axios.get( apiURL + id ).then( response => response.data );
-  store.dispatch( getCustomer(promise) );
 }
 ```
 
@@ -1033,15 +1008,18 @@ export function dispatchGetCustomer( id ) {
 import React from 'react';
 import './Customer.css';
 
-import { dispatchGetCustomer } from '../../../services/workspaceService';
+import { connect } from "react-redux";
+import { getCustomer } from '../../../ducks/workspaceReducer';
 
-export default function Customer( { id, first, last } ) {
+function Customer( { id, first, last, getCustomer } ) {
   return (
     <div className="Customer__listName">
-      <span onClick={ () => dispatchGetCustomer( id ) }>{ first } { last }</span>
+      <span onClick={ () => getCustomer( id ) }>{ first } { last }</span>
     </div>
   )
 }
+
+export default connect( state => state, { getCustomer } )( Customer );
 ```
 
 </details>
