@@ -821,7 +821,7 @@ In this step, we'll update the customer list to become a navigation list that wi
 
 <br />
 
-Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER`. We will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has an `id` parameter. This function should create a variable called `promise` the creates a promise using `axios.get` with the `apiURL` and the `id` added on to the end of the url. The promise should capture the response and return the data of the response. This funciton should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
+Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER`. We will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has an `id` parameter. This function should create a variable called `promise` the creates a promise using `axios.get` with the `apiURL` and the `id` added on to the end of the url. The promise should capture the response and return the data of the response. This function should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
 
 ```js
 const GET_CUSTOMER = "GET_CUSTOMER";
