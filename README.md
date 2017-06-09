@@ -184,7 +184,7 @@ registerServiceWorker();
 
 Now that our App can compile correctly, let's focus on getting data from the API. We'll begin with the `List` component. This component is responsible for retrieving the list of customers and also acting as a navigation component to update the `Workspace` component on the right with the selected customer's information.
 
-Before we actually dive into the code for the component, we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file. We'll also need to setup a service file, which we'll do in the next step.
+Before we actually dive into the code for the component, we'll need to create our actions, action creators, and cases in our reducer in our `src/ducks/listReducer.js` file.
 
 ### Instructions
 
@@ -192,7 +192,7 @@ Before we actually dive into the code for the component, we'll need to create ou
 * Get familiar with the current structure of the reducer.
 * Create an action type called `GET_LIST` that equals `"GET_LIST"`.
 * Create an action creator called `getList` that equals a function:
-  * This function have one parameter called `promise`.
+  * This function should create a promise using `axios.get`.
   * This function should return an object:
     * This object should have a key called `type` that equals `GET_LIST`.
     * This object should have a key called `payload` that equals `promise`.

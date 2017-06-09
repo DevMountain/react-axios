@@ -3,7 +3,7 @@ import store from '../store';
 import apiURL from '../api';
 
 import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
-import { dispatchGetList } from './listService';
+import { getList } from '../ducks/listReducer';
 
 export function dispatchShowCreateCustomer() {
   store.dispatch( showCreateCustomer() );
@@ -11,7 +11,7 @@ export function dispatchShowCreateCustomer() {
 
 export function dispatchCreateCustomer( obj ) {
   const promise = axios.post( apiURL, obj ).then( response => {
-    dispatchGetList();
+    getList();
   });
 
   store.dispatch( createCustomer(promise) );
@@ -24,7 +24,7 @@ export function dispatchGetCustomer( id ) {
 
 export function dispatchUpdateCustomer( id, obj ) {
   const promise = axios.patch( apiURL + id, obj ).then( response => {
-    dispatchGetList();
+    getList();
     return response.data;
   });
   store.dispatch( updateCustomer(promise) );
@@ -32,7 +32,7 @@ export function dispatchUpdateCustomer( id, obj ) {
 
 export function dispatchDeleteCustomer( id ) {
   const promise = axios.delete( apiURL + id ).then( response => {
-    dispatchGetList();
+    getList();
   });
 
   store.dispatch( deleteCustomer( promise ) );

@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './List.css';
 
-import { dispatchGetList } from '../../services/listService';
+import { getList } from '../../ducks/listReducer';
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
 class List extends Component {
   componentDidMount() {
-    dispatchGetList();
+    this.props.getList();
   }
 
   render() {
@@ -50,4 +50,4 @@ function mapStateToProps( state ) {
   return state;
 }
 
-export default connect( mapStateToProps )( List );
+export default connect( mapStateToProps, { getList } )( List );

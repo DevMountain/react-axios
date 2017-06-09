@@ -1,3 +1,6 @@
+import axios from "axios";
+import apiURL from "../api";
+
 const initialState = {
   loading: false,
   customerList: []
@@ -28,7 +31,8 @@ export default function listReducer( state = initialState, action ) {
 }
 
 // Action Creators
-export function getList( promise ) {
+export function getList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
   return {
     type: GET_LIST,
     payload: promise
