@@ -1,4 +1,5 @@
 import apiURL from '../api';
+import axios from 'axios';
 
 const initialState = {
   loading: false,
@@ -9,7 +10,7 @@ const initialState = {
 
 // Action Types
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 const GET_CUSTOMER = "GET_CUSTOMER";
 const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 const DELETE_CUSTOMER = "DELETE_CUSTOMER";
@@ -58,7 +59,8 @@ export function showCreateCustomer() {
   }
 }
 
-export function createCustomer( promise ) {
+export function createCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => response.data );
   return {
     type: CREATE_CUSTOMER,
     payload: promise

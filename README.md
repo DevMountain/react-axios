@@ -399,7 +399,7 @@ export default connect( mapStateToProps, { getList } )( List );
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3.png" />
 
-## Step 6 
+## Step 5 
 
 ### Summary
 

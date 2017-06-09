@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { dispatchCreateCustomer } from '../../../services/workspaceService';
+import { connect } from "react-redux";
+import { createCustomer } from '../../../ducks/workspaceReducer';
 
 import './CreateCustomer.css';
 
-export default class CreateCustomer extends Component {
+class CreateCustomer extends Component {
   constructor() {
     super();
     this.state = {
@@ -32,7 +33,7 @@ export default class CreateCustomer extends Component {
       log: ''
     }
 
-    dispatchCreateCustomer( customer );
+    this.props.createCustomer( customer );
   }
   
   render() {
@@ -49,3 +50,5 @@ export default class CreateCustomer extends Component {
     )
   }
 }
+
+export default connect( state => state, { createCustomer } )( CreateCustomer );

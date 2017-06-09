@@ -1,5 +1,6 @@
 import apiURL from "../api";
 import axios from "axios";
+import { CREATE_CUSTOMER } from './workspaceReducer';
 
 const initialState = {
   loading: false,
@@ -24,6 +25,12 @@ export default function listReducer( state = initialState, action ) {
       return {
         loading: false,
         customerList: action.payload
+      }
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: [ ...state.customerList, action.payload ]
       }
 
     default: return state;
