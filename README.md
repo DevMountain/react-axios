@@ -413,14 +413,15 @@ In this step, we'll update the workspace reducer to handle showing the `CreateCu
     * This action will update the `Workspace` component to display the `CreateCustomer` component.
   * `CREATE_CUSTOMER` that equals `"CREATE_CUSTOMER"`.
     * This action will add a customer to our database in our API.
+    * This action needs to be exported so our list reducer can have access to it.
 * Create two action creators:
   * `showCreateCustomer` - This should return an object:
     * This object should have a type property that equals `SHOW_CREATE_CUSTOMER`.
     * This object should have a payload property that equals `null`.
-  * `createCustomer` - This should have a `obj` parameter, create a promise, and return an object:
-    * This function should create a variable called promise that creates a promise using `axios.post` and the `apiURL`:
+  * `createCustomer` - This should have an `obj` parameter, create a promise, and return an object:
+    * This function should create a variable called `promise` that creates a promise using `axios.post` and the `apiURL`:
       * The promise should capture the response and return the data of the response.
-    * The returned object should have a type property tha equals `CREATE_CUSTOMER`.
+    * The returned object should have a type property that equals `CREATE_CUSTOMER`.
     * The returned object should have a payload property that equals `promise`.
 * Create two cases in the reducer:
   * `SHOW_CREATE_CUSTOMER`:
@@ -432,7 +433,12 @@ In this step, we'll update the workspace reducer to handle showing the `CreateCu
       * `initialLoad` should equal `true`.
       * `customer` should equal `{}`.
       * `creating` should equal `false`.
-
+* Open `src/ducks/listReducer.js`.
+* Import the `CREATE_CUSTOMER` action type from `src/ducks/workspaceReducer.js`.
+* Create a case for `CREATE_CUSTOMER + '_FULFILLED'`:
+  * This case should return a new object with the following properties:
+    * `loading` should equal false.
+    * `customerList` should be a new array that equals all the previous customers from `customerList` and have the `action.payload` added as the last element of the array.
 <details>
 
 <summary> Detailed Instructions </summary>
