@@ -189,7 +189,8 @@ Before we actually dive into the code for the component, we'll need to create ou
 ### Instructions
 
 * Open `src/ducks/listReducer.js`.
-* Import `axios` from `axios`.
+* Run `npm install --save axios`.
+* Import `axios` from `axios` at the top of the file.
 * Get familiar with the current structure of the reducer.
 * Create an action type called `GET_LIST` that equals `"GET_LIST"`.
 * Create an action creator called `getList` that equals a function:
@@ -214,7 +215,7 @@ Before we actually dive into the code for the component, we'll need to create ou
 
 <br />
 
-Before we can update the `List` component to fetch data from the API, we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js` and import `axios` at the top. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail, we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
+Before we can update the `List` component to fetch data from the API, we'll need to setup our list reducer. Let's begin by installing `axios` with npm. Then let's open `src/ducks/listReducer.js` and import `axios` at the top. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail, we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
 
 This reducer will be responsible for fetching customer information and updating the list of customers. Let's create an action type called `GET_LIST` that equals `"GET_LIST"`.
 
@@ -222,7 +223,7 @@ This reducer will be responsible for fetching customer information and updating 
 const GET_LIST = "GET_LIST";
 ```
 
-Then we can create an action creator that uses `GET_LIST` as its type. This action creator create a promise using `axios`. Since we want to `get` the customers we'll use `axios.get` in combination with the `apiURL` that is being imported at the top. We'll want to capture the response of this promise and return its data.
+Then we can create an action creator that uses `GET_LIST` as its type. This action creator will create a promise using `axios`. Since we want to `get` the customers we'll use `axios.get` in combination with the `apiURL` that is being imported at the top. We'll want to capture the response of this promise and return its data.
 
 ```js
 export function getList() {
