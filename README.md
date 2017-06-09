@@ -499,7 +499,7 @@ Now that our list reducer is setup, let's go back to our workspace reducer and a
 ```js
 // Action Types
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
@@ -537,7 +537,8 @@ export function showCreateCustomer() {
   }
 }
 
-export function createCustomer( promise ) {
+export function createCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => response.data );
   return {
     type: CREATE_CUSTOMER,
     payload: promise
@@ -551,9 +552,68 @@ export function createCustomer( promise ) {
 
 <details>
 
+<summary> <code> src/ducks/listReducer.js </code> </summary>
+
+```js
+import apiURL from "../api";
+import axios from "axios";
+import { CREATE_CUSTOMER } from './workspaceReducer';
+
+const initialState = {
+  loading: false,
+  customerList: []
+}
+
+// Action Types
+const GET_LIST = "GET_LIST";
+
+// Reducer
+export default function listReducer( state = initialState, action ) {
+  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
+
+  switch( action.type ) {
+    case GET_LIST + "_PENDING": 
+      return {
+        loading: true,
+        customerList: []
+      }
+
+    case GET_LIST + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: action.payload
+      }
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: [ ...state.customerList, action.payload ]
+      }
+
+    default: return state;
+  }
+}
+
+// Action Creators
+export function getList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
+  return {
+    type: GET_LIST,
+    payload: promise
+  }
+}
+```
+
+</details>
+
+<details>
+
 <summary> <code> src/ducks/workspaceReducer.js </code> </summary>
 
 ```js
+import apiURL from '../api';
+import axios from 'axios';
+
 const initialState = {
   loading: false,
   customer: {},
@@ -563,7 +623,7 @@ const initialState = {
 
 // Action Types
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
@@ -601,7 +661,8 @@ export function showCreateCustomer() {
   }
 }
 
-export function createCustomer( promise ) {
+export function createCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => response.data );
   return {
     type: CREATE_CUSTOMER,
     payload: promise
