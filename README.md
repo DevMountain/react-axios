@@ -835,7 +835,7 @@ export function getCustomer( id ) {
 }
 ```
 
-Now let's update our reducer to handle the action of `GET_CUSTOMER`. We'll need a case for `GET_CUSTOMER + '_PENDING'` and `GET_CUSTOMER + '_FULFILLED'`. When a customer is pending we'll update the Workspace component to display that to the user. When a customer is fulfilled we'll update the Workspace component to show the editor for a customer. 
+Now let's update our reducer to handle the action of `GET_CUSTOMER`. We'll need a case for `GET_CUSTOMER + '_PENDING'` and `GET_CUSTOMER + '_FULFILLED'`. When a customer is pending we'll update the `Workspace` component to display that to the user. When a customer is fulfilled we'll update the `Workspace` component to show the editor for a customer. 
 
 ```js
 const GET_CUSTOMER = "GET_CUSTOMER";
@@ -874,7 +874,7 @@ export default function workspaceReducer( state = initialState, action ) {
 }
 ```
 
-Now that our reducer is setup to handle getting a customer, we can edit the component to call our function in our service. Let's open `src/components/List/Customer/Customer.js` and import `connect` from `"react-redux"` and `getCustomer` from `src/ducks/workspaceReducer.js`. We'll then want to modify the component to use connect and pass in `getCustomer` so we can use it as a `prop` in the component. 
+Now that our reducer is setup to handle getting a customer, we can edit the component to call our action creator. Let's open `src/components/List/Customer/Customer.js` and import `connect` from `"react-redux"` and `getCustomer` from `src/ducks/workspaceReducer.js`. We'll then want to modify the component to use `connect` and pass in `getCustomer` so we can use it as a `prop` in the component. 
 
 ```jsx
 import React from 'react';
