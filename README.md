@@ -403,7 +403,7 @@ export default connect( mapStateToProps, { getList } )( List );
 
 ### Summary
 
-In this step, we'll update the workspace reducer to handle showing the `CreateCustomer` component and handle creating a customer.
+In this step, we'll update the workspace reducer to handle showing the `CreateCustomer` component and handle creating a customer. We'll also need to update the `listReducer` to handle refreshing the list of customers.
 
 ### Instructions
 
@@ -417,9 +417,11 @@ In this step, we'll update the workspace reducer to handle showing the `CreateCu
   * `showCreateCustomer` - This should return an object:
     * This object should have a type property that equals `SHOW_CREATE_CUSTOMER`.
     * This object should have a payload property that equals `null`.
-  * `createCustomer` - This should have a `promise` parameter and return an object:
-    * This object should have a type property tha equals `CREATE_CUSTOMER`.
-    * This object should have a payload property that equals `promise`.
+  * `createCustomer` - This should have a `obj` parameter, create a promise, and return an object:
+    * This function should create a variable called promise that creates a promise using `axios.post` and the `apiURL`:
+      * The promise should capture the response and return the data of the response.
+    * The returned object should have a type property tha equals `CREATE_CUSTOMER`.
+    * The returned object should have a payload property that equals `promise`.
 * Create two cases in the reducer:
   * `SHOW_CREATE_CUSTOMER`:
     * This case should return a new object with all the previous state values.
