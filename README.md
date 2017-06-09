@@ -189,10 +189,12 @@ Before we actually dive into the code for the component, we'll need to create ou
 ### Instructions
 
 * Open `src/ducks/listReducer.js`.
+* Import `axios` from `axios`.
 * Get familiar with the current structure of the reducer.
 * Create an action type called `GET_LIST` that equals `"GET_LIST"`.
 * Create an action creator called `getList` that equals a function:
-  * This function should create a promise using `axios.get`.
+  * This function should create a variable called promise that creates a promise using `axios.get` and the `apiURL`.
+    * The `promise` should capture the `response` and return the data from it.
   * This function should return an object:
     * This object should have a key called `type` that equals `GET_LIST`.
     * This object should have a key called `payload` that equals `promise`.
@@ -212,7 +214,7 @@ Before we actually dive into the code for the component, we'll need to create ou
 
 <br />
 
-Before we can update the `List` component to fetch data from the API, we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js`. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail, we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
+Before we can update the `List` component to fetch data from the API, we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js` and import `axios` at the top. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail, we'll just worry about creating cases for `_PENDING` and `_FULFILLED`. 
 
 This reducer will be responsible for fetching customer information and updating the list of customers. Let's create an action type called `GET_LIST` that equals `"GET_LIST"`.
 
@@ -220,12 +222,11 @@ This reducer will be responsible for fetching customer information and updating 
 const GET_LIST = "GET_LIST";
 ```
 
-Then we can create an action creator that uses `GET_LIST` as its type. This action creator will accept a promise. For now just create a parameter called `promise` and we'll create the promise in a later step.
+Then we can create an action creator that uses `GET_LIST` as its type. This action creator create a promise using `axios`. Since we want to `get` the customers we'll use `axios.get` in combination with the `apiURL` that is being imported at the top. We'll want to capture the response of this promise and return its data.
 
 ```js
-const GET_LIST = "GET_LIST";
-
-export function getList( promise ) {
+export function getList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
   return {
     type: GET_LIST,
     payload: promise
@@ -273,6 +274,9 @@ export function getList( promise ) {
 <summary> <code> src/ducks/listReducer.js </code> </summary>
 
 ```js
+import apiURL from "../api";
+import axios from "axios";
+
 const initialState = {
   loading: false,
   customerList: []
@@ -283,6 +287,8 @@ const GET_LIST = "GET_LIST";
 
 // Reducer
 export default function listReducer( state = initialState, action ) {
+  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
+
   switch( action.type ) {
     case GET_LIST + "_PENDING": 
       return {
@@ -301,7 +307,8 @@ export default function listReducer( state = initialState, action ) {
 }
 
 // Action Creators
-export function getList( promise ) {
+export function getList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
   return {
     type: GET_LIST,
     payload: promise

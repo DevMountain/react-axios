@@ -1,5 +1,5 @@
-import axios from "axios";
 import apiURL from "../api";
+import axios from "axios";
 
 const initialState = {
   loading: false,
