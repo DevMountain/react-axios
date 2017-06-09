@@ -323,129 +323,16 @@ export function getList() {
 
 ### Summary
 
-In this step, we will create a service file that will handle all the API calls for our `List` component. This service file will also dispatch actions to our store.
-
-We'll be using a package called `axios` to make API calls. 
-
-### Instructions
-
-* Open `src/services/listService.js`.
-* Run `npm install --save axios`.
-* Import `axios` from `axios`.
-* Import the `getList` action creator from `src/ducks/listReducer.js`.
-* Import the `store` from `src/store.js`.
-* Import `apiURL` from `src/api.js`.
-* Export a function called `dispatchGetList`:
-  * This function shouldn't use any parameters.
-  * This function should create a promise using `axios`: 
-    * The `axios` call should be a `GET`.
-    * The url should be `apiURL`.
-    * The callback should return the `data` property of the `response`.
-
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-
-Now that our reducer is setup, we will create a service file that will use its action creator and dispatch an event to the store. This service file will also create the promise that our action creator is looking for. Let's open `src/services/listService.js`. To create our promises we'll be using a package called `axios`. If you haven't already run `npm install --save axios`. We can then import it into our service file.
-
-```js
-import axios from 'axios';
-```
-
-We'll also need our action creator from our list reducer and our store.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-```
-
-The last import we'll need is the API url for our axios calls. I've created an `api.js` file in `src/`. This is a good method to follow as it allows you to fix the API url for the service files that use it. This beats having to update the URL one by one in each function in each service file.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
-```
-
-Now that we have all our imports, let's create a function that will dispatch our `getList` action creator to our store. Inside this function we'll use `axios` to create a promise. When using axios, you chain on a method of the API method you want. This can either be `GET`, `PUT`, `DELETE`, `POST`, `PATCH`, and a couple others. You then invoke this method and pass in the URL as the first parameter. The second parameter can be an object that will equal the request's body. Here are a couple examples:
-
-```js
-axios.get( 'http://localhost:3000/somePath' );
-axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } );
-```
-
-This will return a promise which you can then chain a `.then()` that accepts a callback function as the first parameter. The most common first parameter you'll see in the callback function is `response`. This is the response from the API. Here are some examples:
-
-```js
-axios.get( 'http://localhost:3000/somePath' ).then( response => response.data );
-axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } ).then( response => response.data );
-```
-
-We'll want to make an axios call that uses the `get` method. In the callback we'll want to return the `data` property from the response. Remember that axios returns a promise. Let's capture the promise in a variable called promise.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
-
-export function dispatchGetList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-}
-```
-
-Now that we have our promise we can dispatch our `getList` action creator with the promise as an argument. We can do this by using the `dispatch` method on `store`.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
-
-export function dispatchGetList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  store.dispatch( getList(promise) );
-}
-```
-
-</details>
-
-### Solution
-
-<details>
-
-<summary> <code> src/services/listService.js </code> </summary>
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
-
-export function dispatchGetList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  store.dispatch( getList(promise) );
-}
-```
-
-</details>
-
-## Step 5
-
-### Summary
-
 In this step, we'll go into our `List` component and have it fetch the customer list from the API.
 
 ### Instructions
 
 * Open `src/components/List/List.js`.
-* Import the `dispatchGetList` function from `src/services/listService.js`.
-* Create a `componentDidMount` life-cycle method:
-  * This method should call the `dispatchGetList` function.
+* Import the `getList` action creator from `src/ducks/listReducer.js`.
+* Add a second argument to the `connect` statement at the bottom:
+  * The second argument should equal an object with `getList` ( `{ getList }` ).
+* Create a `componentDidMount` life-cycle method above the `render` method:
+  * This method should call the `getList` function from `props`.
 
 ### Solution
 
@@ -458,14 +345,14 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './List.css';
 
-import { dispatchGetList } from '../../services/listService';
+import { getList } from '../../ducks/listReducer';
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
 class List extends Component {
   componentDidMount() {
-    dispatchGetList();
+    this.props.getList();
   }
 
   render() {
@@ -505,7 +392,7 @@ function mapStateToProps( state ) {
   return state;
 }
 
-export default connect( mapStateToProps )( List );
+export default connect( mapStateToProps, { getList } )( List );
 ```
 
 </details>

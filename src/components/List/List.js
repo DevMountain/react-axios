@@ -46,7 +46,6 @@ class List extends Component {
 
 function mapStateToProps( state ) {
   state = state.listReducer;
-  console.log( 'mapStateToProps in List.js:', state );
   return state;
 }
 
