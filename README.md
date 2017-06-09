@@ -701,39 +701,81 @@ In this step, we'll configure our `List` component to show the form to create a 
 import React from 'react';
 import './CreateCustomer.css';
 
-import { dispatchShowCreateCustomer } from '../../../services/workspaceService';
+import { connect } from "react-redux";
+import { showCreateCustomer } from '../../../ducks/workspaceReducer';
 
-export default function CreateCustomer() {
+function CreateCustomer({ showCreateCustomer }) {
   return (
     <div id="CreateCustomerBtn__container">
-      <button id="CreateCustomer__btn" onClick={ dispatchShowCreateCustomer }> New Customer </button>
+      <button id="CreateCustomer__btn" onClick={ showCreateCustomer }> New Customer </button>
     </div>
   )
 }
+
+export default connect( state => state, { showCreateCustomer } )( CreateCustomer );
 ```
 
 </details>
 
 <details>
 
-<summary> <code> src/components/Workspace/CreateCustomer/CreateCustomer.js ( not entire file ) </code> </summary>
+<summary> <code> src/components/Workspace/CreateCustomer/CreateCustomer.js </code> </summary>
 
 ```jsx
-import { dispatchCreateCustomer } from '../../../services/workspaceService';
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { createCustomer } from '../../../ducks/workspaceReducer';
 
-create() {
-  const { first, last, email, phone } = this.state;
-  var customer = {
-    first,
-    last,
-    email,
-    phone,
-    status: 'New Customer',
-    log: ''
+import './CreateCustomer.css';
+
+class CreateCustomer extends Component {
+  constructor() {
+    super();
+    this.state = {
+      first: '',
+      last: '',
+      email: '',
+      phone: ''
+    }
+
+    this.handleChange = this.handleChange.bind( this );
+    this.create = this.create.bind( this );
   }
 
-  dispatchCreateCustomer( customer );
+  handleChange( property, val ) {
+    this.setState({ [property]: val })
+  }
+
+  create() {
+    const { first, last, email, phone } = this.state;
+    var customer = {
+      first,
+      last,
+      email,
+      phone,
+      status: 'New Customer',
+      log: ''
+    }
+
+    this.props.createCustomer( customer );
+  }
+  
+  render() {
+    const { first, last, email, phone } = this.state;
+
+    return (
+      <div id="CreateCustomer__container">
+        <input className="CreateCustomer__input" placeholder="First Name" value={ first } onChange={ (e) => this.handleChange('first', e.target.value) } />
+        <input className="CreateCustomer__input" placeholder="Last Name" value={ last } onChange={ (e) => this.handleChange('last', e.target.value) } />
+        <input className="CreateCustomer__input" placeholder="Email" value={ email } onChange={ (e) => this.handleChange('email', e.target.value) } />
+        <input className="CreateCustomer__input" placeholder="Phone" value={ phone } onChange={ (e) => this.handleChange('phone', e.target.value) } />
+        <button id="CreateCustomer__saveBtn" onClick={ this.create }> Create </button>
+      </div>
+    )
+  }
 }
+
+export default connect( state => state, { createCustomer } )( CreateCustomer );
 ```
 
 </details>
