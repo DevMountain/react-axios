@@ -1014,7 +1014,7 @@ export default connect( state => state, { getCustomer } )( Customer );
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3g.gif" />
 
-## Step 10
+## Step 8 ( start here )
 
 ### Summary
 
@@ -1198,131 +1198,7 @@ export function deleteCustomer( promise ) {
 
 </details>
 
-## Step 11
-
-### Summary
-
-In this step, we'll complete the reset of the workspace service file to handle updating or removing a customer.
-
-### Instructions
-
-* Open `src/services/workspaceService.js`.
-* Import `updateCustomer` and `deleteCustomer` from `src/ducks/workspaceReducer.js`.
-* Create and export a function called `dispatchUpdateCustomer`:
-  * This function should have an `id` parameter to specify which customer to update in the api URL.
-  * This function should have an `obj` parameter to use as the object for the request body.
-  * This function should create a promise using `axios.patch`.
-  * The callback of the promise should invoke `dispatchGetList` and return the `data` property of the response.
-  * This function should use `store.dispatch` to dispatch the `updateCustomer` action creator.
-    * Remember this function needs a promise as its first parameter.
-* Create and export a function called `dispatchDeleteCustomer`:
-  * This function should have an `id` parameter to specify which customer to delete in the api URL.
-  * This function should create a promise using `axios.delete`.
-  * The callback of the promise should invoke `dispatchGetList`.
-  * This function should use `store.dispatch` to dispatch the `deleteCustomer` action creator.
-    * Remember this function needs a promise as its first parameter.
-
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-
-To complete our service file, we'll need to import our last two action creators from `src/ducks/workspaceReducer.js`. Let's open `src/services/workspaceService.js` and import them.
-
-```js
-import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
-```
-
-Now we'll need to create and export our dispatcher functions. Let's create a function called `dispatchUpdateCustomer`. This function should have a `id` and `obj` parameter. We'll need the `id` to specify which customer to `patch` in the api URL. And we'll need `obj` as the object to `patch` with. This function should create a promise by using `axios.patch` and use `obj` as the request body. In the callback of the axios call we'll want to invoke `dispatchGetList` to update our customer list and then also return the `data` property from the response to update the customer editor component. After the creation of the promise use `store.dispatch` and invoke `updateCustomer` and pass in `promise` as a parameter.
-
-```js
-import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
-
-export function dispatchUpdateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => {
-    dispatchGetList();
-    return response.data;
-  });
-  store.dispatch( updateCustomer(promise) );
-}
-```
-
-Now let's finish off our service file by creating a `dispatchDeleteCustomer` function. This function should only need an `id` parameter. We'll want to create a promise using `axios.delete`. The api url should equal `apiURL + id` and the callback of the promise should invoke `dispatchGetList` to update our list of customers after deleting one. After the creation of our promise we'll want to use `store.dispatch` and invoke `deleteCustomer` and pass in `promise` as a parameter.
-
-```js
-import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
-
-export function dispatchUpdateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => {
-    dispatchGetList();
-    return response.data;
-  });
-  store.dispatch( updateCustomer(promise) );
-}
-
-export function dispatchDeleteCustomer( id ) {
-  const promise = axios.delete( apiURL + id ).then( response => {
-    dispatchGetList();
-  });
-
-  store.dispatch( deleteCustomer( promise ) );
-}
-```
-
-</details>
-
-### Solution
-
-<details>
-
-<summary> <code> src/services/workspaceService.js </code> </summary>
-
-```js
-import axios from 'axios';
-import store from '../store';
-import apiURL from '../api';
-
-import { showCreateCustomer, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../ducks/workspaceReducer';
-import { dispatchGetList } from '../services/listService';
-
-export function dispatchShowCreateCustomer() {
-  store.dispatch( showCreateCustomer() );
-}
-
-export function dispatchCreateCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => {
-    dispatchGetList();
-  });
-
-  store.dispatch( createCustomer(promise) );
-}
-
-export function dispatchGetCustomer( id ) {
-  const promise = axios.get( apiURL + id ).then( response => response.data );
-  store.dispatch( getCustomer(promise) );
-}
-
-export function dispatchUpdateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => {
-    dispatchGetList();
-    return response.data;
-  });
-  store.dispatch( updateCustomer(promise) );
-}
-
-export function dispatchDeleteCustomer( id ) {
-  const promise = axios.delete( apiURL + id ).then( response => {
-    dispatchGetList();
-  });
-
-  store.dispatch( deleteCustomer( promise ) );
-}
-```
-
-</details>
-
-## Step 12
+## Step 9
 
 ### Summary
 
