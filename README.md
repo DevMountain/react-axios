@@ -439,6 +439,7 @@ In this step, we'll update the workspace reducer to handle showing the `CreateCu
   * This case should return a new object with the following properties:
     * `loading` should equal false.
     * `customerList` should be a new array that equals all the previous customers from `customerList` and have the `action.payload` added as the last element of the array.
+
 <details>
 
 <summary> Detailed Instructions </summary>
@@ -447,15 +448,15 @@ In this step, we'll update the workspace reducer to handle showing the `CreateCu
 
 Now that our customer list is populating correctly, let's get our `New Customer` button functional. Open `src/ducks/workspaceReducer.js`. This reducer keeps track of what component to display in the `Workspace` component. In order to show the `CreateCustomer` component, we'll have to set the `creating` property on state to true. We'll also update our reducer to handle creating a customer as well. When a customer is created we set `initialLoad` to `true` to display the initial workspace view.
 
-Let's begin by creating the action types. We'll need one called `SHOW_CREATE_CUSTOMER` and one called `CREATE_CUSTOMER`.
+Let's begin by creating the action types. We'll need one called `SHOW_CREATE_CUSTOMER` and one called `CREATE_CUSTOMER`. We'll also need to export `CREATE_CUSTOMER` so our `listReducer` can have access to it.
 
 ```js
 // Action Types
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 ```
 
-Now let's create an action creator for each type. The action creator should return an object with a type property and also a payload property. The type should equal the action type. The payload for `SHOW_CREATE_CUSTOMER` should be `null` and the payload for `CREATE_CUSTOMER` should be `promise`.
+Now let's create an action creator for each type. The action creator should return an object with a type property and also a payload property. The type should equal the action type. The payload for `SHOW_CREATE_CUSTOMER` should be `null` and the payload for `CREATE_CUSTOMER` should be a `promise`.
 
 ```js
 // Action Types
@@ -470,7 +471,8 @@ export function showCreateCustomer() {
   }
 }
 
-export function createCustomer( promise ) {
+export function createCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => response.data );
   return {
     type: CREATE_CUSTOMER,
     payload: promise
@@ -478,7 +480,21 @@ export function createCustomer( promise ) {
 }
 ```
 
-We'll then need to update our reducer to handle the cases for these actions. We'll make a case for `SHOW_CREATE_CUSTOMER` and a case for `CREATE_CUSTOMER + '_FULFILLED'`. `SHOW_CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `true`. This will effectively show the `CreateCustomer` component.  `CREATE_CUSTOMER` should return a new object where `loading` is `false`, `initialLoad` is `true`, `customer` is `{}`, and `creating` is `false`.
+The `promise` for `createCustomer` is created by using `axios.post` in combination with the `apiURL` and the passed in `obj`. We are then capturing the response from the API and return the data from that response. `json-server` will return the customer object as a response. We can then use this in the `listReducer` to update our list of customers.
+
+Let's open `src/ducks/listReducer.js` and import `CREATE_CUSTOMER` at the top of the file. Then in the reducer, create a case for `CREATE_CUSTOMER + '_FULFILLED'`. This case should return an object where `loading` is false and `customerList` is all the previous customer objects plus the new customer object in an array.
+
+```js
+case CREATE_CUSTOMER + "_FULFILLED":
+  return {
+    loading: false,
+    customerList: [ ...state.customerList, action.payload ]
+  }
+```
+
+How does that work?! We are dispatching an action to the workspace reducer but creating a case for the action in the list reducer? The reason this works is because all actions get sent to all reducers. This means that even if you do not have cases for actions in the workspace reducer, they are still going through the list reducer and vice versa. Pretty sweet huh?
+
+Now that our list reducer is setup, let's go back to our workspace reducer and add some cases to the reducer. We'll make a case for `SHOW_CREATE_CUSTOMER` and a case for `CREATE_CUSTOMER + '_FULFILLED'`. `SHOW_CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `true`. This will effectively show the `CreateCustomer` component.  `CREATE_CUSTOMER` should return a new object where `loading` is `false`, `initialLoad` is `true`, `customer` is `{}`, and `creating` is `false`.
 
 ```js
 // Action Types
