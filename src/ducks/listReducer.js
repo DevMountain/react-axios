@@ -1,3 +1,5 @@
+import apiURL from '../api';
+
 const initialState = {
   loading: false,
   customerList: []
