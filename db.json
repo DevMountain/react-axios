@@ -19,12 +19,12 @@
       "log": "This\nis\nanother\ntest\nlog"
     },
     {
-      "first": "test",
-      "last": "test",
-      "email": "test",
-      "phone": "test",
+      "first": "Bob",
+      "last": "Joe",
+      "email": "bobjoe@gmail.com",
+      "phone": "(981)-264-2552",
       "status": "New Customer",
-      "log": "test\ntest\nest",
+      "log": "",
       "id": 3
     }
   ]
