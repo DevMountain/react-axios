@@ -288,8 +288,6 @@ const GET_LIST = "GET_LIST";
 
 // Reducer
 export default function listReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-
   switch( action.type ) {
     case GET_LIST + "_PENDING": 
       return {
@@ -569,8 +567,6 @@ const GET_LIST = "GET_LIST";
 
 // Reducer
 export default function listReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-
   switch( action.type ) {
     case GET_LIST + "_PENDING": 
       return {
@@ -1194,7 +1190,6 @@ export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -1264,6 +1259,75 @@ export function deleteCustomer( id ) {
   const promise = axios.delete( apiURL + id ).then( () => id );
   return {
     type: DELETE_CUSTOMER,
+    payload: promise
+  }
+}
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/ducks/listReducer.js </code> </summary>
+
+```js
+import apiURL from "../api";
+import axios from "axios";
+import { CREATE_CUSTOMER, UPDATE_CUSTOMER, DELETE_CUSTOMER } from './workspaceReducer';
+
+const initialState = {
+  loading: false,
+  customerList: []
+}
+
+// Action Types
+const GET_LIST = "GET_LIST";
+
+// Reducer
+export default function listReducer( state = initialState, action ) {
+  switch( action.type ) {
+    case GET_LIST + "_PENDING": 
+      return {
+        loading: true,
+        customerList: []
+      }
+
+    case GET_LIST + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: action.payload
+      }
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: [ ...state.customerList, action.payload ]
+      }
+
+    case UPDATE_CUSTOMER + "_FULFILLED":
+      const { payload } = action;
+      const updateID = state.customerList.findIndex( customer => customer.id === action.payload.id );
+      return {
+        loading: false,
+        customerList: state.customerList.slice(0, updateID).concat( payload ).concat(state.customerList.slice(updateID + 1, state.customerList.length ))
+      }
+
+    case DELETE_CUSTOMER + "_FULFILLED":
+      const deleteID = action.payload;
+      return {
+        loading: false,
+        customerList: state.customerList.filter( customer => customer.id !== deleteID )
+      }
+
+    default: return state;
+  }
+}
+
+// Action Creators
+export function getList() {
+  const promise = axios.get( apiURL ).then( response => response.data );
+  return {
+    type: GET_LIST,
     payload: promise
   }
 }
