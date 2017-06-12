@@ -2,7 +2,7 @@
 
 # Project Summary
 
-In this project, we are going to create a customer management tool for a computer repair shop. We'll keep track of basic customer information, such as name/email/phone, current repair statuses, and also a log for notes. This tool will use `axios` to hit an API and will also use `redux-promise-middleware` to asynchronously handle data from the API. The majority of the project has been built out already for you. The parts we'll need to finish include: the store, two reducers, two service files, and hooking up the service files into the components that use them. 
+In this project, we are going to create a customer management tool for a computer repair shop. We'll keep track of basic customer information, such as name/email/phone, current repair statuses, and also a log for notes. This tool will use `axios` to hit an API and will also use `redux-promise-middleware` to asynchronously handle data from the API. The majority of the project has been built out already for you. The parts we'll need to finish include: the store, two reducers, and hooking up the action creators into the components that use them. 
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/1.png" />
 
@@ -1018,18 +1018,24 @@ export default connect( state => state, { getCustomer } )( Customer );
 
 ### Summary
 
-In this step, we'll complete the rest of the workspace reducer to handle updating or removing a customer.
+In this step, we'll complete the rest of the workspace reducer and list reducer to handle updating or removing a customer.
 
 ### Instructions
 
 * Open `src/ducks/workspaceReducer.js`.
-* Create an `UPDATE_CUSTOMER` action type that equals `"UPDATE_CUSTOMER"`.
-* Create a `DELETE_CUSTOMER` action type that equals `"DELETE_CUSTOMER"`.
-* Create an `updateCustomer` action creator that has a `promise` parameter:
+* Create and export an `UPDATE_CUSTOMER` action type that equals `"UPDATE_CUSTOMER"`.
+* Create and export a `DELETE_CUSTOMER` action type that equals `"DELETE_CUSTOMER"`.
+* Create an `updateCustomer` action creator that has an `id` and `obj` parameter:
+  * This function should create a variable called `promise` that creates a promise using `axios.patch`.
+    * The promise URL should equal the `apiURL` + the `id`.
+    * The promise should capture the response and return the data of the response.
   * This function return a new object.
   * The object should have a `type` property that equals `UPDATE_CUSTOMER`.
   * The object should have a `payload` property that equals `promise`.
-* Create an `deleteCustomer` action creator that has a `promise` parameter:
+* Create an `deleteCustomer` action creator that has a `id` parameter:
+  * This function should create a variable called `promise` that creates a promise using `axios.delete`.
+    * The promise URL should equal the `apiURL` + the `id`.
+    * The promise should use a function that returns the `id`.
   * This function return a new object.
   * The object should have a `type` property that equals `DELETE_CUSTOMER`.
   * The object should have a `payload` property that equals `promise`.
@@ -1038,7 +1044,17 @@ In this step, we'll complete the rest of the workspace reducer to handle updatin
   * The new object should update the `customer` property with a new object that equals `action.payload`.
 * Create a `DELETE_CUSTOMER + '_FULFILLED'` case in the reducer:
   * This case should return a new object will all of previous state's values.
-  * The new object should update `initialLoad` to `true` and `customer` to `{}`.ß
+  * The new object should update `initialLoad` to `true` and `customer` to `{}`.
+* Open `src/ducks/listReducer.js`
+* Import `UPDATE_CUSTOMER` and `DELETE_CUSTOMER` from `src/ducks/workspaceReducer.js`.
+* Create an `UPDATE_CUSTOMER + '_FULFILLED'` case in the reducer:
+  * This case should return a new object:
+    * `loading` should equal false.
+    * `customerList` should equal an array of all customers with the new customer replacing the old customer object.
+* Create a `DELETE_CUSTOMER + '_FULFILLED'` case in the reducer:
+  * This case should return a new object:
+    * `loading` should equal false.
+    * `customerList` should equal an array of all customers with the deleted customer filtered out.
 
 <details>
 

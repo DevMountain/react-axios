@@ -1,6 +1,6 @@
 import apiURL from "../api";
 import axios from "axios";
-import { CREATE_CUSTOMER } from './workspaceReducer';
+import { CREATE_CUSTOMER, UPDATE_CUSTOMER, DELETE_CUSTOMER } from './workspaceReducer';
 
 const initialState = {
   loading: false,
@@ -31,6 +31,21 @@ export default function listReducer( state = initialState, action ) {
       return {
         loading: false,
         customerList: [ ...state.customerList, action.payload ]
+      }
+
+    case UPDATE_CUSTOMER + "_FULFILLED":
+      const { payload } = action;
+      const updateID = state.customerList.findIndex( customer => customer.id === action.payload.id );
+      return {
+        loading: false,
+        customerList: state.customerList.slice(0, updateID).concat( payload ).concat(state.customerList.slice(updateID + 1, state.customerList.length ))
+      }
+
+    case DELETE_CUSTOMER + "_FULFILLED":
+      const deleteID = action.payload;
+      return {
+        loading: false,
+        customerList: state.customerList.filter( customer => customer.id !== deleteID )
       }
 
     default: return state;

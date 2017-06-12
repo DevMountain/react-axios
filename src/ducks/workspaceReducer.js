@@ -10,10 +10,10 @@ const initialState = {
 
 // Action Types
 const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 const GET_CUSTOMER = "GET_CUSTOMER";
-const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
@@ -45,6 +45,7 @@ export default function workspaceReducer( state = initialState, action ) {
       return Object.assign({}, state, { customer: Object.assign({}, action.payload) });
 
     case DELETE_CUSTOMER + "_FULFILLED":
+      console.log( action.payload );
       return Object.assign({}, state, { initialLoad: true, customer: {} });
 
     default: return state;
@@ -75,16 +76,19 @@ export function getCustomer( id ) {
   }
 }
 
-export function updateCustomer( promise ) {
+export function updateCustomer( id, obj ) {
+  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
   return {
     type: UPDATE_CUSTOMER,
     payload: promise
   }
 }
 
-export function deleteCustomer( promise ) {
+export function deleteCustomer( id ) {
+  const promise = axios.delete( apiURL + id ).then( () => id );
   return {
     type: DELETE_CUSTOMER,
-    payload: promise
+    payload: promise,
+    deleteID: id
   }
 }
