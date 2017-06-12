@@ -1157,13 +1157,26 @@ export function deleteCustomer( promise ) {
 <summary> <code> src/ducks/workspaceReducer.js </code> </summary>
 
 ```js
-const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+import apiURL from '../api';
+import axios from 'axios';
+
+const initialState = {
+  loading: false,
+  customer: {},
+  initialLoad: true,
+  creating: false
+};
+
+// Action Types
+const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
+const GET_CUSTOMER = "GET_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
+export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
   if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -1175,7 +1188,7 @@ export default function workspaceReducer( state = initialState, action ) {
         creating: false,
         customer: {}
       }
-
+      
     case GET_CUSTOMER + "_PENDING":
       return {
         loading: true,
@@ -1197,17 +1210,44 @@ export default function workspaceReducer( state = initialState, action ) {
   }
 }
 
-export function updateCustomer( promise ) {
+// Action Creators
+export function showCreateCustomer() {
+  return {
+    type: SHOW_CREATE_CUSTOMER,
+    payload: null
+  }
+}
+
+export function createCustomer( obj ) {
+  const promise = axios.post( apiURL, obj ).then( response => response.data );
+  return {
+    type: CREATE_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function getCustomer( id ) {
+  const promise = axios.get( apiURL + id ).then( response => response.data );
+  return {
+    type: GET_CUSTOMER,
+    payload: promise
+  }
+}
+
+export function updateCustomer( id, obj ) {
+  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
   return {
     type: UPDATE_CUSTOMER,
     payload: promise
   }
 }
 
-export function deleteCustomer( promise ) {
+export function deleteCustomer( id ) {
+  const promise = axios.delete( apiURL + id ).then( () => id );
   return {
     type: DELETE_CUSTOMER,
-    payload: promise
+    payload: promise,
+    deleteID: id
   }
 }
 ```
