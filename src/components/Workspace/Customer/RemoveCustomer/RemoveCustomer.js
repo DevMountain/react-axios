@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import './RemoveCustomer.css';
 
-import { dispatchDeleteCustomer } from '../../../../services/workspaceService';
+import { deleteCustomer } from '../../../../ducks/workspaceReducer';
+import { connect } from 'react-redux';
 
-export default class RemoveCustomer extends Component {
+class RemoveCustomer extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,7 +20,8 @@ export default class RemoveCustomer extends Component {
   }
 
   remove() {
-    dispatchDeleteCustomer( this.props.id );
+    const { deleteCustomer, id } = this.props;
+    deleteCustomer( id );
   }
 
   render() {
@@ -40,3 +42,5 @@ export default class RemoveCustomer extends Component {
     )
   }
 }
+
+export default connect( state => state, { deleteCustomer } )( RemoveCustomer );

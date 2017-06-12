@@ -1405,63 +1405,24 @@ export function getList() {
 
 ### Summary
 
-In this step, we'll hook up the Customer editor component to the workspace service file to dispatch actions to our store.
+In this step, we'll hook up the `ToggleEdit` component and `RemoveCustomer` component to the workspace reducer.
 
 ### Instructions
 
 * Open `src/components/Workspace/Customer/ToggleEdit/ToggleEdit.js`.
-  * Import `dispatchUpdateCustomer` from `src/services/workspaceService.js`.
-  * Locate the `save` method and call `dispatchUpdateCustomer` before `this.setState`.
+  * Import `updateCustomer` from `src/ducks/workspaceReducer.js`.
+  * Modify the component to use `connect` from `"react-redux"`.
+    * Make sure to include `updateCustomer` in the `connect` statement.
+  * Locate the `save` method and call `updateCustomer` before `this.setState`.
     * Remember this function needs an `id` argument and `object` argument.
+    * Remember this function exists on `props`.
 * Open `src/components/Workspace/Customer/RemoveCustomer/RemoveCustomer.js`.
-  * Import `dispatchDeleteCustomer` from `src/services/workspaceService.js`.
-  * Locate the `remove` method and call `dispatchDeleteCustomer`.
-    * Rememver this function needs an `id` argument.
-
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-
-Now for the fun part. Since we have our service and reducer files completed we can go into the remaining components and make our App functional. We'll need to edit two components. The `ToggleEdit` component and `RemoveCustomer` component. Let's begin by opening `src/components/Workspace/Customer/ToggleEdit/ToggleEdit.js`. This component is responsible for all the `Edit` buttons on the customer editor. We'll need to import our `dispatchUpdateCustomer` from `src/services/workspaceService.js`.
-
-```js
-import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
-```
-
-Then we'll need to udpate the `save` method to call the `dispatchUpdateCustomer`. Remember we need to pass in an `id` and an `object`. 
-
-```js
-save() {
-  dispatchUpdateCustomer( this.props.id, { [this.props.property]: this.state.val } );
-  this.setState({ editting: !this.state.editting });
-}
-```
-
-Using bracket notation, we can create the object all on one line. It's the same thing as doing:
-
-```js
-var obj = {};
-obj[ this.props.property ] = this.state.val;
-dispatchUpdateCustomer( this.props.id, obj );
-```
-
-The `property` prop is assigned when the component is loaded on the page. This way we can use one component that can dynamically update all properties of a customer! Freakin' sweet!
-
-Now all that's left is to remove a customer. Let's go into `src/components/Workspace/Customer/RemoveCustomer/RemoveCustomer.js`. We'll need to import the `dispatchDeleteCustomer` from `src/services/workspaceService.js`. And then update the `remove` method to call `dispatchDeleteCustomer` with the value of `id` on props as the first argument.
-
-```js
-import { dispatchDeleteCustomer } from '../../../../services/workspaceService';
-
-remove() {
-  dispatchDeleteCustomer( this.props.id );
-}
-```
-
-We can now update any property of a customer and delete a customer!
-
-</details>
+  * Import `deleteCustomer` from `src/ducks/workspaceReducer.js`.
+  * Modify the component to use `connect` from `"react-redux"`.
+    * Make sure to include `deleteCustomer` in the `connect` statement.
+  * Locate the `remove` method and call `deleteCustomer`.
+    * Remember this function needs an `id` argument.
+    * Remember this function exists on `props`.
 
 ### Solution
 
@@ -1471,10 +1432,11 @@ We can now update any property of a customer and delete a customer!
 
 ```jsx
 import React, { Component } from 'react';
-import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
+import { updateCustomer } from '../../../../ducks/workspaceReducer';
+import { connect } from "react-redux";
 import './ToggleEdit.css';
 
-export default class ToggleEdit extends Component {
+class ToggleEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -1496,7 +1458,7 @@ export default class ToggleEdit extends Component {
   }
 
   save() {
-    dispatchUpdateCustomer( this.props.id, { [this.props.property]: this.state.val } );
+    this.props.updateCustomer( this.props.id, { [this.props.property]: this.state.val } );
     this.setState({ editting: !this.state.editting });
   }
 
@@ -1543,6 +1505,8 @@ export default class ToggleEdit extends Component {
     )
   }
 }
+
+export default connect( state => state, { updateCustomer } )( ToggleEdit ); 
 ```
 
 </details>
@@ -1555,9 +1519,10 @@ export default class ToggleEdit extends Component {
 import React, { Component } from "react";
 import './RemoveCustomer.css';
 
-import { dispatchDeleteCustomer } from '../../../../services/workspaceService';
+import { deleteCustomer } from '../../../../ducks/workspaceReducer';
+import { connect } from 'react-redux';
 
-export default class RemoveCustomer extends Component {
+class RemoveCustomer extends Component {
   constructor() {
     super();
     this.state = {
@@ -1573,7 +1538,8 @@ export default class RemoveCustomer extends Component {
   }
 
   remove() {
-    dispatchDeleteCustomer( this.props.id );
+    const { deleteCustomer, id } = this.props;
+    deleteCustomer( id );
   }
 
   render() {
@@ -1594,6 +1560,8 @@ export default class RemoveCustomer extends Component {
     )
   }
 }
+
+export default connect( state => state, { deleteCustomer } )( RemoveCustomer );
 ```
 
 </details>

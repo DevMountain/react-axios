@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { dispatchUpdateCustomer } from '../../../../services/workspaceService';
+import { updateCustomer } from '../../../../ducks/workspaceReducer';
+import { connect } from "react-redux";
 import './ToggleEdit.css';
 
-export default class ToggleEdit extends Component {
+class ToggleEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +25,7 @@ export default class ToggleEdit extends Component {
   }
 
   save() {
-    dispatchUpdateCustomer( this.props.id, { [this.props.property]: this.state.val } );
+    this.props.updateCustomer( this.props.id, { [this.props.property]: this.state.val } );
     this.setState({ editting: !this.state.editting });
   }
 
@@ -71,3 +72,5 @@ export default class ToggleEdit extends Component {
     )
   }
 }
+
+export default connect( state => state, { updateCustomer } )( ToggleEdit ); 
