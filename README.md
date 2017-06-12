@@ -1010,7 +1010,7 @@ export default connect( state => state, { getCustomer } )( Customer );
 
 <img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3g.gif" />
 
-## Step 8 ( start here )
+## Step 8
 
 ### Summary
 
@@ -1197,7 +1197,7 @@ export default function listReducer( state = initialState, action ) {
 }
 ```
 
-Let's begin with `UPDATE_CUSTOMER`. When a customer gets update the API sends back the update object. Since we made our promise return the data of the response we will get that object. We can then use this object to completely replace the old customer object. In order to find out which object we need to update we can use `findIndex` to find the customer object that has the same `id` as the returned object.
+Let's begin with `UPDATE_CUSTOMER`. When a customer gets updated the API sends back the updated object. Since we made our promise return the data of the response we will get that object. We can then use this object to completely replace the old customer object. In order to find out which object we need to update we can use `.findIndex` to find the customer object that has the same `id` as the returned object.
 
 ```js
 case UPDATE_CUSTOMER + "_FULFILLED":
