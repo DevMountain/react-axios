@@ -1075,7 +1075,8 @@ We'll also need two action creators to go along with these actions types. Let's 
 export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
-export function updateCustomer( promise ) {
+export function updateCustomer( id, obj ) {
+  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
   return {
     type: UPDATE_CUSTOMER,
     payload: promise
@@ -1089,7 +1090,8 @@ We'll then want to add a `deleteCustomer` action creator. This function should h
 export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
-export function updateCustomer( promise ) {
+export function updateCustomer( id, obj ) {
+  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
   return {
     type: UPDATE_CUSTOMER,
     payload: promise
