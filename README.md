@@ -1028,6 +1028,7 @@ In this step, we'll complete the rest of the workspace reducer and list reducer 
 * Create an `updateCustomer` action creator that has an `id` and `obj` parameter:
   * This function should create a variable called `promise` that creates a promise using `axios.patch`.
     * The promise URL should equal the `apiURL` + the `id`.
+    * The promise should use `obj` as the request body.
     * The promise should capture the response and return the data of the response.
   * This function return a new object.
   * The object should have a `type` property that equals `UPDATE_CUSTOMER`.
@@ -1069,7 +1070,7 @@ export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 ```
 
-We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has an `id` and `obj` parameter. This functions should create a promise using `axios.patch`. The api URL should equal `apiURL` + `id`. The promise should capture the response and return the data of the response. This function should also return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`.
+We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has an `id` and `obj` parameter. This functions should create a promise using `axios.patch`. The api URL should equal `apiURL` + `id`. The promise should use `obj` as the request body. The request body is the second argument of `axios.patch`. The promise should also capture the response and return the data of the response. This function should also return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`.
 
 ```js
 export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
