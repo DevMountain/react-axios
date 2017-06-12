@@ -1568,7 +1568,7 @@ export default connect( state => state, { deleteCustomer } )( RemoveCustomer );
 
 <br />
 
-<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/4g.gif" />
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/4-1g.gif" />
 
 ## Contributions
 
