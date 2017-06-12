@@ -1062,18 +1062,32 @@ In this step, we'll complete the rest of the workspace reducer and list reducer 
 
 <br />
 
-Now all our reducer needs is a way to update a customer and a way to remove a customer. Let's begin by opening `src/ducks/workspaceReducer.js`. We'll need two action types. One called `UPDATE_CUSTOMER` and one called `DELETE_CUSTOMER`.
+Now all our reducer needs is a way to update a customer and a way to remove a customer. Let's begin by opening `src/ducks/workspaceReducer.js`. We'll need two action types. One called `UPDATE_CUSTOMER` and one called `DELETE_CUSTOMER`. We'll also want to `export` these action types so our list reducer can `import` them.
 
 ```js
-const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 ```
 
-We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has a `promise` parameter. This function should return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`. We'll also need to make an action creator called `deleteCustomer`. This action creator will be the same except the object it returns should have a `type` property that equals `DELETE_CUSTOMER`.
+We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has an `id` and `obj` parameter. This functions should create a promise using `axios.patch`. The api URL should equal `apiURL` + `id`. The promise should capture the response and return the data of the response. This function should also return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`.
 
 ```js
-const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+
+export function updateCustomer( promise ) {
+  return {
+    type: UPDATE_CUSTOMER,
+    payload: promise
+  }
+}
+```
+
+We'll then want to add a `deleteCustomer` action creator. This function should have an `id` parameter. We can then create a promise using `axios.delete`. The URL will equal `apiURL` + `id`. Since the `json-server` doesn't return any useful information on a `delete` call, we won't be capturing the response. Instead let's use an arrow function that returns the `id`. That way our list reducer can know which customer to remove from the customer list. This function should return an object with a `type` property that equals `DELETE_CUSTOMER` and a `payload` property that equals `promise`.
+
+```js
+export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 export function updateCustomer( promise ) {
   return {
@@ -1082,7 +1096,8 @@ export function updateCustomer( promise ) {
   }
 }
 
-export function deleteCustomer( promise ) {
+export function deleteCustomer( id ) {
+  const promise = axios.delete( apiURL + id ).then( () => id );
   return {
     type: DELETE_CUSTOMER,
     payload: promise
