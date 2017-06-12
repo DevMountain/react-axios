@@ -1070,7 +1070,7 @@ export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 ```
 
-We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has an `id` and `obj` parameter. This functions should create a promise using `axios.patch`. The api URL should equal `apiURL` + `id`. The promise should use `obj` as the request body. The request body is the second argument of `axios.patch`. The promise should also capture the response and return the data of the response. This function should also return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`.
+We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has an `id` and `obj` parameter. This function should create a promise using `axios.patch`. The api URL should equal `apiURL` + `id`. The promise should use `obj` as the request body. The request body is the second argument of `axios.patch`. The promise should also capture the response and return the data of the response. This function should also return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`.
 
 ```js
 export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
@@ -1111,13 +1111,11 @@ export function deleteCustomer( id ) {
 Now that we have our action types and creators, let's update our switch statement in our reducer to handle the `_FULFILLED` cases. Add a case called `UPDATE_CUSTOMER + '_FULFILLED'`. This case should return a new object that has all of previous state and sets customer to a new object that equals the `payload` property of `action`. We'll also want to add a case called `DELETE_CUSTOMER + '_FULFILLED'`. This case should return a new object that has all of previous state and sets `initialLoad` to `true` and `customer` to `{}`.
 
 ```js
-const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 // Reducer
 export default function workspaceReducer( state = initialState, action ) {
-  if ( action.type !== "@@redux/INIT" && !action.type.includes("@@redux/PROBE_UNKNOWN_ACTION") ) console.log('Action:', action);
-  let newState;
   switch( action.type ) {
     case SHOW_CREATE_CUSTOMER:
       return Object.assign({}, state, { creating: true });
@@ -1129,7 +1127,7 @@ export default function workspaceReducer( state = initialState, action ) {
         creating: false,
         customer: {}
       }
-
+      
     case GET_CUSTOMER + "_PENDING":
       return {
         loading: true,
@@ -1151,14 +1149,16 @@ export default function workspaceReducer( state = initialState, action ) {
   }
 }
 
-export function updateCustomer( promise ) {
+export function updateCustomer( id, obj ) {
+  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
   return {
     type: UPDATE_CUSTOMER,
     payload: promise
   }
 }
 
-export function deleteCustomer( promise ) {
+export function deleteCustomer( id ) {
+  const promise = axios.delete( apiURL + id ).then( () => id );
   return {
     type: DELETE_CUSTOMER,
     payload: promise
