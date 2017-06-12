@@ -1162,6 +1162,72 @@ export function deleteCustomer( id ) {
 }
 ```
 
+Our workspace reducer should now be working fine. However, the list is not updating after updating or removing a customer. Open `src/ducks/list.js` and import the `UPDATE_CUSTOMER` and `DELETE_CUSTOMER` action types and create `_FULFILLED` cases for them in the reducer.
+
+```js
+import { CREATE_CUSTOMER, UPDATE_CUSTOMER, DELETE_CUSTOMER } from './workspaceReducer';
+
+// Reducer
+export default function listReducer( state = initialState, action ) {
+  switch( action.type ) {
+    case GET_LIST + "_PENDING": 
+      return {
+        loading: true,
+        customerList: []
+      }
+
+    case GET_LIST + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: action.payload
+      }
+
+    case CREATE_CUSTOMER + "_FULFILLED":
+      return {
+        loading: false,
+        customerList: [ ...state.customerList, action.payload ]
+      }
+
+    case UPDATE_CUSTOMER + "_FULFILLED":
+
+    case DELETE_CUSTOMER + "_FULFILLED":
+
+    default: return state;
+  }
+}
+```
+
+Let's begin with `UPDATE_CUSTOMER`. When a customer gets update the API sends back the update object. Since we made our promise return the data of the response we will get that object. We can then use this object to completely replace the old customer object. In order to find out which object we need to update we can use `findIndex` to find the customer object that has the same `id` as the returned object.
+
+```js
+case UPDATE_CUSTOMER + "_FULFILLED":
+  const updateID = state.customerList.findIndex( customer => customer.id === action.payload.id );
+```
+
+Now that we know which customer we need to update, we can use `slice` to get all the customer objects before and after the one we want to update. Then all we have to do is put the new updated customer object in between them.
+
+```js
+case UPDATE_CUSTOMER + "_FULFILLED":
+  const updateID = state.customerList.findIndex( customer => customer.id === action.payload.id );
+  return {
+    loading: false,
+    customerList: state.customerList.slice(0, updateID).concat( action.payload ).concat(state.customerList.slice(updateID + 1, state.customerList.length ))
+  }
+```
+
+Our list will now successfully update as customers are updated. Let's move on to deleteing a customer. This one will be more straight forward. Since we configured the promise to return the ID of the deleted customer we can use `.filter` to filter out the customer with the same ID.
+
+```js
+case DELETE_CUSTOMER + "_FULFILLED":
+  const deleteID = action.payload;
+  return {
+    loading: false,
+    customerList: state.customerList.filter( customer => customer.id !== deleteID )
+  }
+```
+
+Our list will now successfully update as customers are deleted.
+
 </details>
 
 ### Solution

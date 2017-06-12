@@ -34,11 +34,10 @@ export default function listReducer( state = initialState, action ) {
       }
 
     case UPDATE_CUSTOMER + "_FULFILLED":
-      const { payload } = action;
       const updateID = state.customerList.findIndex( customer => customer.id === action.payload.id );
       return {
         loading: false,
-        customerList: state.customerList.slice(0, updateID).concat( payload ).concat(state.customerList.slice(updateID + 1, state.customerList.length ))
+        customerList: state.customerList.slice(0, updateID).concat( action.payload ).concat(state.customerList.slice(updateID + 1, state.customerList.length ))
       }
 
     case DELETE_CUSTOMER + "_FULFILLED":
