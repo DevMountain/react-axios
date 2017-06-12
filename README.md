@@ -1246,8 +1246,7 @@ export function deleteCustomer( id ) {
   const promise = axios.delete( apiURL + id ).then( () => id );
   return {
     type: DELETE_CUSTOMER,
-    payload: promise,
-    deleteID: id
+    payload: promise
   }
 }
 ```
