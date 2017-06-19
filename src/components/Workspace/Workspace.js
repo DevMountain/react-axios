@@ -1,6 +1,5 @@
 import React from "react";
 import './Workspace.css';
-import { connect } from "react-redux";
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
@@ -31,13 +30,4 @@ function Workspace( { loading, initialLoad, creating } ) {
   )
 }
 
-function mapStateToProps( state ) {
-  state = state.workspaceReducer;
-  return {
-    loading: state.loading,
-    initialLoad: state.initialLoad,
-    creating: state.creating
-  };
-}
-
-export default connect( mapStateToProps )( Workspace );
+export default Workspace;

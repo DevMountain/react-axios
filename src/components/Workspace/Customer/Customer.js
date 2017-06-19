@@ -1,6 +1,5 @@
 import React from "react";
 import './Customer.css';
-import { connect } from "react-redux";
 
 import Information from './Information/Information';
 import Status from './Status/Status';
@@ -18,9 +17,4 @@ function Customer( { id, first, last, email, phone, status, log } ) {
   )
 }
 
-function mapStateToProps( state ) {
-  state = state.workspaceReducer;
-  return state.customer;
-}
-
-export default connect( mapStateToProps )( Customer );
+export default Customer;
