@@ -75,10 +75,10 @@ class App extends Component {
 
   saveEdit(id, obj) {
     updateCustomer(id, obj).then(response=> {
-      getCustomerList().then(response=> {
+      getCustomerList().then(list=> {
         this.setState({
           customerList: response,
-          currentCustomer: response.find(el=> el.id === id)
+          currentCustomer: list.find(el=> el.id === id)
         })
       })
     })
