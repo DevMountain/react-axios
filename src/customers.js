@@ -21,7 +21,6 @@ export const createCustomer = function(customer) {
 
 export const updateCustomer = function(id, obj) {
   return axios.patch(apiURL + id, obj).then(response => {
-    console.log(response);
     return response.data;
   })
 }

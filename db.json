@@ -11,76 +11,12 @@
     },
     {
       "id": 2,
-      "first": "Lara",
+      "first": "Sarah",
       "last": "Croft",
-      "status": "No repairs in progress",
+      "status": "2015 macbook pro in for repair",
       "email": "sarahcroft@gmail.com",
-      "phone": "(325)-345-2352",
-      "log": "This\nis\nanother\ntest\nlog"
-    },
-    {
-      "First Name": "Mo",
-      "id": 3
-    },
-    {
-      "first": "Mo",
-      "last": "Bench",
-      "email": "benchin@gmail.com",
-      "phone": "8019606245",
-      "status": "New Customer",
-      "log": "",
-      "id": 4,
-      "Last Name": "Bento"
-    },
-    {
-      "First Name": "Mo",
-      "id": 5
-    },
-    {
-      "first": "Maria",
-      "last": "Bench",
-      "email": "benchin@gmail.com",
-      "phone": "8019606245",
-      "status": "New Customer",
-      "log": "",
-      "id": 6,
-      "First Name": "Mo"
-    },
-    {
-      "First Name": "Mo",
-      "id": 7
-    },
-    {
-      "first": "Okkkkky",
-      "last": "Bench",
-      "email": "benchin@gmail.com",
-      "phone": "8019606245",
-      "status": "New Customer",
-      "log": "",
-      "id": 8,
-      "First Name": "Mo"
-    },
-    {
-      "First Name": "Mo",
-      "id": 9
-    },
-    {
-      "first": "Maria",
-      "last": "Bench",
-      "email": "benchin@gmail.com",
-      "phone": "8019606245",
-      "status": "New Customer",
-      "log": "",
-      "id": 10
-    },
-    {
-      "first": "Me",
-      "last": "Too",
-      "email": "hey ",
-      "phone": "hey",
-      "status": "New Customer",
-      "log": "",
-      "id": 11
+      "phone": "(786)-524-4390",
+      "log": "This\nis\na\ntest\nlog"
     }
   ]
 }

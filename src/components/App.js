@@ -26,6 +26,7 @@ class App extends Component {
 
   componentDidMount() {
     getCustomerList().then(list => {
+      console.log(list);
       this.setState({customerList: list});
     })
   }
@@ -74,21 +75,21 @@ class App extends Component {
   }
 
   saveEdit(id, obj) {
-    updateCustomer(id, obj).then(response=> {
+    updateCustomer(id, obj).then(updatedCustomer => {
       getCustomerList().then(list=> {
         this.setState({
-          customerList: response,
-          currentCustomer: list.find(el=> el.id === id)
+          customerList: list,
+          currentCustomer: updatedCustomer
         })
       })
     })
   }
 
   removeCustomer(id) {
-    deleteCustomer(id).then(response=>{
-      getCustomerList().then(response=>{
+    deleteCustomer(id).then(deletedCustomer =>{
+      getCustomerList().then(list =>{
         this.setState({
-          customerList: response,
+          customerList: list,
           currentCustomer: null,
           initialLoad: true
         })
