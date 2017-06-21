@@ -19,8 +19,15 @@ export const createCustomer = function(customer) {
   })
 }
 
-export const saveEdit = function(id, obj) {
+export const updateCustomer = function(id, obj) {
   return axios.patch(apiURL + id, obj).then(response => {
+    console.log(response);
+    return response.data;
+  })
+}
+
+export const deleteCustomer = function(id) {
+  return axios.delete(apiURL + id).then(response => {
     return response.data;
   })
 }

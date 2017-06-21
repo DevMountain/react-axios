@@ -5,7 +5,7 @@ import Header from './Header/Header';
 import List from './List/List';
 import Workspace from './Workspace/Workspace';
 
-import { getCustomerList, createCustomer, getCustomer, saveEdit } from '../customers';
+import { getCustomerList, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../customers';
 
 class App extends Component {
   constructor() {
@@ -21,6 +21,7 @@ class App extends Component {
     this.createCustomer = this.createCustomer.bind(this);
     this.selectCustomer = this.selectCustomer.bind(this);
     this.saveEdit = this.saveEdit.bind(this);
+    this.removeCustomer = this.removeCustomer.bind(this);
   }
 
   componentDidMount() {
@@ -73,11 +74,23 @@ class App extends Component {
   }
 
   saveEdit(id, obj) {
-    saveEdit(id, obj).then(response=> {
+    updateCustomer(id, obj).then(response=> {
       getCustomerList().then(response=> {
         this.setState({
           customerList: response,
           currentCustomer: response.find(el=> el.id === id)
+        })
+      })
+    })
+  }
+
+  removeCustomer(id) {
+    deleteCustomer(id).then(response=>{
+      getCustomerList().then(response=>{
+        this.setState({
+          customerList: response,
+          currentCustomer: null,
+          initialLoad: true
         })
       })
     })
@@ -103,6 +116,7 @@ class App extends Component {
                     currentCustomer={this.state.currentCustomer}
                     creating={this.state.creating}
                     saveEdit={this.saveEdit}
+                    removeCustomer={this.removeCustomer}
                   />
         </div>
       </div>

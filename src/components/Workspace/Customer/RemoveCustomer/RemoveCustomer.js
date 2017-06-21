@@ -17,7 +17,7 @@ export default class RemoveCustomer extends Component {
   }
 
   remove() {
-    
+      this.props.removeCustomer(this.props.id);
   }
 
   render() {
