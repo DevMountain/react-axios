@@ -4,13 +4,14 @@ import './Workspace.css';
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace( { loading, initialLoad, creating } ) {
+function Workspace( { loading, initialLoad, creating, createCustomer, currentCustomer, saveEdit} ) {
+
   return (
     <div id="Workspace__container">
       {
         creating
         ?
-          <CreateCustomer />
+          <CreateCustomer createCustomer={createCustomer}/>
         :
           initialLoad
           ?
@@ -24,7 +25,15 @@ function Workspace( { loading, initialLoad, creating } ) {
                 <p> Fetching customer information.. </p>
               </div>
             :
-              <Customer />
+              <Customer id={currentCustomer.id}
+                        first={currentCustomer.first}
+                        last={currentCustomer.last}
+                        email={currentCustomer.email}
+                        phone={currentCustomer.phone}
+                        status={currentCustomer.status}
+                        log={currentCustomer.log}
+                        saveEdit={saveEdit}
+                        />
       }
     </div>
   )

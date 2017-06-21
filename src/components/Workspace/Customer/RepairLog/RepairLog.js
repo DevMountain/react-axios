@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import ToggleEdit from '../ToggleEdit/ToggleEdit';
 import './RepairLog.css';
 
-export default function RepairLog({ id, log }) {
+export default function RepairLog({ id, log, saveEdit }) {
     return (
       <div id="CustomerRepairLog__container">
         <h5> Repair Log </h5>
-        <ToggleEdit multi id={ id } property="log" val={ log } readOnlyVal={ log }/>
+        <ToggleEdit multi id={ id } property="log" val={ log } readOnlyVal={ log } saveEdit={saveEdit}/>
       </div>
     )
 }
