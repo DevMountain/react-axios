@@ -9,7 +9,6 @@ class List extends Component {
 
   render() {
     const {
-      loading,
       customerList,
       selectCustomer
     } = this.props;
@@ -27,10 +26,6 @@ class List extends Component {
     return (
       <div id="List__container">
         {
-          loading
-          ?
-            <p> Fetching Customers.. </p>
-          :
             <div id="List__namesContainer">
               { CustomerComponents }
               <CreateCustomer startNewCustomer={this.props.startNewCustomer}/>

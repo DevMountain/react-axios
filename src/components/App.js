@@ -106,7 +106,6 @@ class App extends Component {
             this.state.customerList ?
             <List
               customerList={this.state.customerList || []}
-              loading={this.state.customerList ? false : true}
               startNewCustomer={this.startNewCustomer}
               selectCustomer={this.selectCustomer}
               />
