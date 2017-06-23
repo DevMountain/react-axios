@@ -236,7 +236,18 @@ In this step, we'll configure our `List` component to show the form to create a 
   * Create a function called `startNewCustomer` on the App component. Make sure to bind its context to the App component in the constructor function.
     * `startNewCustomer` should invoke the setState function. The new state should have `creating` equal `true`, `initialLoad` equal `false`, and `currentCustomer` equal `null`.
   * Now pass startNewCustomer down to the List component through props.
-    * Add startNewCustomer to the list of props we are destructuring at the top of the render function.
+    * Add startNewCustomer to the list of props we are destructuring at the top of the render function. Destructuring is a syntax provided by ES6 Javascript. This way, we can do
+    ```js
+    var {
+      selectCustomer,
+      startNewCustomer
+    } = this.props
+    ```
+    and it will mean the same thing as
+    ```js
+    var selectCustomer = this.props.selectCustomer;
+    var startNewCustomer = this.props.startNewCustomer;
+    ```
     * Now, pass startNewCustomer in props down to the CreateCustomer component.
     * In CreateCustomer, find the onClick, and insert the startNewCustomer function from props.
 
