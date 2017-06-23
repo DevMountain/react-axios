@@ -17,7 +17,7 @@ In this project, we are going to create a customer management tool for a compute
   * `cd` into the project directory.
   * Run `npm run api`.
     * We will teach you about creating APIs later on in the course.
-    * <b>The API has been setup to be delayed by 1 second.</b>
+    * <b>The API has been setup to be delayed by 1 second, so we can work with asynchronous data on the front end.</b>
 
 You should now have two processes running in two separate terminals. If you want to commit changes as you develop, use a third terminal.
 
@@ -27,246 +27,263 @@ You should now have two processes running in two separate terminals. If you want
 
 ### Summary
 
-We'll begin with the `List` component. This component is responsible for retrieving the list of customers and also acting as a navigation component to update the `Workspace` component on the right with the selected customer's information.
+We'll begin by creating a service called `customers.js`. This service will hold all the HTTP requests we make to our server for customer information.
 
 ### Instructions
-
-
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-
-Before we can update the `List` component to fetch data from the API, we'll need to setup our list reducer. Let's open `src/ducks/listReducer.js`. Since we are using `redux-promise-middleware` our actions that are promises have a string attached to them. It can either be `_FULFILLED`, `_PENDING`, or `_REJECTED`. Since this API cannot fail, we'll just worry about creating cases for `_PENDING` and `_FULFILLED`.
-
-This reducer will be responsible for fetching customer information and updating the list of customers. Let's create an action type called `GET_LIST` that equals `"GET_LIST"`.
-
-```js
-const GET_LIST = "GET_LIST";
-```
-
-Then we can create an action creator that uses `GET_LIST` as its type. This action creator will accept a promise. For now just create a parameter called `promise` and we'll create the promise in a later step.
-
-```js
-const GET_LIST = "GET_LIST";
-
-export function getList( promise ) {
-  return {
-    type: GET_LIST,
-    payload: promise
-  }
-}
-```
-
-Now that we have our action type and action creator let's update our reducer to handle the case of `GET_LIST`. We'll need one case for its `_PENDING` state and one for its `_FULFILLED` state. If our case is `_PENDING` we'll want to set `loading` to `true` and reset the value of `customerList` to an empty array. This will allow our App to display a message to the user that the customer information is being fetched. If our case is `_FULFILLED` we'll want to set `loading` to `false` and set the value of `customerList` to the payload property on `action`. Our app will then display a list of customer names that can update the `Workspace` component on the right.
-
-```js
-const GET_LIST = "GET_LIST";
-
-export default function listReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case GET_LIST + "_PENDING":
-      return {
-        loading: true,
-        customerList: []
-      }
-
-    case GET_LIST + "_FULFILLED":
-      return {
-        loading: false,
-        customerList: action.payload
-      }
-
-    default: return state;
-  }
-}
-
-export function getList( promise ) {
-  return {
-    type: GET_LIST,
-    payload: promise
-  }
-}
-```
-
-</details>
+* Run `npm install --save axios`.
+* Create a file called `customers.js` in your `src` folder.
+  * Import axios from 'axios' and apiURL from `scr/api.js`.
+  * We've created an `api.js` file in `src/`. This is a good method to follow as it allows you to fix the API url for the service files that use it. This beats having to update the URL one by one in each function in each service file.
 
 ### Solution
 
 <details>
 
-<summary> <code> src/ducks/listReducer.js </code> </summary>
+<summary> <code> src/customer.js </code> </summary>
 
 ```js
-const initialState = {
-  loading: false,
-  customerList: []
-}
-
-// Action Types
-const GET_LIST = "GET_LIST";
-
-// Reducer
-export default function listReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case GET_LIST + "_PENDING":
-      return {
-        loading: true,
-        customerList: []
-      }
-
-    case GET_LIST + "_FULFILLED":
-      return {
-        loading: false,
-        customerList: action.payload
-      }
-
-    default: return state;
-  }
-}
-
-// Action Creators
-export function getList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  return {
-    type: GET_LIST,
-    payload: promise
-  }
-}
+import axios from 'axios';
+import apiURL from './api';
 ```
 
 </details>
 
-## Step 4
+## Step 2
 
 ### Summary
 
-In this step, we will create a service file that will handle all the API calls for our `List` component. This service file will also dispatch actions to our store.
+In this step, we will create an HTTP call in our service using a package called `axios`.
 
-We'll be using a package called `axios` to make API calls.
+This call will be a `GET` request to get the entire customer list.
 
 ### Instructions
 
-* Open `src/services/listService.js`.
-* Run `npm install --save axios`.
-* Import `axios` from `axios`.
-* Import the `getList` action creator from `src/ducks/listReducer.js`.
-* Import the `store` from `src/store.js`.
-* Import `apiURL` from `src/api.js`.
-* Export a function called `dispatchGetList`:
+* Open `src/customers.js`.
+* Create and export a function called `getCustomerList`:
   * This function shouldn't use any parameters.
-  * This function should create a promise using `axios`:
+  * This function should create an http call using `axios`:
     * The `axios` call should be a `GET`.
     * The url should be `apiURL`.
     * The callback should return the `data` property of the `response`.
 
 <details>
 
-<summary> Detailed Instructions </summary>
+<summary> Detailed Instructions/Solution </summary>
 
 <br />
 
-Now that our reducer is setup, we will create a service file that will use its action creator and dispatch an event to the store. This service file will also create the promise that our action creator is looking for. Let's open `src/services/listService.js`. To create our promises we'll be using a package called `axios`. If you haven't already run `npm install --save axios`. We can then import it into our service file.
+Let's open `src/customers.js`. To create our promises we'll be using a package called `axios`.
 
-```js
-import axios from 'axios';
-```
-
-We'll also need our action creator from our list reducer and our store.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-```
-
-The last import we'll need is the API url for our axios calls. I've created an `api.js` file in `src/`. This is a good method to follow as it allows you to fix the API url for the service files that use it. This beats having to update the URL one by one in each function in each service file.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
-```
-
-Now that we have all our imports, let's create a function that will dispatch our `getList` action creator to our store. Inside this function we'll use `axios` to create a promise. When using axios, you chain on a method of the API method you want. This can either be `GET`, `PUT`, `DELETE`, `POST`, `PATCH`, and a couple others. You then invoke this method and pass in the URL as the first parameter. The second parameter can be an object that will equal the request's body. Here are a couple examples:
+Let's create a function that will get the customerList from the API. Inside this function we'll use `axios` to create an http request. When using axios, you chain on a method of the API method you want. The primary methods used are `GET`, `PUT`, `DELETE`, `POST`, `PATCH`, and a couple others. You then invoke this method and pass in the URL as the first parameter. The second parameter can be an object that will equal the request's body. Here are a couple examples:
 
 ```js
 axios.get( 'http://localhost:3000/somePath' );
 axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } );
 ```
 
-This will return a promise which you can then chain a `.then()` that accepts a callback function as the first parameter. The most common first parameter you'll see in the callback function is `response`. This is the response from the API. Here are some examples:
+This will return a promise to which you can then chain a `.then()` that accepts a callback function as the first parameter. The most common first parameter you'll see in the callback function is `response`. This is the response from the API. Here are some examples:
 
 ```js
 axios.get( 'http://localhost:3000/somePath' ).then( response => response.data );
 axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } ).then( response => response.data );
 ```
 
-We'll want to make an axios call that uses the `get` method. In the callback we'll want to return the `data` property from the response. Remember that axios returns a promise. Let's capture the promise in a variable called promise.
+To get the customerList, we'll want to make an axios call that uses the `get` method. In the callback, we'll want to return the `data` property from the response.
 
 ```js
 import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
 import apiURL from '../api';
 
-export function dispatchGetList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
+export function getCustomerList() {
+  axios.get( apiURL ).then( response => response.data );
 }
 ```
-
-Now that we have our promise we can dispatch our `getList` action creator with the promise as an argument. We can do this by using the `dispatch` method on `store`.
-
-```js
-import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
-
-export function dispatchGetList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  store.dispatch( getList(promise) );
-}
-```
-
 </details>
+
+## Step 3
+
+### Summary
+
+In this step, we'll go into our `App` component and have it fetch the customer list from the API.
+
+### Instructions
+
+* Open `src/components/App.js`.
+* Import the `getCustomerList` function from `src/customers.js` using destructuring.
+* Create a `componentDidMount` life-cycle method:
+  * This method should call the `getCustomerList` function.
+  * Chain a .then function to the end of the invokation of `getCustomerList`. Inside this, create an anonymous function which takes in the customerList as a parameter.
+  * Inside the anonymous function, invoke setState to set the customerList property on state to the response from our service.
 
 ### Solution
 
 <details>
 
-<summary> <code> src/services/listService.js </code> </summary>
+<summary> <code> src/components/App.js </code> </summary>
+
+```jsx
+import React, { Component } from 'react';
+import './App.css';
+
+import Header from './Header/Header';
+import List from './List/List';
+import Workspace from './Workspace/Workspace';
+
+import { getCustomerList } from '../customers';
+
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      customerList: undefined,
+      initialLoad: true,
+      creating: false,
+      currentCustomer: null
+    }
+
+  }
+
+  componentDidMount() {
+    getCustomerList().then(list => {
+      this.setState({customerList: list});
+    })
+  }
+
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <div className="App__container">
+          {
+            this.state.customerList ?
+            <List
+              customerList={this.state.customerList || []}
+              />
+            : null
+          }
+          <Workspace initialLoad={this.state.initialLoad}
+                    currentCustomer={this.state.currentCustomer}
+                    creating={this.state.creating}
+                  />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default App;
+
+```
+
+</details>
+
+<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3.png" />
+
+## Step 4
+
+### Summary
+
+In this step, we'll create an HTTP request using axios to create (POST) a customer to the 'database.'
+
+### Instructions
+
+* Open `src/customers.js`.
+* Create a function named `postCustomer`:
+  * `postCustomer` should take in an object (this will be the information for the new user).
+  * This function should use the axios.post() method.
+    * The first parameter will be the URL, which is stored in our apiURL variable.
+    * The second parameter should be the object that we take in through the parameters for `postCustomer`.
+    * After the function, chain on a `.then` function. Inside the .then, put a callback function that will take in the response from the API.
+    * Inside the callback function, return the response.
+
+### Solution
+
+<details>
+
+<summary> <code> src/customers.js </code> </summary>
 
 ```js
 import axios from 'axios';
-import { getList } from '../ducks/listReducer';
-import store from '../store';
-import apiURL from '../api';
+import apiURL from './api';
 
-export function dispatchGetList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  store.dispatch( getList(promise) );
+export const getCustomerList = function() {
+  return axios.get(apiURL).then(response => {
+    return response.data;
+  })
+}
+
+export const postCustomer = function(customer) {
+  return axios.post(apiURL, customer).then(response => {
+    return response.data;
+  })
 }
 ```
 
 </details>
 
+
 ## Step 5
 
 ### Summary
 
-In this step, we'll go into our `List` component and have it fetch the customer list from the API.
+In this step, we'll configure our `List` component to show the form to create a new customer.
 
 ### Instructions
 
-* Open `src/components/List/List.js`.
-* Import the `dispatchGetList` function from `src/services/listService.js`.
-* Create a `componentDidMount` life-cycle method:
-  * This method should call the `dispatchGetList` function.
+* First, we need the button in the List component to open the form.
+  * Open `src/components/App.js`.
+  * Create a function called `startNewCustomer` on the App component. Make sure to bind its context to the App component in the constructor function.
+    * `startNewCustomer` should invoke the setState function. The new state should have `creating` equal `true`, `initialLoad` equal `false`, and `currentCustomer` equal `null`.
+  * Now pass startNewCustomer down to the List component through props.
+    * Add startNewCustomer to the list of props we are destructuring at the top of the render function.
+    * Now, pass startNewCustomer in props down to the CreateCustomer component.
+    * In CreateCustomer, find the onClick, and insert the startNewCustomer function from props.
 
 ### Solution
+
+<details>
+
+<summary> <code> src/components/App.js (not entire file)</code> </summary>
+
+```jsx
+import React, { Component } from 'react';
+import './App.css';
+
+import Header from './Header/Header';
+import List from './List/List';
+import Workspace from './Workspace/Workspace';
+
+import { getCustomerList } from '../customers';
+
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      customerList: [],
+      initialLoad: true,
+      creating: false,
+      currentCustomer: null
+    }
+
+    this.startNewCustomer = this.startNewCustomer.bind(this);
+  }
+//skipping lines...
+startNewCustomer() {
+    this.setState({
+      creating: true,
+      initialLoad: false,
+      currentCustomer: null
+    })
+}
+//skipping lines...
+<List
+  customerList={this.state.customerList || []}
+  startNewCustomer={this.startNewCustomer}
+  />
+```
+
+</details>
 
 <details>
 
@@ -274,23 +291,18 @@ In this step, we'll go into our `List` component and have it fetch the customer 
 
 ```jsx
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import './List.css';
-
-import { getList } from '../../ducks/listReducer';
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
+
 class List extends Component {
-  componentDidMount() {
-    this.props.getList();
-  }
 
   render() {
     const {
-      loading,
       customerList,
+      startNewCustomer
     } = this.props;
 
     const CustomerComponents = customerList.map( customer => (
@@ -305,13 +317,9 @@ class List extends Component {
     return (
       <div id="List__container">
         {
-          loading
-          ?
-            <p> Fetching Customers.. </p>
-          :
             <div id="List__namesContainer">
               { CustomerComponents }
-              <CreateCustomer />
+              <CreateCustomer startNewCustomer={startNewCustomer}/>
             </div>
         }
       </div>
@@ -319,289 +327,11 @@ class List extends Component {
   }
 }
 
-function mapStateToProps( state ) {
-  state = state.listReducer;
-  return state;
-}
+export default List;
 
-export default connect( mapStateToProps, { getList } )( List );
 ```
 
 </details>
-
-<img src="https://github.com/DevMountain/react-axios/blob/solution/readme-assets/3.png" />
-
-## Step 5
-
-### Summary
-
-In this step, we'll update the workspace reducer to handle showing the `CreateCustomer` component and handle creating a customer. We'll also need to update the `listReducer` to handle refreshing the list of customers.
-
-### Instructions
-
-* Open `src/ducks/workspaceReducer.js`.
-* Create two action types:
-  * `SHOW_CREATE_CUSTOMER` that equals `"SHOW_CREATE_CUSTOMER"`.
-    * This action will update the `Workspace` component to display the `CreateCustomer` component.
-  * `CREATE_CUSTOMER` that equals `"CREATE_CUSTOMER"`.
-    * This action will add a customer to our database in our API.
-    * This action needs to be exported so our list reducer can have access to it.
-* Create two action creators:
-  * `showCreateCustomer` - This should return an object:
-    * This object should have a type property that equals `SHOW_CREATE_CUSTOMER`.
-    * This object should have a payload property that equals `null`.
-  * `createCustomer` - This should have an `obj` parameter, create a promise, and return an object:
-    * This function should create a variable called `promise` that creates a promise using `axios.post` and the `apiURL`:
-      * The promise should capture the response and return the data of the response.
-    * The returned object should have a type property that equals `CREATE_CUSTOMER`.
-    * The returned object should have a payload property that equals `promise`.
-* Create two cases in the reducer:
-  * `SHOW_CREATE_CUSTOMER`:
-    * This case should return a new object with all the previous state values.
-    * The new object should update the value of `creating` to true.
-  * `CREATE_CUSTOMER + '_FULFILLED'`:
-    * This case should return a new object:
-      * `loading` should equal `false`.
-      * `initialLoad` should equal `true`.
-      * `customer` should equal `{}`.
-      * `creating` should equal `false`.
-
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-
-Now that our customer list is populating correctly, let's get our `New Customer` button functional. Open `src/ducks/workspaceReducer.js`. This reducer keeps track of what component to display in the `Workspace` component. In order to show the `CreateCustomer` component, we'll have to set the `creating` property on state to true. We'll also update our reducer to handle creating a customer as well. When a customer is created we set `initialLoad` to `true` to display the initial workspace view.
-
-Let's begin by creating the action types. We'll need one called `SHOW_CREATE_CUSTOMER` and one called `CREATE_CUSTOMER`. We'll also need to export `CREATE_CUSTOMER` so our `listReducer` can have access to it.
-
-```js
-// Action Types
-const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
-```
-
-Now let's create an action creator for each type. The action creator should return an object with a type property and also a payload property. The type should equal the action type. The payload for `SHOW_CREATE_CUSTOMER` should be `null` and the payload for `CREATE_CUSTOMER` should be a `promise`.
-
-```js
-// Action Types
-const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const CREATE_CUSTOMER = "CREATE_CUSTOMER";
-
-// Action Creators
-export function showCreateCustomer() {
-  return {
-    type: SHOW_CREATE_CUSTOMER,
-    payload: null
-  }
-}
-
-export function createCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => response.data );
-  return {
-    type: CREATE_CUSTOMER,
-    payload: promise
-  }
-}
-```
-
-We'll then need to update our reducer to handle the cases for these actions. We'll make a case for `SHOW_CREATE_CUSTOMER` and a case for `CREATE_CUSTOMER + '_FULFILLED'`. `SHOW_CREATE_CUSTOMER` should return a new object with all the previous values on state. The new object should also update the value of `creating` to `true`. This will effectively show the `CreateCustomer` component.  `CREATE_CUSTOMER` should return a new object where `loading` is `false`, `initialLoad` is `true`, `customer` is `{}`, and `creating` is `false`.
-
-```js
-// Action Types
-const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
-
-// Reducer
-export default function workspaceReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case SHOW_CREATE_CUSTOMER:
-      return Object.assign({}, state, { creating: true });
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        initialLoad: true,
-        creating: false,
-        customer: {}
-      }
-
-    // Get Customer - Pending
-
-    // Get Customer - Fulfilled
-
-    // Get Customer - Rejected
-
-    // Update Customer - Fulfilled
-
-    // Delete Customer - Fulfilled
-
-    default: return state;
-  }
-}
-
-// Action Creators
-export function showCreateCustomer() {
-  return {
-    type: SHOW_CREATE_CUSTOMER,
-    payload: null
-  }
-}
-
-export function createCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => response.data );
-  return {
-    type: CREATE_CUSTOMER,
-    payload: promise
-  }
-}
-```
-
-</details>
-
-### Solution
-
-<details>
-
-<summary> <code> src/ducks/listReducer.js </code> </summary>
-
-```js
-import apiURL from "../api";
-import axios from "axios";
-import { CREATE_CUSTOMER } from './workspaceReducer';
-
-const initialState = {
-  loading: false,
-  customerList: []
-}
-
-// Action Types
-const GET_LIST = "GET_LIST";
-
-// Reducer
-export default function listReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case GET_LIST + "_PENDING":
-      return {
-        loading: true,
-        customerList: []
-      }
-
-    case GET_LIST + "_FULFILLED":
-      return {
-        loading: false,
-        customerList: action.payload
-      }
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        customerList: [ ...state.customerList, action.payload ]
-      }
-
-    default: return state;
-  }
-}
-
-// Action Creators
-export function getList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  return {
-    type: GET_LIST,
-    payload: promise
-  }
-}
-```
-
-</details>
-
-<details>
-
-<summary> <code> src/ducks/workspaceReducer.js </code> </summary>
-
-```js
-import apiURL from '../api';
-import axios from 'axios';
-
-const initialState = {
-  loading: false,
-  customer: {},
-  initialLoad: true,
-  creating: false
-};
-
-// Action Types
-const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
-
-// Reducer
-export default function workspaceReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case SHOW_CREATE_CUSTOMER:
-      return Object.assign({}, state, { creating: true });
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        initialLoad: true,
-        creating: false,
-        customer: {}
-      }
-
-    // Get Customer - Pending
-
-    // Get Customer - Fulfilled
-
-    // Get Customer - Rejected
-
-    // Update Customer - Fulfilled
-
-    // Delete Customer - Fulfilled
-
-    default: return state;
-  }
-}
-
-// Action Creators
-export function showCreateCustomer() {
-  return {
-    type: SHOW_CREATE_CUSTOMER,
-    payload: null
-  }
-}
-
-export function createCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => response.data );
-  return {
-    type: CREATE_CUSTOMER,
-    payload: promise
-  }
-}
-```
-
-</details>
-
-## Step 6
-
-### Summary
-
-In this step, we'll configure our `List` component to show the form to create a new customer. We'll also update the `CreateCustomer` component to successfully create a customer.
-
-### Instructions
-
-* Open `src/components/List/CreateCustomer/CreateCustomer.js`.
-  * Import `connect` from `"react-redux"`.
-  * Import `showCreateCustomer` from `src/ducks/workspaceReducer.js`.
-  * Modify the `CreateCustomer` component to use `connect` and be sure to pass in `showCreateCustomer` so that it will be available as a `prop`.
-  * Add an `onClick` prop on the `button` element that calls `showCreateCustomer` from `props`.
-* Open `src/components/Workspace/CreateCustomer/CreateCustomer.js`.
-  * Import `connect` from `"react-redux"`.
-  * Import `createCustomer` from `src/ducks/workspaceReducer.js`.
-  * Modify the `CreateCustomer` component to use `connect` and be sure to pass in `createCustomer` so that it will be available as a `prop`.
-  * In the `create` method invoke `createCustomer` with `customer` as the first parameter.
-
-### Solution
 
 <details>
 
@@ -611,81 +341,162 @@ In this step, we'll configure our `List` component to show the form to create a 
 import React from 'react';
 import './CreateCustomer.css';
 
-import { connect } from "react-redux";
-import { showCreateCustomer } from '../../../ducks/workspaceReducer';
-
-function CreateCustomer({ showCreateCustomer }) {
+export default function CreateCustomer({startNewCustomer}) {
   return (
     <div id="CreateCustomerBtn__container">
-      <button id="CreateCustomer__btn" onClick={ showCreateCustomer }> New Customer </button>
+      <button id="CreateCustomer__btn" onClick={startNewCustomer}> New Customer </button>
     </div>
   )
 }
 
-export default connect( state => state, { showCreateCustomer } )( CreateCustomer );
+```
+
+</details>
+
+<br />
+
+
+
+## Step 6
+
+### Summary
+
+In this step, we'll finish our CreateCustomer component so it can successfully create a customer.
+
+### Instructions
+
+* Let's go back to `src/components/App.js`.
+  * Import the `postCustomer` function from `src/customers.js`.
+  * Create a function called `createCustomer` on the App component. Make sure to bind it to the App component's context in the constructor function.
+    * `createCustomer` should take in a customer object, and should invoke `postCustomer` with that object.
+    * In the `.then` callback function for `createCustomer`,  invoke `getCustomerList`. In the `getCustomerList` `.then` callback, we will call setState to make customerList equal the updated customerList we just received, and to set initialLoad to true.
+* Then we'll need to pass the createCustomer function down to the component that needs it. Pass createCustomer down to the Workspace component.
+  * Open `src/components/Workspace/Workspace.js`.
+  * Add `createCustomer` to the props being desctructured.
+  * Pass `createCustomer` through props down to the CreateCustomer component.
+  * Modify the `create` method so it invokes `createCustomer` after creating the customer object.
+  * Make sure to pass in the customer object as a parameter.
+
+### Solution
+
+<details>
+
+<summary> <code> src/components/App.js (not entire file) </code> </summary>
+
+```jsx
+import React, { Component } from 'react';
+import './App.css';
+
+import Header from './Header/Header';
+import List from './List/List';
+import Workspace from './Workspace/Workspace';
+
+import { getCustomerList, postCustomer } from '../customers';
+
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      customerList: [],
+      initialLoad: true,
+      creating: false,
+      currentCustomer: null
+    }
+
+    this.startNewCustomer = this.startNewCustomer.bind(this);
+    this.postCustomer = this.createCustomer.bind(this);
+  }
+//skipping lines...
+postCustomer(customer) {
+  createCustomer(customer).then(response => {
+    getCustomerList().then(list => {
+      this.setState({
+        initialLoad:true,
+        creating: false,
+        customerList: list
+      })
+    })
+  })
+}
+//skipping lines...
+<Workspace initialLoad={this.state.initialLoad}
+          createCustomer={this.createCustomer}
+          currentCustomer={this.state.currentCustomer}
+          creating={this.state.creating}
+        />
 ```
 
 </details>
 
 <details>
 
-<summary> <code> src/components/Workspace/CreateCustomer/CreateCustomer.js </code> </summary>
+<summary> <code> src/components/Workspace/Workspace.js </code> </summary>
 
 ```jsx
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { createCustomer } from '../../../ducks/workspaceReducer';
+import React from "react";
+import './Workspace.css';
 
-import './CreateCustomer.css';
+import Customer from './Customer/Customer';
+import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-class CreateCustomer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      first: '',
-      last: '',
-      email: '',
-      phone: ''
-    }
+function Workspace( { loading, initialLoad, creating, currentCustomer, createCustomer } ) {
 
-    this.handleChange = this.handleChange.bind( this );
-    this.create = this.create.bind( this );
-  }
-
-  handleChange( property, val ) {
-    this.setState({ [property]: val })
-  }
-
-  create() {
-    const { first, last, email, phone } = this.state;
-    var customer = {
-      first,
-      last,
-      email,
-      phone,
-      status: 'New Customer',
-      log: ''
-    }
-
-    this.props.createCustomer( customer );
-  }
-
-  render() {
-    const { first, last, email, phone } = this.state;
-
-    return (
-      <div id="CreateCustomer__container">
-        <input className="CreateCustomer__input" placeholder="First Name" value={ first } onChange={ (e) => this.handleChange('first', e.target.value) } />
-        <input className="CreateCustomer__input" placeholder="Last Name" value={ last } onChange={ (e) => this.handleChange('last', e.target.value) } />
-        <input className="CreateCustomer__input" placeholder="Email" value={ email } onChange={ (e) => this.handleChange('email', e.target.value) } />
-        <input className="CreateCustomer__input" placeholder="Phone" value={ phone } onChange={ (e) => this.handleChange('phone', e.target.value) } />
-        <button id="CreateCustomer__saveBtn" onClick={ this.create }> Create </button>
-      </div>
-    )
-  }
+  return (
+    <div id="Workspace__container">
+      {
+        creating
+        ?
+          <CreateCustomer createCustomer={createCustomer}/>
+        :
+          initialLoad
+          ?
+            <div>
+              <p> Please select a customer from the left. </p>
+            </div>
+          :
+            loading
+            ?
+              <div>
+                <p> Fetching customer information.. </p>
+              </div>
+            :
+              <Customer id={currentCustomer.id}
+                        first={currentCustomer.first}
+                        last={currentCustomer.last}
+                        email={currentCustomer.email}
+                        phone={currentCustomer.phone}
+                        status={currentCustomer.status}
+                        log={currentCustomer.log}
+                        />
+      }
+    </div>
+  )
 }
 
-export default connect( state => state, { createCustomer } )( CreateCustomer );
+export default Workspace;
+
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/components/Workspace/CreateCustomer/CreateCustomer.js (just the create method)</code> </summary>
+
+```jsx
+create() {
+  const { first, last, email, phone } = this.state;
+  var customer = {
+    first,
+    last,
+    email,
+    phone,
+    status: 'New Customer',
+    log: ''
+  }
+
+  this.props.createCustomer( customer );
+}
 ```
 
 </details>
@@ -698,200 +509,153 @@ export default connect( state => state, { createCustomer } )( CreateCustomer );
 
 ### Summary
 
-In this step, we'll update the customer list to become a navigation list that will update the workspace on the right. This step will be larger than usual. The goal of this step will be to take you through the entire process of creating an action in one step.
+In this step, we'll update the customer list to become a navigation list that will update the workspace on the right.
 
 ### Instructions
 
-* Open `src/ducks/workspaceReducer.js`.
-  * Create a `GET_CUSTOMER` action type.
-  * Create a `getCustomer` action creator.
-    * This action creator should have an `id` parameter.
-    * This action creator should create a variable called `promise` that creates a promise using `axios.get` and the `apiURL`.
-      * This promise should capture the response and return the data of the response.
-    * This action creator should return an object with a type equal to `GET_CUSTOMER` and a payload equal to `promise`.
-  * Create a `GET_CUSTOMER + _'PENDING'` case:
-    * This case should return a new object with the following state:
-      * `loading` should equal `true`.
-      * `initalLoad` should equal `false`.
-      * `creating` should equal `false`.
-      * `customer` should equal `{}`.
-  * Create a `GET_CUSTOMER + _'FULFILLED'` case:
-    * This case should return a new object with all the previous values from state.
-    * The new object should set `loading` to `false`.
-    * The new object should set `customer` to `action.payload`.
+* Open `src/customers.js`.
+  * Create a `getCustomer` function.
+    * This function should have an `id` parameter.
+    * This function should make an axios get call to `apiURL + id`, using the id from the parameters.
+      * The `.then` callback should return the data property of the response from the API.
+* Open `src/components/App.js`
+  * We will import `getCustomer` from the service.
+  * Create a `selectCustomer` method on the App component:
+    * This function should take in an id and invoke the `getCustomer` function we imported with that id.
+      * In the `.then` callback, we will set state to make the currentCustomer to the response from the api and to make initialLoad false.
+      * Make sure to bind the context of `selectCustomer` to the App component in the constructor
+  * Pass `selectCustomer` down to the List component through props:
+    * In `src/components/List/List.js`, add selectCustomer to the list of props we are destructuring at the top of the render function.
+    * Pass selectCustomer through props to the Customer component.
 * Open `src/components/List/Customer/Customer.js`.
-  * Import `connect` from `"react-redux"`.
-  * Import `getCustomer` from `src/ducks/workspaceReducer.js`.
-  * Modify the `Customer` component to use `connect` and be sure to pass in `getCustomer` so that it will be available as a `prop`.
-  * Add an `onClick` prop to the `span` element that calls `getCustomer` and passes in `id` as an argument.
-
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-
-Let's begin by opening `src/ducks/workspaceReducer.js`. We are going to need an action type called `GET_CUSTOMER`. We will use the action when a user clicks on a name in the `List` component. Let's also create an action creator called `getCustomer` that has an `id` parameter. This function should create a variable called `promise` the creates a promise using `axios.get` with the `apiURL` and the `id` added on to the end of the url. The promise should capture the response and return the data of the response. This function should return an object with a `type` property that equals `GET_CUSTOMER` and a `payload` property that equals `promise`.
-
-```js
-const GET_CUSTOMER = "GET_CUSTOMER";
-
-export function getCustomer( id ) {
-  const promise = axios.get( apiURL + id ).then( response => response.data );
-  return {
-    type: GET_CUSTOMER,
-    payload: promise
-  }
-}
-```
-
-Now let's update our reducer to handle the action of `GET_CUSTOMER`. We'll need a case for `GET_CUSTOMER + '_PENDING'` and `GET_CUSTOMER + '_FULFILLED'`. When a customer is pending we'll update the `Workspace` component to display that to the user. When a customer is fulfilled we'll update the `Workspace` component to show the editor for a customer.
-
-```js
-const GET_CUSTOMER = "GET_CUSTOMER";
-
-// Reducer
-export default function workspaceReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case SHOW_CREATE_CUSTOMER:
-      return Object.assign({}, state, { creating: true });
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        initialLoad: true,
-        creating: false,
-        customer: {}
-      }
-
-    case GET_CUSTOMER + "_PENDING":
-      return {
-        loading: true,
-        initialLoad: false,
-        creating: false,
-        customer: {}
-      }
-
-    case GET_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, customer: action.payload });
-
-    // Update Customer - Fulfilled
-
-    // Delete Customer - Fulfilled
-
-    default: return state;
-  }
-}
-```
-
-Now that our reducer is setup to handle getting a customer, we can edit the component to call our action creator. Let's open `src/components/List/Customer/Customer.js` and import `connect` from `"react-redux"` and `getCustomer` from `src/ducks/workspaceReducer.js`. We'll then want to modify the component to use `connect` and pass in `getCustomer` so we can use it as a `prop` in the component.
-
-```jsx
-import React from 'react';
-import './Customer.css';
-
-import { connect } from "react-redux";
-import { getCustomer } from '../../../ducks/workspaceReducer';
-
-function Customer( { id, first, last, getCustomer } ) {
-  return (
-    <div className="Customer__listName">
-      <span>{ first } { last }</span>
-    </div>
-  )
-}
-
-export default connect( state => state, { getCustomer } )( Customer );
-```
-
-We can then add an `onClick` prop on the `span` element that calls `getCustomer` and passes in `id` as an argument.
-
-```js
-<span onClick={ () => getCustomer( id ) }>{ first } { last }</span>
-```
-
-We should now be able to click on a customer in the list and see the editor appear on the right.
-
-</details>
+  * Add `selectCustomer` to the props we're destructuring at the top.
+  * Write an anonymous arrow function that invokes selectCustomer with the customer id (already destructured from props for you!).
 
 ### Solution
 
 <details>
 
-<summary> <code> src/ducks/workspaceReducer.js </code> </summary>
+<summary> <code> src/customers.js </code> </summary>
 
 ```js
-import apiURL from '../api';
 import axios from 'axios';
+import apiURL from './api';
 
-const initialState = {
-  loading: false,
-  customer: {},
-  initialLoad: true,
-  creating: false
-};
+export const getCustomerList = function() {
+  return axios.get(apiURL).then(response => {
+    return response.data;
+  })
+}
 
-// Action Types
-const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
-const GET_CUSTOMER = "GET_CUSTOMER";
+export const getCustomer = function(id) {
+  return axios.get(apiURL+id).then(response => {
+    return response.data;
+  })
+}
 
-// Reducer
-export default function workspaceReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case SHOW_CREATE_CUSTOMER:
-      return Object.assign({}, state, { creating: true });
+export const postCustomer = function(customer) {
+  return axios.post(apiURL, customer).then(response => {
+    return response.data;
+  })
+}
 
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        initialLoad: true,
-        creating: false,
-        customer: {}
-      }
+```
 
-    case GET_CUSTOMER + "_PENDING":
-      return {
-        loading: true,
-        initialLoad: false,
-        creating: false,
-        customer: {}
-      }
+</details>
 
-    case GET_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, customer: action.payload });
+<details>
 
-    // Update Customer - Fulfilled
+<summary> <code> src/components/App.js (not entire file) </code> </summary>
 
-    // Delete Customer - Fulfilled
+```jsx
+import React, { Component } from 'react';
+import './App.css';
 
-    default: return state;
+import Header from './Header/Header';
+import List from './List/List';
+import Workspace from './Workspace/Workspace';
+
+import { getCustomerList, postCustomer, getCustomer } from '../customers';
+
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      customerList: [],
+      initialLoad: true,
+      creating: false,
+      currentCustomer: null
+    }
+
+    this.startNewCustomer = this.startNewCustomer.bind(this);
+    this.createCustomer = this.createCustomer.bind(this);
+    this.selectCustomer = this.selectCustomer.bind(this);
+  }
+//skipping lines...
+selectCustomer(id) {
+  getCustomer(id).then(response=> {
+      this.setState({
+        currentCustomer: response,
+        initialLoad: false
+      })
+    }
+}
+//skipping lines...
+<List
+  customerList={this.state.customerList || []}
+  startNewCustomer={this.startNewCustomer}
+  selectCustomer={this.selectCustomer}
+  />
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/components/List/List.js </code> </summary>
+
+```jsx
+import React, { Component } from 'react';
+import './List.css';
+
+import Customer from './Customer/Customer';
+import CreateCustomer from './CreateCustomer/CreateCustomer';
+
+
+class List extends Component {
+
+  render() {
+    const {
+      customerList,
+      startNewCustomer,
+      selectCustomer
+    } = this.props;
+
+    const CustomerComponents = customerList.map( customer => (
+      <Customer
+        key={ customer.id }
+        id={ customer.id }
+        first={ customer.first }
+        last={ customer.last }
+        selectCustomer={selectCustomer}
+      />
+    ));
+
+    return (
+      <div id="List__container">
+        {
+            <div id="List__namesContainer">
+              { CustomerComponents }
+              <CreateCustomer startNewCustomer={startNewCustomer}/>
+            </div>
+        }
+      </div>
+    )
   }
 }
 
-// Action Creators
-export function showCreateCustomer() {
-  return {
-    type: SHOW_CREATE_CUSTOMER,
-    payload: null
-  }
-}
+export default List;
 
-export function createCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => response.data );
-  return {
-    type: CREATE_CUSTOMER,
-    payload: promise
-  }
-}
-
-export function getCustomer( id ) {
-  const promise = axios.get( apiURL + id ).then( response => response.data );
-  return {
-    type: GET_CUSTOMER,
-    payload: promise
-  }
-}
 ```
 
 </details>
@@ -904,30 +668,14 @@ export function getCustomer( id ) {
 import React from 'react';
 import './Customer.css';
 
-<<<<<<< HEAD
-import { dispatchGetCustomer } from '../../../services/workspaceService';
-
-export default function Customer( { id, first, last } ) {
+export default function Customer( { id, first, last, selectCustomer } ) {
   return (
-    <div className="Customer__listName">
-      <span onClick={ () => dispatchGetCustomer( id ) }>{ first } { last }</span>
-    </div>
-  )
-}
-=======
-import { connect } from "react-redux";
-import { getCustomer } from '../../../ducks/workspaceReducer';
-
-function Customer( { id, first, last, getCustomer } ) {
-  return (
-    <div className="Customer__listName">
-      <span onClick={ () => getCustomer( id ) }>{ first } { last }</span>
+    <div className="Customer__listName" onClick={()=>selectCustomer(id)}>
+      <span>{ first } { last }</span>
     </div>
   )
 }
 
-export default connect( state => state, { getCustomer } )( Customer );
->>>>>>> 4fc8bda5f69d83469ba40a380f80f4f34b1cbea7
 ```
 
 </details>
@@ -940,156 +688,49 @@ export default connect( state => state, { getCustomer } )( Customer );
 
 ### Summary
 
-In this step, we'll complete the rest of the workspace reducer and list reducer to handle updating or removing a customer.
+In this step, we'll add the ability to update our
+customers' information.
 
 ### Instructions
 
-* Open `src/ducks/workspaceReducer.js`.
-* Create and export an `UPDATE_CUSTOMER` action type that equals `"UPDATE_CUSTOMER"`.
-* Create and export a `DELETE_CUSTOMER` action type that equals `"DELETE_CUSTOMER"`.
-* Create an `updateCustomer` action creator that has an `id` and `obj` parameter:
-  * This function should create a variable called `promise` that creates a promise using `axios.patch`.
-    * The promise URL should equal the `apiURL` + the `id`.
-    * The promise should use `obj` as the request body.
-    * The promise should capture the response and return the data of the response.
-  * This function return a new object.
-  * The object should have a `type` property that equals `UPDATE_CUSTOMER`.
-  * The object should have a `payload` property that equals `promise`.
-* Create an `deleteCustomer` action creator that has a `id` parameter:
-  * This function should create a variable called `promise` that creates a promise using `axios.delete`.
-    * The promise URL should equal the `apiURL` + the `id`.
-    * The promise should use a function that returns the `id`.
-  * This function return a new object.
-  * The object should have a `type` property that equals `DELETE_CUSTOMER`.
-  * The object should have a `payload` property that equals `promise`.
-* Create an `UPDATE_CUSTOMER + '_FULFILLED'` case in the reducer:
-  * This case should return a new object will all of previous state's values.
-  * The new object should update the `customer` property with a new object that equals `action.payload`.
-* Create a `DELETE_CUSTOMER + '_FULFILLED'` case in the reducer:
-  * This case should return a new object will all of previous state's values.
-  * The new object should update `initialLoad` to `true` and `customer` to `{}`.
-* Open `src/ducks/listReducer.js`
-* Import `UPDATE_CUSTOMER` and `DELETE_CUSTOMER` from `src/ducks/workspaceReducer.js`.
-* Create an `UPDATE_CUSTOMER + '_FULFILLED'` case in the reducer:
-  * This case should return a new object:
-    * `loading` should equal false.
-    * `customerList` should equal an array of all customers with the new customer replacing the old customer object.
-* Create a `DELETE_CUSTOMER + '_FULFILLED'` case in the reducer:
-  * This case should return a new object:
-    * `loading` should equal false.
-    * `customerList` should equal an array of all customers with the deleted customer filtered out.
+* Open our customers service: `src/customers.js`.
+  * Add and export a function called `updateCustomer`. This function will take in an id and an object. The object will have the property we want to update and its new value.
+    * This function should make a patch request to `apiURL+id` with the object as the second parameter. In the `.then` callback function, we will return the data property of the response. This will be the updated customer.
+* In `App.js`, we'll create a method on the component called `saveEdit`. This method will take in an id and an object, and will call `updateCustomer` with that data.
+  * Inside the `.then` callback, invoke the `getCustomerList` function, with which we will then set state with the new customer list and the updated customer.
+  * We will then pass the function down to the components that need it.
 
 <details>
 
 <summary> Detailed Instructions </summary>
 
 <br />
+<br />
 
-Now all our reducer needs is a way to update a customer and a way to remove a customer. Let's begin by opening `src/ducks/workspaceReducer.js`. We'll need two action types. One called `UPDATE_CUSTOMER` and one called `DELETE_CUSTOMER`. We'll also want to `export` these action types so our list reducer can `import` them.
+Now we need a way to update a customer. Let's begin by opening `src/customers.js` to create our HTTP call. We'll create and export a function called `updateCustomer`. It will take in two parameters: an id and an object. This will have the key value pairs of the things we want to change and their new values.  In `updateCustomer`, we'll make an axios patch request. `PATCH` is an http verb that is used to say that we only want to change part of something. Here, we only want to change part of the customer information, so `PATCH` will work for us.
 
-```js
-export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
-```
+<br/>
+<br/>
 
-We'll also need two action creators to go along with these actions types. Let's create an action creator called `updateCustomer` that has an `id` and `obj` parameter. This function should create a promise using `axios.patch`. The api URL should equal `apiURL` + `id`. The promise should use `obj` as the request body. The request body is the second argument of `axios.patch`. The promise should also capture the response and return the data of the response. This function should also return an object with a `type` property that equals `UPDATE_CUSTOMER` and a `payload` property that equals `promise`.
+Go into `src/components/App.js` and import the `updateCustomer` function. Create a method on the App component called `saveEdit`. This method will take in an id and an object, then invoke updateCustomer with those parameters passed in. In the `.then` callback function, we'll invoke `getCustomerList` so we can update our list component. We'll then setState in the `.then` of `getCustomerList`, setting the value of customerList to the list we received, and currentCustomer to the updated customer we received from the API when calling `updateCustomer`. Finally, we'll pass saveEdit down to our Workspace component as a prop.
 
-```js
-export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
+<br/>
+<br/>
 
-export function updateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
-  return {
-    type: UPDATE_CUSTOMER,
-    payload: promise
-  }
-}
-```
 
-We'll then want to add a `deleteCustomer` action creator. This function should have an `id` parameter. We can then create a promise using `axios.delete`. The URL will equal `apiURL` + `id`. Since the `json-server` doesn't return any useful information on a `delete` call, we won't be capturing the response. Instead let's use an arrow function that returns the `id`. That way our list reducer can know which customer to remove from the customer list. This function should return an object with a `type` property that equals `DELETE_CUSTOMER` and a `payload` property that equals `promise`.
+In `src/Workspace/Workspace.js`, we need to add `updateCustomer` to the props we are destructuring and pass it down to the Customer component through props. In `src/Workspace/Customer/Customer.js`, we'll do the same - destructure `updateCustomer` from props and pass it down as a prop to Information, Status, and RepairLog.
+<br/>
+<br/>
 
-```js
-export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
-export function updateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
-  return {
-    type: UPDATE_CUSTOMER,
-    payload: promise
-  }
-}
+In the Information, Status, and RepairLog components, we need to destructure `updateCustomer` and pass down to the ToggleEdit component.
+<br/>
+<br/>
 
-<<<<<<< HEAD
-export function deleteCustomer( promise ) {
-=======
-export function deleteCustomer( id ) {
-  const promise = axios.delete( apiURL + id ).then( () => id );
->>>>>>> 4fc8bda5f69d83469ba40a380f80f4f34b1cbea7
-  return {
-    type: DELETE_CUSTOMER,
-    payload: promise
-  }
-}
-```
-
-Now that we have our action types and creators, let's update our switch statement in our reducer to handle the `_FULFILLED` cases. Add a case called `UPDATE_CUSTOMER + '_FULFILLED'`. This case should return a new object that has all of previous state and sets customer to a new object that equals the `payload` property of `action`. We'll also want to add a case called `DELETE_CUSTOMER + '_FULFILLED'`. This case should return a new object that has all of previous state and sets `initialLoad` to `true` and `customer` to `{}`.
+In `src/components/Workspace/Customer/ToggleEdit/ToggleEdit.js`, find the save method. Have this method invoke the saveEdit function from props, passing in the id from props and an object with the property from props and the value from state:
 
 ```js
-export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
-
-// Reducer
-export default function workspaceReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case SHOW_CREATE_CUSTOMER:
-      return Object.assign({}, state, { creating: true });
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        initialLoad: true,
-        creating: false,
-        customer: {}
-      }
-
-    case GET_CUSTOMER + "_PENDING":
-      return {
-        loading: true,
-        initialLoad: false,
-        creating: false,
-        customer: {}
-      }
-
-    case GET_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, customer: action.payload });
-
-    case UPDATE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { customer: Object.assign({}, action.payload) });
-
-    case DELETE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { initialLoad: true, customer: {} });
-
-    default: return state;
-  }
-}
-
-export function updateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
-  return {
-    type: UPDATE_CUSTOMER,
-    payload: promise
-  }
-}
-
-export function deleteCustomer( id ) {
-  const promise = axios.delete( apiURL + id ).then( () => id );
-  return {
-    type: DELETE_CUSTOMER,
-    payload: promise
-  }
-}
+{[this.props.property]: this.state.val}
 ```
 
 </details>
@@ -1098,99 +739,34 @@ export function deleteCustomer( id ) {
 
 <details>
 
-<summary> <code> src/ducks/workspaceReducer.js </code> </summary>
+<summary> <code> src/customers.js </code> </summary>
 
 ```js
-import apiURL from '../api';
 import axios from 'axios';
+import apiURL from './api';
 
-const initialState = {
-  loading: false,
-  customer: {},
-  initialLoad: true,
-  creating: false
-};
-
-// Action Types
-const SHOW_CREATE_CUSTOMER = "SHOW_CREATE_CUSTOMER";
-const GET_CUSTOMER = "GET_CUSTOMER";
-export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
-export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
-
-// Reducer
-export default function workspaceReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case SHOW_CREATE_CUSTOMER:
-      return Object.assign({}, state, { creating: true });
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        initialLoad: true,
-        creating: false,
-        customer: {}
-      }
-
-    case GET_CUSTOMER + "_PENDING":
-      return {
-        loading: true,
-        initialLoad: false,
-        creating: false,
-        customer: {}
-      }
-
-    case GET_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { loading: false, customer: action.payload });
-
-    case UPDATE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { customer: Object.assign({}, action.payload) });
-
-    case DELETE_CUSTOMER + "_FULFILLED":
-      return Object.assign({}, state, { initialLoad: true, customer: {} });
-
-    default: return state;
-  }
+export const getCustomerList = function() {
+  return axios.get(apiURL).then(response => {
+    return response.data;
+  })
 }
 
-// Action Creators
-export function showCreateCustomer() {
-  return {
-    type: SHOW_CREATE_CUSTOMER,
-    payload: null
-  }
+export const getCustomer = function(id) {
+  return axios.get(apiURL+id).then(response => {
+    return response.data;
+  })
 }
 
-export function createCustomer( obj ) {
-  const promise = axios.post( apiURL, obj ).then( response => response.data );
-  return {
-    type: CREATE_CUSTOMER,
-    payload: promise
-  }
+export const postCustomer = function(customer) {
+  return axios.post(apiURL, customer).then(response => {
+    return response.data;
+  })
 }
 
-export function getCustomer( id ) {
-  const promise = axios.get( apiURL + id ).then( response => response.data );
-  return {
-    type: GET_CUSTOMER,
-    payload: promise
-  }
-}
-
-export function updateCustomer( id, obj ) {
-  const promise = axios.patch( apiURL + id, obj ).then( response => response.data );
-  return {
-    type: UPDATE_CUSTOMER,
-    payload: promise
-  }
-}
-
-export function deleteCustomer( id ) {
-  const promise = axios.delete( apiURL + id ).then( () => id );
-  return {
-    type: DELETE_CUSTOMER,
-    payload: promise
-  }
+export const updateCustomer = function(id, obj) {
+  return axios.patch(apiURL + id, obj).then(response => {
+    return response.data;
+  })
 }
 ```
 
@@ -1198,97 +774,205 @@ export function deleteCustomer( id ) {
 
 <details>
 
-<summary> <code> src/ducks/listReducer.js </code> </summary>
+<summary> <code> src/App.js (not full file) </code> </summary>
 
 ```js
-import apiURL from "../api";
-import axios from "axios";
-import { CREATE_CUSTOMER, UPDATE_CUSTOMER, DELETE_CUSTOMER } from './workspaceReducer';
+import React, { Component } from 'react';
+import './App.css';
 
-const initialState = {
-  loading: false,
-  customerList: []
-}
+import Header from './Header/Header';
+import List from './List/List';
+import Workspace from './Workspace/Workspace';
 
-// Action Types
-const GET_LIST = "GET_LIST";
+import { getCustomerList, postCustomer, getCustomer, updateCustomer } from '../customers';
 
-// Reducer
-export default function listReducer( state = initialState, action ) {
-  switch( action.type ) {
-    case GET_LIST + "_PENDING":
-      return {
-        loading: true,
-        customerList: []
-      }
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      customerList: [],
+      initialLoad: true,
+      creating: false,
+      currentCustomer: null
+    }
 
-    case GET_LIST + "_FULFILLED":
-      return {
-        loading: false,
-        customerList: action.payload
-      }
-
-    case CREATE_CUSTOMER + "_FULFILLED":
-      return {
-        loading: false,
-        customerList: [ ...state.customerList, action.payload ]
-      }
-
-    case UPDATE_CUSTOMER + "_FULFILLED":
-      const { payload } = action;
-      const updateID = state.customerList.findIndex( customer => customer.id === action.payload.id );
-      return {
-        loading: false,
-        customerList: state.customerList.slice(0, updateID).concat( payload ).concat(state.customerList.slice(updateID + 1, state.customerList.length ))
-      }
-
-    case DELETE_CUSTOMER + "_FULFILLED":
-      const deleteID = action.payload;
-      return {
-        loading: false,
-        customerList: state.customerList.filter( customer => customer.id !== deleteID )
-      }
-
-    default: return state;
+    this.startNewCustomer = this.startNewCustomer.bind(this);
+    this.createCustomer = this.createCustomer.bind(this);
+    this.selectCustomer = this.selectCustomer.bind(this);
+    this.saveEdit = this.saveEdit.bind(this);
   }
+
+//skipping lines...
+
+saveEdit(id, obj) {
+  updateCustomer(id, obj).then(updatedCustomer => {
+    getCustomerList().then(list=> {
+      this.setState({
+        customerList: list,
+        currentCustomer: updatedCustomer
+      })
+    })
+  })
 }
 
-// Action Creators
-export function getList() {
-  const promise = axios.get( apiURL ).then( response => response.data );
-  return {
-    type: GET_LIST,
-    payload: promise
-  }
-}
+//skipping lines...
+
+<Workspace initialLoad={this.state.initialLoad}
+          createCustomer={this.createCustomer}
+          currentCustomer={this.state.currentCustomer}
+          creating={this.state.creating}
+          saveEdit={this.saveEdit}
+        />
+
 ```
 
 </details>
 
-## Step 9
+<details>
 
-### Summary
+<summary> <code> src/components/Workspace/Workspace.js</code> </summary>
 
-In this step, we'll hook up the `ToggleEdit` component and `RemoveCustomer` component to the workspace reducer.
+```js
+import React from "react";
+import './Workspace.css';
 
-### Instructions
+import Customer from './Customer/Customer';
+import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-* Open `src/components/Workspace/Customer/ToggleEdit/ToggleEdit.js`.
-  * Import `updateCustomer` from `src/ducks/workspaceReducer.js`.
-  * Modify the component to use `connect` from `"react-redux"`.
-    * Make sure to include `updateCustomer` in the `connect` statement.
-  * Locate the `save` method and call `updateCustomer` before `this.setState`.
-    * Remember this function needs an `id` argument and `object` argument.
-    * Remember this function exists on `props`.
-* Open `src/components/Workspace/Customer/RemoveCustomer/RemoveCustomer.js`.
-  * Import `deleteCustomer` from `src/ducks/workspaceReducer.js`.
-  * Modify the component to use `connect` from `"react-redux"`.
-    * Make sure to include `deleteCustomer` in the `connect` statement.
-  * Locate the `remove` method and call `deleteCustomer`.
-    * Remember this function needs an `id` argument.
-    * Remember this function exists on `props`.
+function Workspace( { loading, initialLoad, creating, createCustomer, currentCustomer, saveEdit} ) {
 
-### Solution
+  return (
+    <div id="Workspace__container">
+      {
+        creating
+        ?
+          <CreateCustomer createCustomer={createCustomer}/>
+        :
+          initialLoad
+          ?
+            <div>
+              <p> Please select a customer from the left. </p>
+            </div>
+          :
+            loading
+            ?
+              <div>
+                <p> Fetching customer information.. </p>
+              </div>
+            :
+              <Customer id={currentCustomer.id}
+                        first={currentCustomer.first}
+                        last={currentCustomer.last}
+                        email={currentCustomer.email}
+                        phone={currentCustomer.phone}
+                        status={currentCustomer.status}
+                        log={currentCustomer.log}
+                        saveEdit={saveEdit}
+                        />
+      }
+    </div>
+  )
+}
+
+export default Workspace;
+
+
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/components/Workspace/Customer/Customer.js</code> </summary>
+
+```js
+import React from "react";
+import './Customer.css';
+
+import Information from './Information/Information';
+import Status from './Status/Status';
+import RepairLog from './RepairLog/RepairLog';
+import RemoveCustomer from './RemoveCustomer/RemoveCustomer';
+
+function Customer({ id, first, last, email, phone, status, log, saveEdit }) {
+
+    return (
+      <div id="Customer__container">
+        <Information id={ id } first={ first } last={ last } email={ email } phone={ phone } saveEdit={saveEdit}/>
+        <Status id={ id } status={ status } saveEdit={saveEdit}/>
+        <RepairLog id={ id } log={ log } saveEdit={saveEdit}/>
+        <RemoveCustomer id={ id } />
+      </div>
+    )
+}
+
+export default Customer;
+
+
+```
+
+</details>
+
+
+<details>
+
+<summary> <code> Information, Status, and RepairLog components</code> </summary>
+
+```js
+//Information.js
+import React from 'react';
+import ToggleEdit from '../ToggleEdit/ToggleEdit';
+import './Information.css';
+
+export default function Information( { id, first, last, email, phone, saveEdit }) {
+  return (
+
+    <div id="CustomerInformation__container">
+      <p id="CustomerInformation__fullName"> { first } { last } </p>
+      <p id="CustomerInformation__id"> ID: { id } </p>
+      <ToggleEdit id={ id } description="First Name" property="first" val={ first } readOnlyVal={ first } saveEdit={saveEdit}/>
+      <ToggleEdit id={ id } description="Last Name" property="last" val={ last } readOnlyVal={ last } saveEdit={saveEdit}/>
+      <ToggleEdit id={ id } description="Email" property="email" val={ email } readOnlyVal={ email } saveEdit={saveEdit}/>
+      <ToggleEdit id={ id } description="Phone" property="phone" val={ phone } readOnlyVal={ phone } saveEdit={saveEdit}/>
+    </div>
+  )
+}
+
+
+//Status
+import React from 'react';
+import ToggleEdit from '../ToggleEdit/ToggleEdit';
+import './Status.css';
+
+export default function Status( { id, status, saveEdit } ) {
+  return (
+    <div id="CustomerStatus__container">
+      <h5> Customer Status </h5>
+      <ToggleEdit id={ id } description="Customer Status" property="status" val={ status } readOnlyVal={ status } saveEdit={saveEdit}/>
+    </div>
+  )
+}
+
+//RepairLog
+import React from "react";
+import ToggleEdit from '../ToggleEdit/ToggleEdit';
+import './RepairLog.css';
+
+export default function RepairLog({ id, log, saveEdit }) {
+    return (
+      <div id="CustomerRepairLog__container">
+        <h5> Repair Log </h5>
+        <ToggleEdit multi id={ id } property="log" val={ log } readOnlyVal={ log } saveEdit={saveEdit}/>
+      </div>
+    )
+}
+
+
+```
+
+</details>
+
+
 
 <details>
 
@@ -1296,16 +980,14 @@ In this step, we'll hook up the `ToggleEdit` component and `RemoveCustomer` comp
 
 ```jsx
 import React, { Component } from 'react';
-import { updateCustomer } from '../../../../ducks/workspaceReducer';
-import { connect } from "react-redux";
 import './ToggleEdit.css';
 
-class ToggleEdit extends Component {
+export default class ToggleEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
       val: this.props.val,
-      editting: false
+      editing: false
     }
 
     this.handleChange = this.handleChange.bind( this );
@@ -1313,34 +995,44 @@ class ToggleEdit extends Component {
     this.save = this.save.bind( this );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.val !== this.state.val) {
+      this.setState({
+        val: nextProps.val
+      })
+    }
+  }
+
   handleChange(event) {
     this.setState({ val: event.target.value });
   }
 
   toggle() {
-    this.setState({ editting: !this.state.editting, val: this.props.readOnlyVal })
+    this.setState({ editing: !this.state.editing, val: this.props.readOnlyVal })
   }
 
   save() {
-    this.props.updateCustomer( this.props.id, { [this.props.property]: this.state.val } );
-    this.setState({ editting: !this.state.editting });
+    this.props.saveEdit(this.props.id, {[this.props.property]: this.state.val});
+    this.setState({
+      editing: false
+    });
   }
 
   render() {
-    const { description, multi } = this.props;
-    const { editting, val } = this.state;
+    var { description, multi } = this.props;
+    var { editing, val } = this.state;
 
     return (
       <div className="CustomerToggleEdit__container">
         {
           multi
           ?
-            <textarea className="CustomerToggleEdit__textarea" disabled={ !editting } value={ val } onChange={ this.handleChange } />
+            <textarea className="CustomerToggleEdit__textarea" disabled={ !editing } value={ val } onChange={ this.handleChange } />
           :
-            <input className="CustomerToggleEdit__input" disabled={ !editting } placeholder={ description } value={ val } onChange={ this.handleChange } />  
+            <input className="CustomerToggleEdit__input" disabled={ !editing } placeholder={ description } value={ val } onChange={ this.handleChange } />
         }
         {
-          editting
+          editing
           ?
             multi
             ?
@@ -1355,7 +1047,7 @@ class ToggleEdit extends Component {
               <button className="CustomerToggleEdit__editBtn" onClick={ this.toggle }>Edit</button>
         }
         {
-          editting
+          editing
           ?
             multi
             ?
@@ -1370,7 +1062,209 @@ class ToggleEdit extends Component {
   }
 }
 
-export default connect( state => state, { updateCustomer } )( ToggleEdit );
+```
+
+</details>
+
+
+
+## Step 9
+
+### Summary
+
+In this step, we'll create a function `deleteCustomer` in our customers service that will take in an id and send a delete request to the API at `apiURL+id`. Then we'll import that function in App.js and create a function called `removeCustomer`. `removeCustomer` will take in an id and invoke `deleteCustomer` with that id, before refreshing the customer list and resetting state. We'll then pass `removeCustomer` down through props to the RemoveCustomer component that needs it.
+
+
+
+### Instructions
+
+
+* Open our customers service: `src/customers.js`.
+  * Create and export a function called `deleteCustomer`. This function should take in an id, so we can tell the API which customer to delete.
+  * Inside the function, call the `delete` method from axios.
+    * We will send our request to `apiURL+id`.
+    * In the `.then` callback function, you can return the response.
+
+
+* Now we need to pass the function down to the RemoveCustomer component who needs it. Open `src/components/App.js`.
+    * Import `deleteCustomer` from our customers service.
+    * Create a function on the App component named `removeCustomer`. This function should take in an id, then call `deleteCustomer`, passing in that id. This will tell the API which customer to delete.
+      * Bind the context of function `removeCustomer` to the App component.
+    * Pass removeCustomer as a prop down to the Customer component.
+* Open `src/components/Workspace/Workspace.js`.
+    * Add `removeCustomer` to the list of props we are destructuring in the Customer function parameters.
+    * Pass removeCustomer as a prop down to the Customer component.
+* Open `src/components/Workspace/Customer/Customer.js`.
+    * Do the same with `removeCustomer` as we did in Workspace. Destructure the variable in the parameters, then pass it down as props to RemoveCustomer.  
+* Open `src/components/Workspace/Customer/RemoveCustomer/RemoveCustomer.js`.
+  * Create a function on the component called `removeCustomer`.
+  * This function should invoke the `deleteCustomer` function that we just passed down through props.
+    * Make sure to pass in the customer id from props as well.
+    * Be sure that the function's context is bound to the RemoveCustomer component.
+  * pass the component function `removeCustomer` (this.removeCustomer) into the onClick property on the confirm button.
+* The `deleteCustomer` function should now be available everywhere we need it - try removing customers to make sure it's working.
+
+### Solution
+
+<details>
+
+<summary> <code> src/customers.js </code> </summary>
+
+```jsx
+import axios from 'axios';
+import apiURL from './api';
+
+export const getCustomerList = function() {
+  return axios.get(apiURL).then(response => {
+    return response.data;
+  })
+}
+
+export const getCustomer = function(id) {
+  return axios.get(apiURL+id).then(response => {
+    return response.data;
+  })
+}
+
+export const postCustomer = function(customer) {
+  return axios.post(apiURL, customer).then(response => {
+    return response.data;
+  })
+}
+
+export const updateCustomer = function(id, obj) {
+  return axios.patch(apiURL + id, obj).then(response => {
+    return response.data;
+  })
+}
+
+export const deleteCustomer = function(id) {
+  return axios.delete(apiURL + id).then(response => {
+    return response.data;
+  })
+}
+```
+
+</details>
+<details>
+
+<summary> <code> src/components/App.js (not entire file) </code> </summary>
+
+```jsx
+import React, { Component } from 'react';
+import './App.css';
+
+import Header from './Header/Header';
+import List from './List/List';
+import Workspace from './Workspace/Workspace';
+
+import { getCustomerList, postCustomer, getCustomer, updateCustomer, deleteCustomer } from '../customers';
+
+class App extends Component {
+  //skipping lines...
+  removeCustomer(id) {
+    deleteCustomer(id).then(deletedCustomer =>{
+      getCustomerList().then(list =>{
+        this.setState({
+          customerList: list,
+          currentCustomer: null,
+          initialLoad: true
+        })
+      })
+    })
+  }
+  //skipping lines...
+
+  <Workspace initialLoad={this.state.initialLoad}
+            createCustomer={this.createCustomer}
+            currentCustomer={this.state.currentCustomer}
+            creating={this.state.creating}
+            saveEdit={this.saveEdit}
+            removeCustomer={this.removeCustomer}
+          />
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/components/Workspace/Workspace.js </code> </summary>
+
+```jsx
+import React from "react";
+import './Workspace.css';
+
+import Customer from './Customer/Customer';
+import CreateCustomer from './CreateCustomer/CreateCustomer';
+
+function Workspace( { loading, initialLoad, creating, createCustomer, currentCustomer, saveEdit, removeCustomer} ) {
+
+  return (
+    <div id="Workspace__container">
+      {
+        creating
+        ?
+          <CreateCustomer createCustomer={createCustomer}/>
+        :
+          initialLoad
+          ?
+            <div>
+              <p> Please select a customer from the left. </p>
+            </div>
+          :
+            loading
+            ?
+              <div>
+                <p> Fetching customer information.. </p>
+              </div>
+            :
+              <Customer id={currentCustomer.id}
+                        first={currentCustomer.first}
+                        last={currentCustomer.last}
+                        email={currentCustomer.email}
+                        phone={currentCustomer.phone}
+                        status={currentCustomer.status}
+                        log={currentCustomer.log}
+                        saveEdit={saveEdit}
+                        removeCustomer={removeCustomer}
+                        />
+      }
+    </div>
+  )
+}
+
+export default Workspace;
+
+```
+
+</details>
+
+<details>
+
+<summary> <code> src/components/Workspace/Customer/Customer.js </code> </summary>
+
+```jsx
+import React from "react";
+import './Customer.css';
+
+import Information from './Information/Information';
+import Status from './Status/Status';
+import RepairLog from './RepairLog/RepairLog';
+import RemoveCustomer from './RemoveCustomer/RemoveCustomer';
+
+function Customer({ id, first, last, email, phone, status, log, saveEdit, removeCustomer }) {
+
+    return (
+      <div id="Customer__container">
+        <Information id={ id } first={ first } last={ last } email={ email } phone={ phone } saveEdit={saveEdit}/>
+        <Status id={ id } status={ status } saveEdit={saveEdit}/>
+        <RepairLog id={ id } log={ log } saveEdit={saveEdit}/>
+        <RemoveCustomer id={ id } removeCustomer={removeCustomer}/>
+      </div>
+    )
+}
+
+export default Customer;
 ```
 
 </details>
@@ -1383,10 +1277,7 @@ export default connect( state => state, { updateCustomer } )( ToggleEdit );
 import React, { Component } from "react";
 import './RemoveCustomer.css';
 
-import { deleteCustomer } from '../../../../ducks/workspaceReducer';
-import { connect } from 'react-redux';
-
-class RemoveCustomer extends Component {
+export default class RemoveCustomer extends Component {
   constructor() {
     super();
     this.state = {
@@ -1402,8 +1293,7 @@ class RemoveCustomer extends Component {
   }
 
   remove() {
-    const { deleteCustomer, id } = this.props;
-    deleteCustomer( id );
+      this.props.removeCustomer(this.props.id);
   }
 
   render() {
@@ -1425,7 +1315,6 @@ class RemoveCustomer extends Component {
   }
 }
 
-export default connect( state => state, { deleteCustomer } )( RemoveCustomer );
 ```
 
 </details>
