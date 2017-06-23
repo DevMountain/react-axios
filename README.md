@@ -439,7 +439,7 @@ import './Workspace.css';
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace( { loading, initialLoad, creating, currentCustomer, createCustomer } ) {
+function Workspace( { initialLoad, creating, currentCustomer, createCustomer } ) {
 
   return (
     <div id="Workspace__container">
@@ -454,12 +454,8 @@ function Workspace( { loading, initialLoad, creating, currentCustomer, createCus
               <p> Please select a customer from the left. </p>
             </div>
           :
-            loading
+            currentCustomer
             ?
-              <div>
-                <p> Fetching customer information.. </p>
-              </div>
-            :
               <Customer id={currentCustomer.id}
                         first={currentCustomer.first}
                         last={currentCustomer.last}
@@ -468,6 +464,7 @@ function Workspace( { loading, initialLoad, creating, currentCustomer, createCus
                         status={currentCustomer.status}
                         log={currentCustomer.log}
                         />
+                : null
       }
     </div>
   )
@@ -839,7 +836,7 @@ import './Workspace.css';
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace( { loading, initialLoad, creating, createCustomer, currentCustomer, saveEdit} ) {
+function Workspace( { initialLoad, creating, createCustomer, currentCustomer, saveEdit} ) {
 
   return (
     <div id="Workspace__container">
@@ -854,12 +851,8 @@ function Workspace( { loading, initialLoad, creating, createCustomer, currentCus
               <p> Please select a customer from the left. </p>
             </div>
           :
-            loading
+            currentCustomer
             ?
-              <div>
-                <p> Fetching customer information.. </p>
-              </div>
-            :
               <Customer id={currentCustomer.id}
                         first={currentCustomer.first}
                         last={currentCustomer.last}
@@ -869,6 +862,7 @@ function Workspace( { loading, initialLoad, creating, createCustomer, currentCus
                         log={currentCustomer.log}
                         saveEdit={saveEdit}
                         />
+              : null
       }
     </div>
   )
@@ -1197,7 +1191,7 @@ import './Workspace.css';
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace( { loading, initialLoad, creating, createCustomer, currentCustomer, saveEdit, removeCustomer} ) {
+function Workspace( { initialLoad, creating, createCustomer, currentCustomer, saveEdit, removeCustomer} ) {
 
   return (
     <div id="Workspace__container">
@@ -1212,11 +1206,7 @@ function Workspace( { loading, initialLoad, creating, createCustomer, currentCus
               <p> Please select a customer from the left. </p>
             </div>
           :
-            loading
-            ?
-              <div>
-                <p> Fetching customer information.. </p>
-              </div>
+            currentCustomer
             :
               <Customer id={currentCustomer.id}
                         first={currentCustomer.first}
@@ -1228,6 +1218,7 @@ function Workspace( { loading, initialLoad, creating, createCustomer, currentCus
                         saveEdit={saveEdit}
                         removeCustomer={removeCustomer}
                         />
+                : null
       }
     </div>
   )
