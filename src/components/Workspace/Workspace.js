@@ -1,11 +1,11 @@
 import React from "react";
 import './Workspace.css';
-import { connect } from "react-redux";
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace( { loading, initialLoad, creating } ) {
+function Workspace( { initialLoad, creating, currentCustomer } ) {
+
   return (
     <div id="Workspace__container">
       {
@@ -19,25 +19,20 @@ function Workspace( { loading, initialLoad, creating } ) {
               <p> Please select a customer from the left. </p>
             </div>
           :
-            loading
+            currentCustomer
             ?
-              <div>
-                <p> Fetching customer information.. </p>
-              </div>
-            :
-              <Customer />
+              <Customer id={currentCustomer.id}
+                        first={currentCustomer.first}
+                        last={currentCustomer.last}
+                        email={currentCustomer.email}
+                        phone={currentCustomer.phone}
+                        status={currentCustomer.status}
+                        log={currentCustomer.log}
+                        />
+            : null
       }
     </div>
   )
 }
 
-function mapStateToProps( state ) {
-  state = state.workspaceReducer;
-  return {
-    loading: state.loading,
-    initialLoad: state.initialLoad,
-    creating: state.creating
-  };
-}
-
-export default connect( mapStateToProps )( Workspace );
+export default Workspace;

@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import './List.css';
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
+
 class List extends Component {
+
   render() {
     const {
-      loading,
       customerList
     } = this.props;
-    
+
     const CustomerComponents = customerList.map( customer => (
       <Customer
-        key={ customer.id } 
+        key={ customer.id }
         id={ customer.id }
         first={ customer.first }
         last={ customer.last }
@@ -24,10 +24,6 @@ class List extends Component {
     return (
       <div id="List__container">
         {
-          loading
-          ?
-            <p> Fetching Customers.. </p>
-          :
             <div id="List__namesContainer">
               { CustomerComponents }
               <CreateCustomer />
@@ -38,9 +34,4 @@ class List extends Component {
   }
 }
 
-function mapStateToProps( state ) {
-  state = state.listReducer;
-  return state;
-}
-
-export default connect( mapStateToProps )( List );
+export default List;

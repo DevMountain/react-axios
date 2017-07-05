@@ -30,8 +30,9 @@ export default class CreateCustomer extends Component {
       status: 'New Customer',
       log: ''
     }
+
   }
-  
+
   render() {
     const { first, last, email, phone } = this.state;
 
