@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import './RemoveCustomer.css';
 
-import { deleteCustomer } from '../../../../ducks/workspaceReducer';
-import { connect } from 'react-redux';
-
-class RemoveCustomer extends Component {
+export default class RemoveCustomer extends Component {
   constructor() {
     super();
     this.state = {
@@ -20,8 +17,7 @@ class RemoveCustomer extends Component {
   }
 
   remove() {
-    const { deleteCustomer, id } = this.props;
-    deleteCustomer( id );
+      this.props.removeCustomer(this.props.id);
   }
 
   render() {
@@ -42,5 +38,3 @@ class RemoveCustomer extends Component {
     )
   }
 }
-
-export default connect( state => state, { deleteCustomer } )( RemoveCustomer );

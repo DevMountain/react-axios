@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { createCustomer } from '../../../ducks/workspaceReducer';
 
 import './CreateCustomer.css';
 
-class CreateCustomer extends Component {
+export default class CreateCustomer extends Component {
   constructor() {
     super();
     this.state = {
@@ -35,7 +33,7 @@ class CreateCustomer extends Component {
 
     this.props.createCustomer( customer );
   }
-  
+
   render() {
     const { first, last, email, phone } = this.state;
 
@@ -50,5 +48,3 @@ class CreateCustomer extends Component {
     )
   }
 }
-
-export default connect( state => state, { createCustomer } )( CreateCustomer );

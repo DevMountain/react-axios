@@ -1,42 +1,34 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
 import './List.css';
-
-import { getList } from '../../ducks/listReducer';
 
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
+
 class List extends Component {
-  componentDidMount() {
-    this.props.getList();
-  }
 
   render() {
     const {
-      loading,
       customerList,
+      selectCustomer
     } = this.props;
-    
+
     const CustomerComponents = customerList.map( customer => (
       <Customer
-        key={ customer.id } 
+        key={ customer.id }
         id={ customer.id }
         first={ customer.first }
         last={ customer.last }
+        selectCustomer={selectCustomer}
       />
     ));
 
     return (
       <div id="List__container">
         {
-          loading
-          ?
-            <p> Fetching Customers.. </p>
-          :
             <div id="List__namesContainer">
               { CustomerComponents }
-              <CreateCustomer />
+              <CreateCustomer startNewCustomer={this.props.startNewCustomer}/>
             </div>
         }
       </div>
@@ -44,9 +36,4 @@ class List extends Component {
   }
 }
 
-function mapStateToProps( state ) {
-  state = state.listReducer;
-  return state;
-}
-
-export default connect( mapStateToProps, { getList } )( List );
+export default List;

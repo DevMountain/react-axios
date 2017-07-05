@@ -1,15 +1,10 @@
 import React from 'react';
 import './CreateCustomer.css';
 
-import { connect } from "react-redux";
-import { showCreateCustomer } from '../../../ducks/workspaceReducer';
-
-function CreateCustomer({ showCreateCustomer }) {
+export default function CreateCustomer({startNewCustomer}) {
   return (
     <div id="CreateCustomerBtn__container">
-      <button id="CreateCustomer__btn" onClick={ showCreateCustomer }> New Customer </button>
+      <button id="CreateCustomer__btn" onClick={startNewCustomer}> New Customer </button>
     </div>
   )
 }
-
-export default connect( state => state, { showCreateCustomer } )( CreateCustomer );

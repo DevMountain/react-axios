@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { updateCustomer } from '../../../../ducks/workspaceReducer';
-import { connect } from "react-redux";
 import './ToggleEdit.css';
 
-class ToggleEdit extends Component {
+export default class ToggleEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
       val: this.props.val,
-      editting: false
+      editing: false
     }
 
     this.handleChange = this.handleChange.bind( this );
@@ -16,34 +14,44 @@ class ToggleEdit extends Component {
     this.save = this.save.bind( this );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.val !== this.state.val) {
+      this.setState({
+        val: nextProps.val
+      })
+    }
+  }
+
   handleChange(event) {
     this.setState({ val: event.target.value });
   }
 
   toggle() {
-    this.setState({ editting: !this.state.editting, val: this.props.readOnlyVal })
+    this.setState({ editing: !this.state.editing, val: this.props.readOnlyVal })
   }
 
   save() {
-    this.props.updateCustomer( this.props.id, { [this.props.property]: this.state.val } );
-    this.setState({ editting: !this.state.editting });
+    this.props.saveEdit(this.props.id, {[this.props.property]: this.state.val});
+    this.setState({
+      editing: false
+    });
   }
 
   render() {
-    const { description, multi } = this.props;
-    const { editting, val } = this.state;
+    var { description, multi } = this.props;
+    var { editing, val } = this.state;
 
     return (
       <div className="CustomerToggleEdit__container">
         {
           multi
           ?
-            <textarea className="CustomerToggleEdit__textarea" disabled={ !editting } value={ val } onChange={ this.handleChange } />
+            <textarea className="CustomerToggleEdit__textarea" disabled={ !editing } value={ val } onChange={ this.handleChange } />
           :
-            <input className="CustomerToggleEdit__input" disabled={ !editting } placeholder={ description } value={ val } onChange={ this.handleChange } />  
+            <input className="CustomerToggleEdit__input" disabled={ !editing } placeholder={ description } value={ val } onChange={ this.handleChange } />
         }
         {
-          editting
+          editing
           ?
             multi
             ?
@@ -58,7 +66,7 @@ class ToggleEdit extends Component {
               <button className="CustomerToggleEdit__editBtn" onClick={ this.toggle }>Edit</button>
         }
         {
-          editting
+          editing
           ?
             multi
             ?
@@ -72,5 +80,3 @@ class ToggleEdit extends Component {
     )
   }
 }
-
-export default connect( state => state, { updateCustomer } )( ToggleEdit ); 

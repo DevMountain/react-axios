@@ -8,6 +8,24 @@
       "email": "bobjoe@gmail.com",
       "phone": "(386)-543-2353",
       "log": "This\nis\na\ntest\nlog"
+    },
+    {
+      "id": 2,
+      "first": "Sarah",
+      "last": "Croft",
+      "status": "2015 macbook pro in for repair",
+      "email": "sarahcroft@gmail.com",
+      "phone": "(786)-524-4390",
+      "log": "This\nis\na\ntest\nlog"
+    },
+    {
+      "first": "Moey",
+      "last": "Marilla",
+      "email": "joe@joe.com",
+      "phone": "1098230989",
+      "status": "New Customer",
+      "log": "",
+      "id": 3
     }
   ]
 }
