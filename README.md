@@ -88,14 +88,14 @@ axios.get( 'http://localhost:3000/somePath' ).then( response => response.data );
 axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } ).then( response => response.data );
 ```
 
-To get the customerList, we'll want to make an axios call that uses the `get` method. In the callback, we'll want to return the `data` property from the response.
+To get the customerList, we'll want to make an axios call that uses the `get` method. In the callback, we'll want to return the `data` property from the response. If we use a fat arrow function and keep it on the same line, we don't need to put `return`, because it will return response.data automatically. 
 
 ```js
 import axios from 'axios';
 import apiURL from '../api';
 
 export function getCustomerList() {
-  axios.get( apiURL ).then( response => response.data );
+  return axios.get( apiURL ).then( response => response.data );
 }
 ```
 </details>
