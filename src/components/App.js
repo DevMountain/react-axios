@@ -5,38 +5,90 @@ import Header from './Header/Header';
 import List from './List/List';
 import Workspace from './Workspace/Workspace';
 
+import {
+  getCustomerList,
+  postCustomer,
+  getCustomer,
+  updateCustomer,
+  deleteCustomer
+} from '../customers';
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       customerList: undefined,
       initialLoad: true,
       creating: false,
       currentCustomer: null
-    }
-
+    };
+    this.startNewCustomer = this.startNewCustomer.bind(this);
+    this.createCustomer = this.createCustomer.bind(this);
+    this.selectCustomer = this.selectCustomer.bind(this);
+    this.saveEdit = this.saveEdit.bind(this);
+    this.removeCustomer = this.removeCustomer.bind(this);
   }
-
+  componentDidMount() {
+    getCustomerList().then(customers =>
+      this.setState({ customerList: customers })
+    );
+  }
+  startNewCustomer() {
+    this.setState({
+      creating: true,
+      initialLoad: false,
+      currentCustomer: null
+    });
+  }
+  removeCustomer(id) {
+    deleteCustomer(id).then(res => {
+      getCustomerList().then(customers =>
+        this.setState({ customerList: customers, initialLoad: true })
+      );
+    });
+  }
+  createCustomer(obj) {
+    postCustomer(obj).then(res => {
+      getCustomerList().then(customers =>
+        this.setState({ customerList: customers, initialLoad: true })
+      );
+    });
+  }
+  selectCustomer(id) {
+    getCustomer(id).then(res => {
+      this.setState({ currentCustomer: res, initialLoad: false });
+    });
+  }
+  saveEdit(id, obj) {
+    updateCustomer(id, obj).then(customer => {
+      getCustomerList().then(customers =>
+        this.setState({ customerList: customers, currentCustomer: customer })
+      );
+    });
+  }
   render() {
     return (
       <div>
         <Header />
         <div className="App__container">
-          {
-            this.state.customerList ?
+          {this.state.customerList ? (
             <List
               customerList={this.state.customerList || []}
-              />
-            : null
-          }
-          <Workspace initialLoad={this.state.initialLoad}
-                    currentCustomer={this.state.currentCustomer}
-                    creating={this.state.creating}
-                  />
+              startNewCustomer={this.startNewCustomer}
+              selectCustomer={this.selectCustomer}
+            />
+          ) : null}
+          <Workspace
+            removeCustomer={this.removeCustomer}
+            saveEdit={this.saveEdit}
+            initialLoad={this.state.initialLoad}
+            currentCustomer={this.state.currentCustomer}
+            creating={this.state.creating}
+            createCustomer={this.createCustomer}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
 
