@@ -17,5 +17,6 @@ export function getCustomer(id) {
   });
 }
 export function updateCustomer(id, obj) {
+  console.log(id, obj);
   return axios.patch(apiURL + id, obj).then(res => res.data);
 }

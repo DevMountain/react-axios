@@ -4,7 +4,13 @@ import './Workspace.css';
 import Customer from './Customer/Customer';
 import CreateCustomer from './CreateCustomer/CreateCustomer';
 
-function Workspace({ initialLoad, creating, currentCustomer, createCustomer }) {
+function Workspace({
+  initialLoad,
+  creating,
+  currentCustomer,
+  createCustomer,
+  saveEdit
+}) {
   return (
     <div id="Workspace__container">
       {creating ? (
@@ -15,6 +21,7 @@ function Workspace({ initialLoad, creating, currentCustomer, createCustomer }) {
         </div>
       ) : currentCustomer ? (
         <Customer
+          saveEdit={saveEdit}
           id={currentCustomer.id}
           first={currentCustomer.first}
           last={currentCustomer.last}
