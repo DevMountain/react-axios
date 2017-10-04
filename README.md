@@ -88,7 +88,7 @@ axios.get( 'http://localhost:3000/somePath' ).then( response => response.data );
 axios.post( 'http://localhost:3000/somePath', { str: 'This is the request body' } ).then( response => response.data );
 ```
 
-To get the customerList, we'll want to make an axios call that uses the `get` method. In the callback, we'll want to return the `data` property from the response. If we use a fat arrow function and keep it on the same line, we don't need to put `return`, because it will return response.data automatically. 
+To get the customerList, we'll want to make an axios call that uses the `get` method. In the callback, we'll want to return the `data` property from the response. If we use a fat arrow function and keep it on the same line, we don't need to put `return`, because it will return response.data automatically.
 
 ```js
 import axios from 'axios';
@@ -726,7 +726,7 @@ Go into `src/components/App.js` and import the `updateCustomer` function. Create
 <br/>
 
 
-In `src/Workspace/Workspace.js`, we need to add `updateCustomer` to the props we are destructuring and pass it down to the Customer component through props. In `src/Workspace/Customer/Customer.js`, we'll do the same - destructure `updateCustomer` from props and pass it down as a prop to Information, Status, and RepairLog.
+In `src/Workspace/Workspace.js`, we need to add `saveEdit` to the props we are destructuring and pass it down to the Customer component through props. In `src/Workspace/Customer/Customer.js`, we'll do the same - destructure `updateCustomer` from props and pass it down as a prop to Information, Status, and RepairLog.
 <br/>
 <br/>
 
