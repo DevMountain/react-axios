@@ -726,7 +726,7 @@ Go into `src/components/App.js` and import the `updateCustomer` function. Create
 <br/>
 
 
-In `src/Workspace/Workspace.js`, we need to add `saveEdit` to the props we are destructuring and pass it down to the Customer component through props. In `src/Workspace/Customer/Customer.js`, we'll do the same - destructure `updateCustomer` from props and pass it down as a prop to Information, Status, and RepairLog.
+In `src/Workspace/Workspace.js`, we need to add `saveEdit` to the props we are destructuring and pass it down to the Customer component through props. In `src/Workspace/Customer/Customer.js`, we'll do the same - destructure `saveEdit` from props and pass it down as a prop to Information, Status, and RepairLog.
 <br/>
 <br/>
 
