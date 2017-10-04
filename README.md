@@ -731,7 +731,7 @@ In `src/Workspace/Workspace.js`, we need to add `saveEdit` to the props we are d
 <br/>
 
 
-In the Information, Status, and RepairLog components, we need to destructure `updateCustomer` and pass down to the ToggleEdit component.
+In the Information, Status, and RepairLog components, we need to destructure `saveEdit` and pass down to the ToggleEdit component.
 <br/>
 <br/>
 
