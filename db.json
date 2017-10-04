@@ -1,23 +1,17 @@
 {
   "customers": [
     {
-      "id": 1,
-      "first": "Bob",
-      "last": "Joe",
-      "status": "2015 macbook pro in for repair",
-      "email": "bobjoe@gmail.com",
-      "phone": "(386)-543-2353",
-      "log": "This\nis\na\ntest\nlog",
-      "name": "shea"
-    },
-    {
-      "id": 2,
-      "first": "Sarah",
-      "last": "Croft",
-      "status": "No repairs in progress",
-      "email": "sarahcroft@gmail.com",
-      "phone": "(325)-345-2352",
-      "log": "This\nis\nanother\ntest\nlog"
+      "first": "Lexy",
+      "last": "Zahn",
+      "email": "Lexy@email.com",
+      "phone": "8174448444",
+      "status": "New Customer",
+      "log": "",
+      "id": 3,
+      "description": "Email",
+      "property": "email",
+      "val": "Shea@email.com",
+      "readOnlyVal": "Shea@email.com"
     },
     {
       "first": "Shea",
@@ -26,25 +20,24 @@
       "phone": "8174448444",
       "status": "New Customer",
       "log": "",
-      "id": 3
-    },
-    {
-      "first": "Shea",
-      "last": "Close",
-      "email": "Shea@email.com",
-      "phone": "8174448444",
-      "status": "New Customer",
-      "log": "",
-      "id": 4
+      "id": 4,
+      "description": "First Name",
+      "property": "first",
+      "val": "Shea",
+      "readOnlyVal": "Shea"
     },
     {
       "first": "Chrissy",
-      "last": "Zahn",
+      "last": "Close",
       "email": "cz@email.com",
       "phone": "8174478432",
       "status": "New Customer",
       "log": "",
-      "id": 5
+      "id": 5,
+      "description": "Last Name",
+      "property": "last",
+      "val": "Zahn",
+      "readOnlyVal": "Zahn"
     }
   ]
 }

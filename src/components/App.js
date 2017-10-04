@@ -9,7 +9,8 @@ import {
   getCustomerList,
   postCustomer,
   getCustomer,
-  updateCustomer
+  updateCustomer,
+  deleteCustomer
 } from '../customers';
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
     this.createCustomer = this.createCustomer.bind(this);
     this.selectCustomer = this.selectCustomer.bind(this);
     this.saveEdit = this.saveEdit.bind(this);
+    this.removeCustomer = this.removeCustomer.bind(this);
   }
   componentDidMount() {
     getCustomerList().then(customers =>
@@ -36,6 +38,13 @@ class App extends Component {
       creating: true,
       initialLoad: false,
       currentCustomer: null
+    });
+  }
+  removeCustomer(id) {
+    deleteCustomer(id).then(res => {
+      getCustomerList().then(customers =>
+        this.setState({ customerList: customers, initialLoad: true })
+      );
     });
   }
   createCustomer(obj) {
@@ -70,6 +79,7 @@ class App extends Component {
             />
           ) : null}
           <Workspace
+            removeCustomer={this.removeCustomer}
             saveEdit={this.saveEdit}
             initialLoad={this.state.initialLoad}
             currentCustomer={this.state.currentCustomer}

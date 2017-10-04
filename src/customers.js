@@ -17,6 +17,10 @@ export function getCustomer(id) {
   });
 }
 export function updateCustomer(id, obj) {
-  console.log(id, obj);
   return axios.patch(apiURL + id, obj).then(res => res.data);
+}
+export function deleteCustomer(id) {
+  return axios.delete(apiURL + id).then(res => {
+    return res.data;
+  });
 }

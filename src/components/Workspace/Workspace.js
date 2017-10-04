@@ -9,7 +9,8 @@ function Workspace({
   creating,
   currentCustomer,
   createCustomer,
-  saveEdit
+  saveEdit,
+  removeCustomer
 }) {
   return (
     <div id="Workspace__container">
@@ -21,6 +22,7 @@ function Workspace({
         </div>
       ) : currentCustomer ? (
         <Customer
+          removeCustomer={removeCustomer}
           saveEdit={saveEdit}
           id={currentCustomer.id}
           first={currentCustomer.first}

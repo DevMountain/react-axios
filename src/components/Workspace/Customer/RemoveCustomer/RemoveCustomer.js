@@ -16,7 +16,9 @@ export default class RemoveCustomer extends Component {
     this.setState({ showConfirm: !this.state.showConfirm });
   }
 
-  remove() {}
+  remove() {
+    this.props.removeCustomer(this.props.id);
+  }
   render() {
     return (
       <div id="RemoveCustomer__container">
@@ -34,7 +36,7 @@ export default class RemoveCustomer extends Component {
               {' '}
               Cancel{' '}
             </button>
-            <button className="RemoveCustomer__removeBtn" onClick={''}>
+            <button className="RemoveCustomer__removeBtn" onClick={this.remove}>
               {' '}
               Confirm{' '}
             </button>
