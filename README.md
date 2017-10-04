@@ -1,21 +1,4 @@
 
-<details>
-
-<summary> Detailed Instructions </summary>
-
-<br />
-<br />
-
-Now we need a way to update a customer. Let's begin by opening `src/customers.js` to create our HTTP call. We'll create and export a function called `updateCustomer`. It will take in two parameters: an id and an object. This will have the key value pairs of the things we want to change and their new values.  In `updateCustomer`, we'll make an axios patch request. `PATCH` is an http verb that is used to say that we only want to change part of something. Here, we only want to change part of the customer information, so `PATCH` will work for us.
-
-<br/>
-<br/>
-
-Go into `src/components/App.js` and import the `updateCustomer` function. Create a method on the App component called `saveEdit`. This method will take in an id and an object, then invoke updateCustomer with those parameters passed in. In the `.then` callback function, we'll invoke `getCustomerList` so we can update our list component. We'll then setState in the `.then` of `getCustomerList`, setting the value of customerList to the list we received, and currentCustomer to the updated customer we received from the API when calling `updateCustomer`. Finally, we'll pass saveEdit down to our Workspace component as a prop.
-
-<br/>
-<br/>
-
 
 In `src/Workspace/Workspace.js`, we need to add `saveEdit` to the props we are destructuring and pass it down to the Customer component through props. In `src/Workspace/Customer/Customer.js`, we'll do the same - destructure `updateCustomer` from props and pass it down as a prop to Information, Status, and RepairLog.
 <br/>
